@@ -1,0 +1,416 @@
+kind: pipeline
+name: default
+
+steps:
+  - name: lint frontend
+    image: docker
+    environment:
+      RECAPTCHA_SITE_KEY:
+        from_secret: RECAPTCHA_SITE_KEY
+      CHROME_EXTENSION_ID:
+        from_secret: CHROME_EXTENSION_ID
+    commands:
+      - docker build -t lint-frontend
+        --build-arg RECAPTCHA_SITE_KEY=$RECAPTCHA_SITE_KEY
+        --build-arg CHROME_EXTENSION_ID=$CHROME_EXTENSION_ID
+        -f frontend/Dockerfile-lint frontend
+      - docker run lint-frontend
+    volumes:
+      - name: docker
+        path: /var/run/docker.sock
+    when:
+      branch:
+        - master
+      event:
+        - pull_request
+
+  - name: run frontend tests
+    image: docker
+    environment:
+      RECAPTCHA_SITE_KEY:
+        from_secret: RECAPTCHA_SITE_KEY
+      CHROME_EXTENSION_ID:
+        from_secret: CHROME_EXTENSION_ID
+    commands:
+      - docker build -t test-frontend
+        --build-arg RECAPTCHA_SITE_KEY=$RECAPTCHA_SITE_KEY
+        --build-arg CHROME_EXTENSION_ID=$CHROME_EXTENSION_ID
+        -f frontend/Dockerfile-test frontend
+      - docker run test-frontend
+    volumes:
+      - name: docker
+        path: /var/run/docker.sock
+    when:
+      branch:
+        - master
+      event:
+        - pull_request
+  
+  - name: report frontend code coverage
+    image: docker
+    environment:
+      CODECOV_TOKEN:
+        from_secret: CODECOV_TOKEN
+      RECAPTCHA_SITE_KEY:
+        from_secret: RECAPTCHA_SITE_KEY
+      CHROME_EXTENSION_ID:
+        from_secret: CHROME_EXTENSION_ID
+    commands:
+      - docker build -t report-frontend-coverage
+        --build-arg RECAPTCHA_SITE_KEY=$RECAPTCHA_SITE_KEY
+        --build-arg CHROME_EXTENSION_ID=$CHROME_EXTENSION_ID
+        --build-arg CODECOV_TOKEN=$CODECOV_TOKEN
+        -f Dockerfile-frontend-coverage .
+      - docker run report-frontend-coverage
+    volumes:
+      - name: docker
+        path: /var/run/docker.sock
+    when:
+      branch:
+        - master
+      event:
+        - push
+        - pull_request
+
+  - name: run backend unit tests
+    image: docker
+    commands:
+      - docker build -t backend-unit-test -f backend/Dockerfile-unit-test backend
+      - docker run backend-unit-test
+    volumes:
+      - name: docker
+        path: /var/run/docker.sock
+    when:
+      branch:
+        - master
+      event:
+        - pull_request
+
+  - name: run backend integration tests
+    image: docker
+    environment:
+      DB_HOST:
+        from_secret: TEST_DB_HOST
+      DB_PORT:
+        from_secret: TEST_DB_PORT
+      DB_USER:
+        from_secret: TEST_DB_USER
+      DB_PASSWORD:
+        from_secret: TEST_DB_PASSWORD
+      DB_NAME:
+        from_secret: TEST_DB_NAME
+    commands:
+      - docker build -t backend-integration-test
+        --build-arg DB_HOST=$DB_HOST
+        --build-arg DB_PORT=$DB_PORT
+        --build-arg DB_USER=$DB_USER
+        --build-arg DB_PASSWORD=$DB_PASSWORD
+        --build-arg DB_NAME=$DB_NAME
+        -f backend/Dockerfile-integration-test backend
+      - docker run backend-integration-test
+    volumes:
+      - name: docker
+        path: /var/run/docker.sock
+    when:
+      branch:
+        - master
+      event:
+        - pull_request
+
+  - name: report backend code coverage
+    image: docker
+    environment:
+      DB_HOST:
+        from_secret: TEST_DB_HOST
+      DB_PORT:
+        from_secret: TEST_DB_PORT
+      DB_USER:
+        from_secret: TEST_DB_USER
+      DB_PASSWORD:
+        from_secret: TEST_DB_PASSWORD
+      DB_NAME:
+        from_secret: TEST_DB_NAME
+      CODECOV_TOKEN:
+        from_secret: CODECOV_TOKEN
+    commands:
+      - docker build -t report-backend-coverage
+        --build-arg DB_HOST=$DB_HOST
+        --build-arg DB_PORT=$DB_PORT
+        --build-arg DB_USER=$DB_USER
+        --build-arg DB_PASSWORD=$DB_PASSWORD
+        --build-arg DB_NAME=$DB_NAME
+        --build-arg CODECOV_TOKEN=$CODECOV_TOKEN
+        -f Dockerfile-backend-coverage .
+      - docker run report-backend-coverage
+    volumes:
+      - name: docker
+        path: /var/run/docker.sock
+    when:
+      branch:
+        - master
+      event:
+        - push
+        - pull_request
+
+  - name: create testing frontend assets
+    image: node:12.7.0-alpine
+    environment:
+      RECAPTCHA_SITE_KEY:
+        from_secret: TESTING_RECAPTCHA_SITE_KEY
+      CHROME_EXTENSION_ID:
+        from_secret: CHROME_EXTENSION_ID
+    volumes:
+      - name: frontend-dep
+        path: /drone/src/frontend/node_modules
+    commands:
+      - apk add --no-cache bash git
+      - cd frontend
+      - yarn
+      - REACT_APP_RECAPTCHA_SITE_KEY=$RECAPTCHA_SITE_KEY REACT_APP_CHROME_EXTENSION_ID=$CHROME_EXTENSION_ID CI=true yarn build:testing
+    when:
+      branch:
+        - testing
+      event:
+        - push
+
+  - name: create staging frontend assets
+    image: node:12.7.0-alpine
+    environment:
+      RECAPTCHA_SITE_KEY:
+        from_secret: STAGING_RECAPTCHA_SITE_KEY
+      CHROME_EXTENSION_ID:
+        from_secret: CHROME_EXTENSION_ID
+    volumes:
+      - name: frontend-dep
+        path: /drone/src/frontend/node_modules
+    commands:
+      - apk add --no-cache bash git
+      - cd frontend
+      - yarn
+      - REACT_APP_RECAPTCHA_SITE_KEY=$RECAPTCHA_SITE_KEY REACT_APP_CHROME_EXTENSION_ID=$CHROME_EXTENSION_ID CI=true yarn build:staging
+    when:
+      branch:
+        - master
+      event:
+        - push
+
+  - name: create storybook assets
+    image: node:12.7.0-alpine
+    volumes:
+      - name: frontend-dep
+        path: /drone/src/frontend/node_modules
+      - name: story-dep
+        path: /drone/src/story/node_modules
+    commands:
+      - apk add --no-cache bash git
+      - cd frontend
+      - yarn
+      - cd ../story
+      - yarn
+      - yarn build
+    when:
+      branch:
+        - master
+        - testing
+      event:
+        - push
+
+  - name: build testing frontend Docker image
+    image: docker
+    commands:
+      - docker build -t short-frontend-testing:latest -f frontend/Dockerfile frontend
+    volumes:
+      - name: docker
+        path: /var/run/docker.sock
+    when:
+      branch:
+        - testing
+      event:
+        - push
+
+  - name: build staging frontend Docker image
+    image: docker
+    commands:
+      - docker build -t short-frontend:latest -f frontend/Dockerfile frontend
+    volumes:
+      - name: docker
+        path: /var/run/docker.sock
+    when:
+      branch:
+        - master
+      event:
+        - push
+
+  - name: build testing story Docker image
+    image: docker
+    commands:
+      - docker build -t story-testing:latest -f story/Dockerfile story
+    volumes:
+      - name: docker
+        path: /var/run/docker.sock
+    when:
+      branch:
+        - testing
+      event:
+        - push
+
+  - name: build staging story Docker image
+    image: docker
+    commands:
+      - docker build -t story:latest -f story/Dockerfile story
+    volumes:
+      - name: docker
+        path: /var/run/docker.sock
+    when:
+      branch:
+        - master
+      event:
+        - push
+
+  - name: build testing backend Docker image
+    image: docker
+    commands:
+      - docker build -t short-backend-testing:latest -f backend/Dockerfile backend
+    volumes:
+      - name: docker
+        path: /var/run/docker.sock
+    when:
+      branch:
+        - testing
+      event:
+        - push
+
+  - name: build backend Docker image
+    image: docker
+    commands:
+      - docker build -t short-backend:latest -f backend/Dockerfile backend
+    volumes:
+      - name: docker
+        path: /var/run/docker.sock
+    when:
+      branch:
+        - master
+      event:
+        - push
+
+  - name: publish testing images to DockerHub
+    image: docker
+    environment:
+      DOCKERHUB_USERNAME:
+        from_secret: DOCKERHUB_USERNAME
+      DOCKERHUB_PASSWORD:
+        from_secret: DOCKERHUB_PASSWORD
+      DOCKERHUB_ORG_ID:
+        from_secret: DOCKERHUB_ORG_ID
+    commands:
+      - docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
+      - docker tag short-frontend-testing:latest $DOCKERHUB_ORG_ID/short-frontend-testing:latest
+      - docker tag short-backend-testing:latest $DOCKERHUB_ORG_ID/short-backend-testing:latest
+      - docker tag story-testing:latest $DOCKERHUB_ORG_ID/story-testing:latest
+      - docker push $DOCKERHUB_ORG_ID/short-frontend-testing:latest
+      - docker push $DOCKERHUB_ORG_ID/short-backend-testing:latest
+      - docker push $DOCKERHUB_ORG_ID/story-testing:latest
+    volumes:
+      - name: docker
+        path: /var/run/docker.sock
+    when:
+      branch:
+        - testing
+      event:
+        - push
+
+  - name: publish staging images to DockerHub
+    image: docker
+    environment:
+      DOCKERHUB_USERNAME:
+        from_secret: DOCKERHUB_USERNAME
+      DOCKERHUB_PASSWORD:
+        from_secret: DOCKERHUB_PASSWORD
+      DOCKERHUB_ORG_ID:
+        from_secret: DOCKERHUB_ORG_ID
+    commands:
+      - docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
+      - docker tag short-frontend:latest $DOCKERHUB_USERNAME/short-frontend-staging:latest
+      - docker tag short-backend:latest $DOCKERHUB_USERNAME/short-backend-staging:latest
+      - docker tag story:latest $DOCKERHUB_ORG_ID/story-staging:latest
+      - docker push $DOCKERHUB_USERNAME/short-frontend-staging:latest
+      - docker push $DOCKERHUB_USERNAME/short-backend-staging:latest
+      - docker push $DOCKERHUB_ORG_ID/story-staging:latest
+    volumes:
+      - name: docker
+        path: /var/run/docker.sock
+    when:
+      branch:
+        - master
+      event:
+        - push
+
+  - name: create production frontend assets
+    image: node:12.7.0-alpine
+    environment:
+      RECAPTCHA_SITE_KEY:
+        from_secret: RECAPTCHA_SITE_KEY
+      CHROME_EXTENSION_ID:
+        from_secret: CHROME_EXTENSION_ID
+    volumes:
+      - name: frontend-dep
+        path: /drone/src/frontend/node_modules
+    commands:
+      - apk add --no-cache bash git
+      - cd frontend
+      - yarn
+      - REACT_APP_RECAPTCHA_SITE_KEY=$RECAPTCHA_SITE_KEY REACT_APP_CHROME_EXTENSION_ID=$CHROME_EXTENSION_ID CI=true yarn build:production
+    when:
+      branch:
+        - production
+      event:
+        - push
+
+  - name: build production frontend Docker image
+    image: docker
+    commands:
+      - docker build -t short-frontend:latest -f frontend/Dockerfile frontend
+    volumes:
+      - name: docker
+        path: /var/run/docker.sock
+    when:
+      branch:
+        - production
+      event:
+        - push
+
+  - name: publish production images to DockerHub
+    image: docker
+    environment:
+      DOCKERHUB_USERNAME:
+        from_secret: DOCKERHUB_USERNAME
+      DOCKERHUB_PASSWORD:
+        from_secret: DOCKERHUB_PASSWORD
+      DOCKERHUB_ORG_ID:
+        from_secret: DOCKERHUB_ORG_ID
+    commands:
+      - docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
+      - docker tag short-frontend:latest $DOCKERHUB_USERNAME/short-frontend:latest
+      - docker tag short-backend:latest $DOCKERHUB_USERNAME/short-backend:latest
+      - docker tag story:latest $DOCKERHUB_ORG_ID/story:latest
+      - docker push $DOCKERHUB_USERNAME/short-frontend:latest
+      - docker push $DOCKERHUB_USERNAME/short-backend:latest
+      - docker push $DOCKERHUB_ORG_ID/story:latest
+    volumes:
+      - name: docker
+        path: /var/run/docker.sock
+    when:
+      branch:
+        - production
+      event:
+        - push
+volumes:
+  - name: docker
+    host:
+      path: /var/run/docker.sock
+  - name: frontend-dep
+    host:
+      path: /drone/frontend-dep
+  - name: story-dep
+    host:
+      path: /drone/story-dep

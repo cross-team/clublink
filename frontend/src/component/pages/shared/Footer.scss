@@ -1,0 +1,102 @@
+@import '../../styles/dimension';
+@import '../../styles/font';
+@import '../../styles/color';
+@import '../../styles/easing';
+
+footer {
+  @include default-font();
+
+  $font-size: 16px;
+  $font-color: #616161;
+  $padding: 30px;
+
+  display: flex;
+  justify-content: center;
+  padding-bottom: $padding;
+
+  .center {
+    align-content: center;
+    border-top: 1px solid #eee;
+    color: $font-color;
+    display: flex;
+    flex-direction: column;
+    font-size: $font-size;
+    font-weight: $font-weight-semi-bold;
+    line-height: $font-size;
+    padding-top: $padding;
+    text-align: center;
+    width: $content-width;
+
+    .row:not(:last-child) {
+      margin-bottom: 10px;
+    }
+
+    .app-version {
+      font-size: 14px;
+    }
+
+    i.heart {
+      $width: $font-size / 3 * 2;
+      $color: $font-color;
+
+      display: inline-block;
+      height: $width;
+      margin-left: 10px;
+      margin-right: 10px;
+      width: $width;
+
+      div {
+        background-color: $color;
+        height: 100%;
+        transform: rotate(45deg);
+        transition: background-color 200ms $ease-in-out-quart;
+        width: 100%;
+
+        &::before,
+        &::after {
+          background-color: $color;
+          border-radius: 50%;
+          content: '';
+          display: block;
+          height: 100%;
+          transition: inherit;
+          width: 100%;
+        }
+
+        &::before {
+          transform: translateX(-50%);
+        }
+
+        &::after {
+          transform: translateY(-150%);
+        }
+      }
+
+      &:hover {
+        div {
+          background-color: $color-primary;
+
+          &::before,
+          &::after {
+            background-color: $color-primary;
+          }
+        }
+      }
+    }
+
+    .heart:hover {
+      color: $color-primary;
+      cursor: pointer;
+    }
+
+    a {
+      color: $font-color;
+      font-weight: $font-weight-bold;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

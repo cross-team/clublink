@@ -1,0 +1,47 @@
+@import '../../styles/font';
+@import '../../styles/dimension';
+@import '../../styles/layouts';
+
+header {
+  @include default-font();
+
+  background-color: #c2185b;
+  color: white;
+  display: flex;
+  justify-content: center;
+
+  .center {
+    display: flex;
+    padding: 10px 0;
+    width: $content-width;
+    flex-wrap: wrap;
+
+    nav {
+      display: flex;
+      align-items: center;
+
+      .nav-item {
+        margin-left: 8px;
+
+        .button {
+          padding: 5px 20px;
+        }
+      }
+    }
+  }
+
+  #logo {
+    font-size: 30px;
+    font-weight: $font-weight-semi-bold;
+    letter-spacing: 2px;
+    line-height: 30px;
+
+    @include respond-to($desktop) {
+      margin-left: 8px;
+    }
+  }
+
+  #searchbar {
+    flex: 1;
+  }
+}

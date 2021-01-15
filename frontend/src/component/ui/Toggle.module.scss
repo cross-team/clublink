@@ -1,0 +1,68 @@
+@import '../styles/corner';
+@import '../styles/color';
+@import '../styles/font';
+@import '../styles/layouts';
+@import '../styles/shadow';
+
+$toggle-width: 100px / 1.5;
+$toggle-height: 50px / 1.5;
+
+$toggle-radius: 80px;
+$toggle-shrink-size: 4px;
+
+.toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .background {
+    display: inline-block;
+    background-color: lightgray;
+    width: $toggle-width;
+    height: $toggle-height;
+    border-radius: $toggle-radius;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &.shadow {
+      box-shadow: $shadow-toggle;
+    }
+  }
+
+  .background.active {
+    &.pink {
+      background-color: $color-primary;
+    }
+
+    &.blue {
+      background-color: #385c8e;
+    }
+
+    &.black {
+      background-color: #343434;
+    }
+
+    &.red {
+      background-color: #c1423d;
+    }
+
+    &.green {
+      background-color: $color-medium-green;
+    }
+  }
+
+  .knob {
+    background-color: white;
+    width: $toggle-height - $toggle-shrink-size;
+    height: $toggle-height - $toggle-shrink-size;
+    margin-left: $toggle-shrink-size / 2;
+    margin-right: $toggle-width - $toggle-height + $toggle-shrink-size / 2;
+    margin-top: $toggle-shrink-size / 2;
+    border-radius: $toggle-radius;
+    transition: margin-left 0.5s;
+  }
+
+  .knob.active {
+    margin-left: $toggle-width - $toggle-height + $toggle-shrink-size / 2;
+  }
+}

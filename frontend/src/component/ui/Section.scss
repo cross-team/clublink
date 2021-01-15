@@ -1,0 +1,39 @@
+@import '../styles/font';
+@import '../styles/dimension';
+
+.section {
+  @include default-font();
+
+  display: flex;
+  justify-content: center;
+
+  .center {
+    box-sizing: border-box;
+    width: $content-width;
+    padding: 20px;
+    border-radius: 4px;
+    background-color: #fafafa;
+  }
+
+  .header {
+    display: flex;
+    margin-bottom: 20px;
+
+    .title {
+      font-size: 26px;
+      font-weight: $font-weight-semi-bold;
+      padding-left: 10px;
+      color: #333;
+    }
+
+    .options {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      list-style: none;
+      padding: 0;
+      margin: 0 0 0 20px;
+    }
+  }
+}

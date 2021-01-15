@@ -1,0 +1,75 @@
+{
+  "name": "web",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": "https://short-d.com",
+  "dependencies": {
+    "classnames": "^2.2.6",
+    "detect-browser": "^5.0.0",
+    "es-cookie": "^1.2.0",
+    "marked": "^1.1.0",
+    "moment": "^2.24.0",
+    "qrcode": "^1.4.2",
+    "react": "^16.10.2",
+    "react-dom": "^16.10.2",
+    "react-router-dom": "^5.1.2",
+    "recaptcha-v3": "^1.7.0",
+    "redux": "^4.0.4",
+    "rxjs": "^6.5.4"
+  },
+  "scripts": {
+    "start": "REACT_APP_GIT_SHA=`git rev-parse --short HEAD` react-scripts start",
+    "build": "REACT_APP_GIT_SHA=`git rev-parse --short HEAD` sh -ac '. ./.env.${REACT_APP_ENV}; react-scripts build'",
+    "build:development": "REACT_APP_ENV=development yarn build",
+    "build:testing": "REACT_APP_ENV=testing yarn build",
+    "build:staging": "REACT_APP_ENV=staging yarn build",
+    "build:production": "REACT_APP_ENV=production yarn build",
+    "test": "REACT_APP_GIT_SHA=`git rev-parse --short HEAD` react-scripts test",
+    "eject": "react-scripts eject",
+    "tslint:lint": "yarn tslint -c tslint.json 'src/**/*.ts'",
+    "stylelint:lint": "yarn stylelint --config=.stylelintrc src/**/*.{scss,css}",
+    "prettier:base": "prettier --parser typescript --single-quote",
+    "prettier:check": "yarn prettier:base --list-different \"src/**/*.{ts,tsx}\"",
+    "prettier:write": "yarn prettier:base --write \"src/**/*.{ts,tsx}\"",
+    "stylelint:write": "yarn stylelint --config=.stylelintrc --fix src/**/*.{scss,css}"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@testing-library/react": "^10.0.1",
+    "@types/chrome": "^0.0.87",
+    "@types/classnames": "^2.2.9",
+    "@types/jest": "^24.0.18",
+    "@types/marked": "^0.7.4",
+    "@types/node": "^12.7.12",
+    "@types/qrcode": "^1.3.4",
+    "@types/react": "^16.9.5",
+    "@types/react-dom": "^16.9.1",
+    "@types/react-router-dom": "^5.1.0",
+    "node-sass": "^4.12.0",
+    "prettier": "1.19.1",
+    "react-scripts": "3.2.0",
+    "stylelint": "^11.1.1",
+    "stylelint-config-prettier": "^6.0.0",
+    "stylelint-config-standard": "^19.0.0",
+    "stylelint-prettier": "^1.1.1",
+    "stylelint-scss": "^3.11.1",
+    "tslint": "^5.20.1",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-plugin-prettier": "^2.0.1",
+    "typescript": "^3.6.4"
+  }
+}

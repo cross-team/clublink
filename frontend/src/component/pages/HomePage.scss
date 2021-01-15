@@ -1,0 +1,61 @@
+@import '../styles/font';
+@import '../styles/dimension';
+@import '../styles/color';
+@import '../styles/corner';
+@import '../styles/layouts';
+
+.home {
+  .control {
+    display: flex;
+
+    &.create-short-link {
+      .text-field-wrapper {
+        flex: 1;
+        margin-right: 20px;
+      }
+    }
+
+    .create-short-link-btn {
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  .user-short-links-section {
+    margin-top: 20px;
+  }
+
+  @include respond-to($phone) {
+    .title {
+      text-align: center;
+    }
+
+    .control.create-short-link {
+      flex-direction: column;
+      height: 180px;
+
+      .text-field-wrapper {
+        display: flex;
+        margin: 4px;
+
+        input {
+          width: 100%;
+        }
+      }
+
+      .create-short-link-btn {
+        flex: 1;
+        margin: 4px;
+        margin-top: 20px;
+
+        button {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  .main {
+    padding: 40px 0;
+  }
+}

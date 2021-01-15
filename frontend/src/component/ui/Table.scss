@@ -1,0 +1,60 @@
+@import '../styles/color';
+@import '../styles/corner';
+@import '../styles/font';
+
+.table-container {
+  max-width: 100%;
+  overflow-x: auto;
+  @include default-font;
+  @include round-corner;
+
+  .table {
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 0 4px;
+    width: 100%;
+    text-align: left;
+
+    thead {
+      th {
+        padding: 10px 20px;
+        font-size: 14px;
+        color: #424242;
+        font-weight: $font-weight-semi-bold;
+      }
+
+      text-transform: uppercase;
+    }
+
+    tbody {
+      tr {
+        td {
+          &:first-child {
+            @include round-corner;
+          }
+
+          &:last-child {
+            @include round-corner;
+          }
+
+          a {
+            text-decoration: none;
+            font-weight: $font-weight-semi-bold;
+            color: $color-dark-gray;
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+
+          background-color: white;
+          padding: 12px 20px;
+          font-size: 14px;
+        }
+
+        &:not(:first-child) {
+          margin-top: 10px;
+        }
+      }
+    }
+  }
+}

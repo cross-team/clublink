@@ -1,0 +1,18 @@
+@import '../styles/color';
+@import '../styles/corner';
+@import '../styles/font';
+
+.text-field {
+  @include default-font();
+  border: 2px solid $color-text-field-border;
+  box-sizing: border-box;
+  font-size: 16px;
+  @include round-corner;
+  outline: none;
+  padding: 8px 20px;
+  width: 100%;
+
+  &:focus {
+    border-color: $color-primary;
+  }
+}
