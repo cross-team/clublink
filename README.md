@@ -10,6 +10,5 @@ As moderators need a quick way to direct their audience to a web site in a simpl
 __clubl.ink does just that__.
 
 ## Prototype
-
-https://www.figma.com/proto/aOLkTENGu63ls6hV0iRyoq/clubl.ink-concept?node-id=9%3A4&viewport=-369%2C508%2C0.790459930896759&scaling=contain
+https://www.figma.com/proto/aOLkTENGu63ls6hV0iRyoq/clubl.ink.DESIGN-0.1.0?node-id=21%3A0&viewport=-369%2C508%2C0.790459930896759&scaling=contain
 
