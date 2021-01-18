@@ -6,6 +6,7 @@ interface IProps {
   placeHolder?: string;
   onChange?: (text: string) => void;
   onBlur?: () => void;
+  onFocus?: () => void;
 }
 
 export class TextField extends Component<IProps, any> {
@@ -20,6 +21,7 @@ export class TextField extends Component<IProps, any> {
         value={this.props.text}
         onChange={this.handleChange}
         onBlur={this.handleBlur}
+        onFocus={this.handleFocus}
         placeholder={this.props.placeHolder}
       />
     );
@@ -38,6 +40,13 @@ export class TextField extends Component<IProps, any> {
       return;
     }
     this.props.onBlur();
+  };
+
+  handleFocus = () => {
+    if (!this.props.onFocus) {
+      return;
+    }
+    this.props.onFocus();
   };
 
   focus = () => {

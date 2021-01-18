@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import './HomePage.scss';
 
-import { Header } from './shared/Header';
+// import { Header } from './shared/Header';
 import { ShortLink } from '../../entity/ShortLink';
 import { Footer } from './shared/Footer';
 import { SignInModal } from './shared/sign-in/SignInModal';
-import { ExtPromo } from './shared/promos/ExtPromo';
+// import { ExtPromo } from './shared/promos/ExtPromo';
 import { Location, History } from 'history';
 import { AuthService } from '../../service/Auth.service';
 import { IBrowserExtensionService } from '../../service/extensionService/BrowserExtension.service';
@@ -23,6 +23,7 @@ import { SearchService } from '../../service/Search.service';
 import { ChangeLogModal } from '../ui/ChangeLogModal';
 import { ChangeLogService } from '../../service/ChangeLog.service';
 import { CreateShortLinkSection } from './shared/CreateShortLinkSection';
+import { VisitLinkSection } from './shared/VisitLinkSection';
 import { Toast } from '../ui/Toast';
 import { IClipboardService } from '../../service/clipboardService/Clipboard.service';
 import {
@@ -59,6 +60,7 @@ interface State {
   autoCompleteSuggestions?: Array<ShortLink>;
   changeLog?: Array<Change>;
   currentPagedShortLinks?: IPagedShortLinks;
+  section?: string;
 }
 
 export class HomePage extends Component<Props, State> {
@@ -89,15 +91,28 @@ export class HomePage extends Component<Props, State> {
           onAdminButtonClick={this.handleAdminButtonClick}
         /> */}
         <div className={'main'}>
-          <CreateShortLinkSection
-            store={this.props.store}
-            shortLinkService={this.props.shortLinkService}
-            qrCodeService={this.props.qrCodeService}
-            uiFactory={this.props.uiFactory}
-            ref={this.createShortLinkSection}
-            onShortLinkCreated={this.handleOnShortLinkCreated}
-            onAuthenticationFailed={this.handleOnAuthenticationFailed}
-          />
+          {this.state.section === 'visit' && (
+            <VisitLinkSection
+              store={this.props.store}
+              shortLinkService={this.props.shortLinkService}
+              qrCodeService={this.props.qrCodeService}
+              uiFactory={this.props.uiFactory}
+              // ref={this.createShortLinkSection}
+              onShortLinkCreated={this.handleOnShortLinkCreated}
+              onAuthenticationFailed={this.handleOnAuthenticationFailed}
+            />
+          )}
+          {this.state.section === 'create' && (
+            <CreateShortLinkSection
+              store={this.props.store}
+              shortLinkService={this.props.shortLinkService}
+              qrCodeService={this.props.qrCodeService}
+              uiFactory={this.props.uiFactory}
+              ref={this.createShortLinkSection}
+              onShortLinkCreated={this.handleOnShortLinkCreated}
+              onAuthenticationFailed={this.handleOnAuthenticationFailed}
+            />
+          )}
           {this.state.isUserSignedIn && (
             <div className={'user-short-links-section'}>
               {this.props.uiFactory.createUserShortLinksSection({
@@ -105,6 +120,34 @@ export class HomePage extends Component<Props, State> {
                 pagedShortLinks: this.state.currentPagedShortLinks
               })}
             </div>
+          )}
+        </div>
+        <div className="page-link">
+          {this.state.section === 'visit' && (
+            <a
+              href="#"
+              aria-label="create a new club-link"
+              onClick={() => {
+                this.setState({
+                  section: 'create'
+                });
+              }}
+            >
+              or create a new club-link
+            </a>
+          )}
+          {this.state.section === 'create' && (
+            <a
+              href="#"
+              aria-label="back to home"
+              onClick={() => {
+                this.setState({
+                  section: 'visit'
+                });
+              }}
+            >
+              back
+            </a>
           )}
         </div>
         <Footer
@@ -132,6 +175,10 @@ export class HomePage extends Component<Props, State> {
   async componentDidMount() {
     this.props.analyticsService.track('homePageLoad');
     this.setPromoDisplayStatus();
+    this.setState({
+      isUserSignedIn: false,
+      section: 'create'
+    });
 
     this.props.authService.cacheAuthToken(this.props.location.search);
     if (!this.props.authService.isSignedIn()) {
