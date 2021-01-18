@@ -6,8 +6,8 @@
 footer {
   @include default-font();
 
-  $font-size: 16px;
-  $font-color: #616161;
+  $font-size: 12px;
+  $font-color: #000000;
   $padding: 30px;
 
   display: flex;
@@ -16,12 +16,12 @@ footer {
 
   .center {
     align-content: center;
-    border-top: 1px solid #eee;
+    // border-top: 1px solid #eee;
     color: $font-color;
     display: flex;
     flex-direction: column;
     font-size: $font-size;
-    font-weight: $font-weight-semi-bold;
+    // font-weight: $font-weight-semi-bold;
     line-height: $font-size;
     padding-top: $padding;
     text-align: center;
@@ -32,7 +32,7 @@ footer {
     }
 
     .app-version {
-      font-size: 14px;
+      // font-size: 14px;
     }
 
     i.heart {
@@ -90,8 +90,8 @@ footer {
     }
 
     a {
-      color: $font-color;
-      font-weight: $font-weight-bold;
+      color: $color-primary;
+      // font-weight: $font-weight-bold;
       text-decoration: none;
 
       &:hover {

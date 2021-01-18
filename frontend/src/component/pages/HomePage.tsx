@@ -78,8 +78,8 @@ export class HomePage extends Component<Props, State> {
   render = () => {
     return (
       <div className="home">
-        {this.state.shouldShowPromo && <ExtPromo />}
-        <Header
+        {/* {this.state.shouldShowPromo && <ExtPromo />} */}
+        {/* <Header
           uiFactory={this.props.uiFactory}
           onSearchBarInputChange={this.handleSearchBarInputChange}
           autoCompleteSuggestions={this.state.autoCompleteSuggestions}
@@ -87,7 +87,7 @@ export class HomePage extends Component<Props, State> {
           shouldShowAdminButton={this.state.shouldShowAdminButton}
           onSignOutButtonClick={this.handleSignOutButtonClick}
           onAdminButtonClick={this.handleAdminButtonClick}
-        />
+        /> */}
         <div className={'main'}>
           <CreateShortLinkSection
             store={this.props.store}

@@ -5,6 +5,12 @@
 @import '../styles/layouts';
 
 .home {
+  height: 100vh;
+  background-color: #f7f5f0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
   .control {
     display: flex;
 

@@ -6,8 +6,8 @@ $font-weight-semi-bold: 600;
 $font-weight-bold: 700;
 $font-weight-black: 900;
 
-$font-family-primary: 'Source Code Pro';
+$font-family-primary: 'Nunito';
 
 @mixin default-font() {
-  font-family: $font-family-primary, monospace;
+  font-family: $font-family-primary, sans-serif;
 }

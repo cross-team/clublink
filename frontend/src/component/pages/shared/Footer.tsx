@@ -16,15 +16,10 @@ export class Footer extends Component<Props> {
     return (
       <footer>
         <div className={'center'}>
-          <div className={'row'}>
-            Made with
-            <i className={'heart'}>
-              <div />
-            </i>
-            by <a href={this.props.authorPortfolio}>{this.props.authorName}</a>
-          </div>
+          <div className={'row'}>Loving clubl.ink? ❤️ Love us back!</div>
           <div className={'row app-version'}>
-            App version: {this.props.version}
+            <a>@mpaiva</a>, <a>@paiva</a>, <a>@sebastian</a>, <a>@laurabries</a>
+            , <a>@jomonti</a>
           </div>
           <div className={'row'}>
             {this.props.uiFactory.createViewChangeLogButton({
