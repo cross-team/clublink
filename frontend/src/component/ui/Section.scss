@@ -17,6 +17,13 @@
     color: #d5d0b9;
   }
 
+  .rocket-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+  }
+
   .center {
     box-sizing: border-box;
     width: $content-width;

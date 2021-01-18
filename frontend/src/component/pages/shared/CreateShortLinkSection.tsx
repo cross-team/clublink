@@ -34,6 +34,7 @@ interface IState {
   createdLongLink: string;
   qrCodeURL: string;
   description: string;
+  valid: null | boolean;
 }
 
 export class CreateShortLinkSection extends Component<IProps, IState> {
@@ -47,7 +48,8 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
       createdShortLink: '',
       createdLongLink: '',
       qrCodeURL: '',
-      description: 'Enter the super-secret code 🤓'
+      description: 'Enter the super-secret code 🤓',
+      valid: null
     };
   }
 
@@ -70,14 +72,9 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
               onFocus={this.handleFocus}
             />
           </div>
-          <div className={'text-field-wrapper'}>
-            <TextField
-              text={this.state.longLink}
-              placeHolder={'Long Link'}
-              onBlur={this.handleLongLinkTextFieldBlur}
-              onChange={this.handleLongLinkChange}
-            />
-          </div>
+          <span role="button" className={'rocket-button'}>
+            🚀
+          </span>
           {/* <div className="create-short-link-btn">
             <Button onClick={this.handleCreateShortLinkClick}>
               Create Short Link
@@ -86,6 +83,16 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
         </div>
         <div className={'input-error'}>{this.state.inputError}</div>
         <div className={'input-description'}>{this.state.description}</div>
+        {this.state.valid === true && (
+          <div className={'text-field-wrapper'}>
+            <TextField
+              text={this.state.longLink}
+              placeHolder={'Long Link'}
+              onBlur={this.handleLongLinkTextFieldBlur}
+              onChange={this.handleLongLinkChange}
+            />
+          </div>
+        )}
         {this.props.uiFactory.createPreferenceTogglesSubSection({
           uiFactory: this.props.uiFactory,
           isShortLinkPublic: this.state.isShortLinkPublic,

@@ -6,19 +6,20 @@
   @include default-font();
   box-sizing: border-box;
   font-size: 32px;
-  @include round-corner;
   outline: none;
   padding: 8px 20px;
   height: 80px;
   border-radius: 32px;
   border: 0px;
-  margin-left: 16px;
+  margin: 0 16px;
 
   &::placeholder {
     color: #b7b4a6;
   }
 
   &:focus {
-    border-color: $color-primary;
+    border: 6px solid #f7f5f0;
+    box-shadow: 0 0 0 6px #5b74a6;
+    color: #5b74a6;
   }
 }
