@@ -72,14 +72,15 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
               onFocus={this.handleFocus}
             />
           </div>
-          <span role="button" className={'rocket-button'}>
-            🚀
-          </span>
-          {/* <div className="create-short-link-btn">
-            <Button onClick={this.handleCreateShortLinkClick}>
-              Create Short Link
-            </Button>
-          </div> */}
+          {this.state.alias && (
+            <span
+              role="button"
+              className={'rocket-button'}
+              onClick={this.handleReserveShortLinkClick}
+            >
+              🚀
+            </span>
+          )}
         </div>
         <div className={'input-error'}>{this.state.inputError}</div>
         <div className={'input-description'}>{this.state.description}</div>
@@ -93,11 +94,16 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
             />
           </div>
         )}
-        {this.props.uiFactory.createPreferenceTogglesSubSection({
+        {/* <div className="create-short-link-btn">
+            <Button onClick={this.handleCreateShortLinkClick}>
+              Create Short Link
+            </Button>
+          </div> */}
+        {/* {this.props.uiFactory.createPreferenceTogglesSubSection({
           uiFactory: this.props.uiFactory,
           isShortLinkPublic: this.state.isShortLinkPublic,
           onPublicToggleClick: this.handlePublicToggleClick
-        })}
+        })} */}
         {this.state.shouldShowUsage && (
           <div className={'short-link-usage-wrapper'}>
             <ShortLinkUsage
@@ -164,6 +170,44 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
       inputError: err || undefined,
       description: 'Enter the super-secret code 🤓'
     });
+  };
+
+  handleReserveShortLinkClick = () => {
+    const { alias } = this.state;
+    const shortLink: ShortLink = {
+      longLink: '#',
+      alias: alias || ''
+    };
+    this.props.shortLinkService
+      .createShortLink(shortLink, this.state.isShortLinkPublic)
+      .then(async (createdShortLink: ShortLink) => {
+        const shortLink = this.props.shortLinkService.aliasToFrontendLink(
+          createdShortLink.alias!
+        );
+
+        const qrCodeURL = await this.props.qrCodeService.newQrCode(shortLink);
+
+        this.setState({
+          createdShortLink: shortLink,
+          qrCodeURL: qrCodeURL,
+          shouldShowUsage: true
+        });
+
+        if (this.props.onShortLinkCreated) {
+          this.props.onShortLinkCreated(shortLink);
+        }
+      })
+      .catch(({ authenticationErr, createShortLinkErr }) => {
+        if (authenticationErr) {
+          if (this.props.onAuthenticationFailed) {
+            this.props.onAuthenticationFailed();
+          }
+          return;
+        }
+        this.props.store.dispatch(
+          raiseCreateShortLinkError(createShortLinkErr)
+        );
+      });
   };
 
   handleCreateShortLinkClick = () => {

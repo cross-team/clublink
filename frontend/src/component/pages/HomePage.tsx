@@ -164,7 +164,7 @@ export class HomePage extends Component<Props, State> {
           defaultVisibleLogs={3}
         />
 
-        {/* <SignInModal ref={this.signInModal} uiFactory={this.props.uiFactory} /> */}
+        <SignInModal ref={this.signInModal} uiFactory={this.props.uiFactory} />
         <ErrorModal store={this.props.store} />
 
         <Toast ref={this.toastRef} />
