@@ -5,15 +5,32 @@
 @import '../styles/layouts';
 
 .home {
-  .control {
-    display: flex;
+  @include default-font();
 
-    &.create-short-link {
-      .text-field-wrapper {
-        flex: 1;
-        margin-right: 20px;
+  height: 100vh;
+  background-color: #f7f5f0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+
+  .page-link {
+    a {
+      color: #5b74a6;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+
+      &:active {
+        font-weight: bold;
       }
     }
+  }
+
+  .control {
+    display: flex;
 
     .create-short-link-btn {
       display: flex;

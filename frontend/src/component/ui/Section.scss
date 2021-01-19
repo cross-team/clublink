@@ -1,18 +1,43 @@
 @import '../styles/font';
 @import '../styles/dimension';
+@import '../styles/color';
 
 .section {
   @include default-font();
 
   display: flex;
   justify-content: center;
+  color: #6e694e;
+
+  .green {
+    color: $color-primary;
+  }
+
+  .slash {
+    color: #d5d0b9;
+  }
+
+  .rocket-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+  }
 
   .center {
     box-sizing: border-box;
     width: $content-width;
     padding: 20px;
     border-radius: 4px;
-    background-color: #fafafa;
+  }
+
+  .control {
+    display: flex;
+    justify-content: center;
+  }
+
+  .input-description {
+    text-align: center;
   }
 
   .header {

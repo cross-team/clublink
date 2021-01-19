@@ -33,6 +33,8 @@ interface IState {
   createdShortLink: string;
   createdLongLink: string;
   qrCodeURL: string;
+  description: string;
+  valid: null | boolean;
 }
 
 export class CreateShortLinkSection extends Component<IProps, IState> {
@@ -45,14 +47,43 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
       shouldShowUsage: false,
       createdShortLink: '',
       createdLongLink: '',
-      qrCodeURL: ''
+      qrCodeURL: '',
+      description: 'Enter the super-secret code 🤓',
+      valid: null
     };
   }
 
   render(): ReactElement {
     return (
-      <Section title={'New Short Link'}>
+      <Section title={''}>
         <div className={'control create-short-link'}>
+          <h1>
+            <span className={'green'}>club</span>l
+            <span className={'green'}>.</span>ink{' '}
+            <span className={'slash'}>/</span>
+          </h1>
+          <div className={'text-field-wrapper'}>
+            <TextField
+              ref={this.shortLinkTextField}
+              text={this.state.alias}
+              placeHolder={'enter code'}
+              onBlur={this.handleCustomAliasTextFieldBlur}
+              onChange={this.handleAliasChange}
+              onFocus={this.handleFocus}
+            />
+          </div>
+          <span role="button" className={'rocket-button'}>
+            🚀
+          </span>
+          {/* <div className="create-short-link-btn">
+            <Button onClick={this.handleCreateShortLinkClick}>
+              Create Short Link
+            </Button>
+          </div> */}
+        </div>
+        <div className={'input-error'}>{this.state.inputError}</div>
+        <div className={'input-description'}>{this.state.description}</div>
+        {this.state.valid === true && (
           <div className={'text-field-wrapper'}>
             <TextField
               text={this.state.longLink}
@@ -61,22 +92,7 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
               onChange={this.handleLongLinkChange}
             />
           </div>
-          <div className={'text-field-wrapper'}>
-            <TextField
-              ref={this.shortLinkTextField}
-              text={this.state.alias}
-              placeHolder={'Custom Short Link ( Optional )'}
-              onBlur={this.handleCustomAliasTextFieldBlur}
-              onChange={this.handleAliasChange}
-            />
-          </div>
-          <div className="create-short-link-btn">
-            <Button onClick={this.handleCreateShortLinkClick}>
-              Create Short Link
-            </Button>
-          </div>
-        </div>
-        <div className={'input-error'}>{this.state.inputError}</div>
+        )}
         {this.props.uiFactory.createPreferenceTogglesSubSection({
           uiFactory: this.props.uiFactory,
           isShortLinkPublic: this.state.isShortLinkPublic,
@@ -115,6 +131,12 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
     this.focusShortLinkTextField();
   }
 
+  handleFocus = () => {
+    this.setState({
+      description: 'Keep it simple, it only lasts 24 hours ✌️'
+    });
+  };
+
   handleLongLinkTextFieldBlur = () => {
     const { longLink } = this.state;
     const err = validateLongLinkFormat(longLink);
@@ -139,7 +161,8 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
     const { alias } = this.state;
     const err = validateCustomAliasFormat(alias);
     this.setState({
-      inputError: err || undefined
+      inputError: err || undefined,
+      description: 'Enter the super-secret code 🤓'
     });
   };
 
