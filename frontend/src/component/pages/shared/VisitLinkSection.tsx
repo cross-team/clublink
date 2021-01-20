@@ -63,6 +63,11 @@ export class VisitLinkSection extends Component<IProps, IState> {
               onChange={this.handleAliasChange}
             />
           </div>
+          {this.state.alias && (
+            <span role="button" className={'rocket-button'} onClick={() => {}}>
+              🚀
+            </span>
+          )}
         </div>
         <div className={'input-error'}>{this.state.inputError}</div>
         <div className={'input-description'}>

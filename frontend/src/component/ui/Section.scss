@@ -34,10 +34,12 @@
   .control {
     display: flex;
     justify-content: center;
+    align-items: center;
   }
 
   .input-description {
     text-align: center;
+    margin: 16px;
   }
 
   .header {

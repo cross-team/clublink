@@ -9,10 +9,7 @@ type Query {
     Fetch desired attributes of objects from the persistent data store on
     behalf of the given user.
     """
-    authQuery(
-        "JWT token needed to verify and identify a user"
-        authToken: String
-    ): AuthQuery
+    authQuery(): AuthQuery
 }
 
 """Write APIs for Short"""
@@ -23,9 +20,9 @@ type Mutation {
     """
     authMutation(
         "JWT token needed to verify and identify a user"
-        authToken: String,
+        # authToken: String,
 
-        "The page interaction patterns needed to verify the requester is human"
+        # "The page interaction patterns needed to verify the requester is human"
         captchaResponse: String!
     ): AuthMutation
 }

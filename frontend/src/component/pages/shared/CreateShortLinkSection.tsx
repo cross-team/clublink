@@ -26,7 +26,9 @@ interface IProps {
 
 interface IState {
   longLink: string;
-  alias?: string;
+  username: string;
+  room: string;
+  alias: string;
   inputError?: string;
   isShortLinkPublic?: boolean;
   shouldShowUsage: boolean;
@@ -43,13 +45,16 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
+      alias: '',
       longLink: '',
+      username: '',
+      room: '',
       shouldShowUsage: false,
       createdShortLink: '',
       createdLongLink: '',
       qrCodeURL: '',
       description: 'Enter the super-secret code 🤓',
-      valid: null
+      valid: false
     };
   }
 
@@ -64,6 +69,7 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
           </h1>
           <div className={'text-field-wrapper'}>
             <TextField
+              className="code"
               ref={this.shortLinkTextField}
               text={this.state.alias}
               placeHolder={'enter code'}
@@ -82,17 +88,37 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
             </span>
           )}
         </div>
-        <div className={'input-error'}>{this.state.inputError}</div>
         <div className={'input-description'}>{this.state.description}</div>
         {this.state.valid === true && (
-          <div className={'text-field-wrapper'}>
-            <TextField
-              text={this.state.longLink}
-              placeHolder={'Long Link'}
-              onBlur={this.handleLongLinkTextFieldBlur}
-              onChange={this.handleLongLinkChange}
-            />
-          </div>
+          <>
+            <div className={'text-field-wrapper'}>
+              <TextField
+                text={this.state.longLink}
+                placeHolder={
+                  'Now enter your fricking ridiculously long shitty link here...'
+                }
+                onBlur={this.handleLongLinkTextFieldBlur}
+                onChange={this.handleLongLinkChange}
+              />
+            </div>
+            <div className={'text-field-wrapper'}>
+              <TextField
+                className="username"
+                text={this.state.username}
+                placeHolder={'@username'}
+                onBlur={this.handleLongLinkTextFieldBlur}
+                onChange={this.handleLongLinkChange}
+              />
+              <TextField
+                className="room"
+                text={this.state.room}
+                placeHolder={'your room title'}
+                onBlur={this.handleLongLinkTextFieldBlur}
+                onChange={this.handleLongLinkChange}
+              />
+            </div>
+            <div className={'input-error'}>{this.state.inputError}</div>
+          </>
         )}
         {/* <div className="create-short-link-btn">
             <Button onClick={this.handleCreateShortLinkClick}>

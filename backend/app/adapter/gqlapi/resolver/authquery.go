@@ -13,8 +13,8 @@ import (
 // AuthQuery represents GraphQL query resolver that acts differently based
 // on the identify of the user
 type AuthQuery struct {
-	authToken          *string
-	authenticator      authenticator.Authenticator
+	// authToken          *string
+	// authenticator      authenticator.Authenticator
 	changeLog          changelog.ChangeLog
 	shortLinkRetriever shortlink.Retriever
 }
@@ -96,14 +96,14 @@ func (v AuthQuery) ShortLinks() ([]ShortLink, error) {
 }
 
 func newAuthQuery(
-	authToken *string,
-	authenticator authenticator.Authenticator,
+	// authToken *string,
+	// authenticator authenticator.Authenticator,
 	changeLog changelog.ChangeLog,
 	shortLinkRetriever shortlink.Retriever,
 ) AuthQuery {
 	return AuthQuery{
-		authToken:          authToken,
-		authenticator:      authenticator,
+		// authToken:          authToken,
+		// authenticator:      authenticator,
 		changeLog:          changeLog,
 		shortLinkRetriever: shortLinkRetriever,
 	}

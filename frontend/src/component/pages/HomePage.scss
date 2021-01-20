@@ -29,6 +29,10 @@
     }
   }
 
+  .text-field-wrapper {
+    display: flex;
+  }
+
   .control {
     display: flex;
 
@@ -50,15 +54,6 @@
     .control.create-short-link {
       flex-direction: column;
       height: 180px;
-
-      .text-field-wrapper {
-        display: flex;
-        margin: 4px;
-
-        input {
-          width: 100%;
-        }
-      }
 
       .create-short-link-btn {
         flex: 1;

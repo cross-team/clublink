@@ -2,7 +2,7 @@ package resolver
 
 import (
 	"github.com/short-d/app/fw/logger"
-	"github.com/short-d/short/backend/app/usecase/authenticator"
+	// "github.com/short-d/short/backend/app/usecase/authenticator"
 	"github.com/short-d/short/backend/app/usecase/changelog"
 	"github.com/short-d/short/backend/app/usecase/requester"
 	"github.com/short-d/short/backend/app/usecase/shortlink"
@@ -14,13 +14,13 @@ type Mutation struct {
 	shortLinkCreator  shortlink.Creator
 	shortLinkUpdater  shortlink.Updater
 	requesterVerifier requester.Verifier
-	authenticator     authenticator.Authenticator
+	// authenticator     authenticator.Authenticator
 	changeLog         changelog.ChangeLog
 }
 
 // AuthMutationArgs represents possible parameters for AuthMutation endpoint
 type AuthMutationArgs struct {
-	AuthToken       *string
+	// AuthToken       *string
 	CaptchaResponse string
 }
 
@@ -37,8 +37,8 @@ func (m Mutation) AuthMutation(args *AuthMutationArgs) (*AuthMutation, error) {
 	}
 
 	authMutation := newAuthMutation(
-		args.AuthToken,
-		m.authenticator,
+		// args.AuthToken,
+		// m.authenticator,
 		m.changeLog,
 		m.shortLinkCreator,
 		m.shortLinkUpdater,
@@ -52,7 +52,7 @@ func newMutation(
 	shortLinkCreator shortlink.Creator,
 	shortLinkUpdater shortlink.Updater,
 	requesterVerifier requester.Verifier,
-	authenticator authenticator.Authenticator,
+	// authenticator authenticator.Authenticator,
 ) Mutation {
 	return Mutation{
 		logger:            logger,
@@ -60,6 +60,6 @@ func newMutation(
 		shortLinkCreator:  shortLinkCreator,
 		shortLinkUpdater:  shortLinkUpdater,
 		requesterVerifier: requesterVerifier,
-		authenticator:     authenticator,
+		// authenticator:     authenticator,
 	}
 }
