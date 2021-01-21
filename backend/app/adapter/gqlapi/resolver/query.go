@@ -21,9 +21,7 @@ type AuthQueryArgs struct {
 }
 
 // AuthQuery extracts user information from authentication token
-func (q Query) AuthQuery(
-	// args *AuthQueryArgs
-	) (*AuthQuery, error) {
+func (q Query) AuthQuery(args *AuthQueryArgs) (*AuthQuery, error) {
 	authQuery := newAuthQuery(args.AuthToken, q.authenticator, q.changeLog, q.shortLinkRetriever)
 	return &authQuery, nil
 }
