@@ -26,7 +26,7 @@ func NewResolver(
 ) Resolver {
 	return Resolver{
 		Query: newQuery(logger,
-			// authenticator,
+			authenticator,
 			changeLog, shortLinkRetriever),
 		Mutation: newMutation(
 			logger,
@@ -34,7 +34,7 @@ func NewResolver(
 			shortLinkCreator,
 			shortLinkUpdater,
 			requesterVerifier,
-			// authenticator,
+			authenticator,
 		),
 	}
 }

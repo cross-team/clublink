@@ -6,7 +6,7 @@ import (
 
 	"github.com/short-d/short/backend/app/adapter/gqlapi/input"
 	"github.com/short-d/short/backend/app/adapter/gqlapi/scalar"
-	// "github.com/short-d/short/backend/app/usecase/authenticator"
+	"github.com/short-d/short/backend/app/usecase/authenticator"
 	"github.com/short-d/short/backend/app/usecase/changelog"
 	"github.com/short-d/short/backend/app/usecase/shortlink"
 )
@@ -14,8 +14,8 @@ import (
 // AuthMutation represents GraphQL mutation resolver that acts differently based
 // on the identify of the user
 type AuthMutation struct {
-	// authToken        *string
-	// authenticator    authenticator.Authenticator
+	authToken        *string
+	authenticator    authenticator.Authenticator
 	changeLog        changelog.ChangeLog
 	shortLinkCreator shortlink.Creator
 	shortLinkUpdater shortlink.Updater
@@ -29,15 +29,15 @@ type CreateShortLinkArgs struct {
 
 // CreateShortLink creates mapping between an alias and a long link for a given user
 func (a AuthMutation) CreateShortLink(args *CreateShortLinkArgs) (*ShortLink, error) {
-	// user, err := viewer(a.authToken, a.authenticator)
-	// if err != nil {
-	// 	return nil, ErrInvalidAuthToken{}
-	// }
+	user, err := viewer(a.authToken, a.authenticator)
+	if err != nil {
+		return nil, ErrInvalidAuthToken{}
+	}
 
 	shortLink := args.ShortLink.CreateShortLinkInput()
 	isPublic := args.IsPublic
 
-	newShortLink, err := a.shortLinkCreator.CreateShortLink(shortLink, isPublic)
+	newShortLink, err := a.shortLinkCreator.CreateShortLink(shortLink, user, isPublic)
 	if err == nil {
 		return &ShortLink{shortLink: newShortLink}, nil
 	}
@@ -216,15 +216,15 @@ func (a AuthMutation) ViewChangeLog() (scalar.Time, error) {
 }
 
 func newAuthMutation(
-	// authToken *string,
-	// authenticator authenticator.Authenticator,
+	authToken *string,
+	authenticator authenticator.Authenticator,
 	changeLog changelog.ChangeLog,
 	shortLinkCreator shortlink.Creator,
 	shortLinkUpdater shortlink.Updater,
 ) AuthMutation {
 	return AuthMutation{
-		// authToken:        authToken,
-		// authenticator:    authenticator,
+		authToken:        authToken,
+		authenticator:    authenticator,
 		changeLog:        changeLog,
 		shortLinkCreator: shortLinkCreator,
 		shortLinkUpdater: shortLinkUpdater,

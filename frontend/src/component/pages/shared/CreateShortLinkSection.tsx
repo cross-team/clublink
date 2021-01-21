@@ -54,7 +54,7 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
       createdLongLink: '',
       qrCodeURL: '',
       description: 'Enter the super-secret code 🤓',
-      valid: false
+      valid: true
     };
   }
 
