@@ -81,6 +81,7 @@ export function initUIFactory(
 
   return new UIFactory(
     authService,
+    graphQLService,
     clipboardService,
     extensionService,
     qrCodeService,

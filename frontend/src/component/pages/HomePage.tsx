@@ -8,6 +8,7 @@ import { SignInModal } from './shared/sign-in/SignInModal';
 // import { ExtPromo } from './shared/promos/ExtPromo';
 import { Location, History } from 'history';
 import { AuthService } from '../../service/Auth.service';
+import { GraphQLService } from '../../service/GraphQL.service';
 import { IBrowserExtensionService } from '../../service/extensionService/BrowserExtension.service';
 import { VersionService } from '../../service/Version.service';
 import { QrCodeService } from '../../service/QrCode.service';
@@ -39,6 +40,7 @@ interface Props {
   uiFactory: UIFactory;
   featureDecisionService: IFeatureDecisionService;
   authService: AuthService;
+  graphQLService: GraphQLService;
   clipboardService: IClipboardService;
   extensionService: IBrowserExtensionService;
   versionService: VersionService;
@@ -94,6 +96,7 @@ export class HomePage extends Component<Props, State> {
           {this.state.section === 'visit' && (
             <VisitLinkSection
               store={this.props.store}
+              graphQLService={this.props.graphQLService}
               shortLinkService={this.props.shortLinkService}
               qrCodeService={this.props.qrCodeService}
               uiFactory={this.props.uiFactory}
@@ -177,7 +180,7 @@ export class HomePage extends Component<Props, State> {
     this.setPromoDisplayStatus();
     this.setState({
       isUserSignedIn: false,
-      section: 'create'
+      section: 'visit'
     });
 
     this.props.authService.cacheAuthToken(this.props.location.search);

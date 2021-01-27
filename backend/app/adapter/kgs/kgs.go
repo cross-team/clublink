@@ -39,7 +39,7 @@ func (k RPC) FetchKeys(maxCount int) ([]keygen.Key, error) {
 func NewRPC(hostname string, port int) (RPC, error) {
 	connection, err := rpc.
 		NewClientConnBuilder(hostname, port).
-		InsecureTLS().
+		// InsecureTLS().
 		Build()
 	if err != nil {
 		return RPC{}, err

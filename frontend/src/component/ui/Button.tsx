@@ -5,6 +5,7 @@ import { Styling, withCSSModule } from './styling';
 
 interface Props extends Styling {
   onClick?: () => void;
+  className?: string;
 }
 
 export class Button extends Component<Props> {
@@ -23,7 +24,7 @@ export class Button extends Component<Props> {
       <button
         className={`${withCSSModule(this.props.styles, styles)} ${
           styles.button
-        }`}
+        } ${this.props.className}`}
         onClick={this.handleClick}
       >
         {this.props.children}

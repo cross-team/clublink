@@ -54,7 +54,7 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
       createdLongLink: '',
       qrCodeURL: '',
       description: 'Enter the super-secret code 🤓',
-      valid: true
+      valid: false
     };
   }
 
@@ -78,7 +78,7 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
               onFocus={this.handleFocus}
             />
           </div>
-          {this.state.alias && (
+          {/* {this.state.alias && (
             <span
               role="button"
               className={'rocket-button'}
@@ -86,45 +86,45 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
             >
               🚀
             </span>
-          )}
+          )} */}
         </div>
         <div className={'input-description'}>{this.state.description}</div>
-        {this.state.valid === true && (
-          <>
-            <div className={'text-field-wrapper'}>
-              <TextField
-                text={this.state.longLink}
-                placeHolder={
-                  'Now enter your fricking ridiculously long shitty link here...'
-                }
-                onBlur={this.handleLongLinkTextFieldBlur}
-                onChange={this.handleLongLinkChange}
-              />
-            </div>
-            <div className={'text-field-wrapper'}>
-              <TextField
-                className="username"
-                text={this.state.username}
-                placeHolder={'@username'}
-                onBlur={this.handleLongLinkTextFieldBlur}
-                onChange={this.handleLongLinkChange}
-              />
-              <TextField
-                className="room"
-                text={this.state.room}
-                placeHolder={'your room title'}
-                onBlur={this.handleLongLinkTextFieldBlur}
-                onChange={this.handleLongLinkChange}
-              />
-            </div>
-            <div className={'input-error'}>{this.state.inputError}</div>
-          </>
-        )}
-        {/* <div className="create-short-link-btn">
-            <Button onClick={this.handleCreateShortLinkClick}>
-              Create Short Link
-            </Button>
-          </div> */}
+
+        <div className={'text-field-wrapper'}>
+          <TextField
+            text={this.state.longLink}
+            placeHolder={
+              'Now enter your fricking ridiculously long shitty link here...'
+            }
+            onBlur={this.handleLongLinkTextFieldBlur}
+            onChange={this.handleLongLinkChange}
+          />
+        </div>
+        {/* <div className={'text-field-wrapper'}>
+          <TextField
+            className="username"
+            text={this.state.username}
+            placeHolder={'@username'}
+            onBlur={this.handleLongLinkTextFieldBlur}
+            onChange={this.handleLongLinkChange}
+          />
+          <TextField
+            className="room"
+            text={this.state.room}
+            placeHolder={'your room title'}
+            onBlur={this.handleLongLinkTextFieldBlur}
+            onChange={this.handleLongLinkChange}
+          />
+        </div> */}
+        <div className={'input-error'}>{this.state.inputError}</div>
+        <div className="create-short-link-btn">
+          <Button
+            className={'publish'}
+            onClick={this.handleCreateShortLinkClick}
+          >
+            publish
+          </Button>
+        </div>
         {/* {this.props.uiFactory.createPreferenceTogglesSubSection({
           uiFactory: this.props.uiFactory,
           isShortLinkPublic: this.state.isShortLinkPublic,
@@ -261,6 +261,10 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
         if (this.props.onShortLinkCreated) {
           this.props.onShortLinkCreated(shortLink);
         }
+
+        window.location.assign(
+          `/published/?alias=${alias}&longLink=${longLink}`
+        );
       })
       .catch(({ authenticationErr, createShortLinkErr }) => {
         if (authenticationErr) {

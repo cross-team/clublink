@@ -23,6 +23,13 @@ export class App extends Component<IProps> {
             }
           />
           <Route
+            path={'/published'}
+            exact
+            render={() => {
+              return this.props.uiFactory.createPublishedPage();
+            }}
+          />
+          <Route
             path={'/admin'}
             exact
             render={() => {
