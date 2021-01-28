@@ -198,43 +198,43 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
     });
   };
 
-  handleReserveShortLinkClick = () => {
-    const { alias } = this.state;
-    const shortLink: ShortLink = {
-      longLink: '#',
-      alias: alias || ''
-    };
-    this.props.shortLinkService
-      .createShortLink(shortLink, this.state.isShortLinkPublic)
-      .then(async (createdShortLink: ShortLink) => {
-        const shortLink = this.props.shortLinkService.aliasToFrontendLink(
-          createdShortLink.alias!
-        );
+  // handleReserveShortLinkClick = () => {
+  //   const { alias } = this.state;
+  //   const shortLink: ShortLink = {
+  //     longLink: '#',
+  //     alias: alias || ''
+  //   };
+  //   this.props.shortLinkService
+  //     .createShortLink(shortLink, this.state.isShortLinkPublic)
+  //     .then(async (createdShortLink: ShortLink) => {
+  //       const shortLink = this.props.shortLinkService.aliasToFrontendLink(
+  //         createdShortLink.alias!
+  //       );
 
-        const qrCodeURL = await this.props.qrCodeService.newQrCode(shortLink);
+  //       const qrCodeURL = await this.props.qrCodeService.newQrCode(shortLink);
 
-        this.setState({
-          createdShortLink: shortLink,
-          qrCodeURL: qrCodeURL,
-          shouldShowUsage: true
-        });
+  //       this.setState({
+  //         createdShortLink: shortLink,
+  //         qrCodeURL: qrCodeURL,
+  //         shouldShowUsage: true
+  //       });
 
-        if (this.props.onShortLinkCreated) {
-          this.props.onShortLinkCreated(shortLink);
-        }
-      })
-      .catch(({ authenticationErr, createShortLinkErr }) => {
-        if (authenticationErr) {
-          if (this.props.onAuthenticationFailed) {
-            this.props.onAuthenticationFailed();
-          }
-          return;
-        }
-        this.props.store.dispatch(
-          raiseCreateShortLinkError(createShortLinkErr)
-        );
-      });
-  };
+  //       if (this.props.onShortLinkCreated) {
+  //         this.props.onShortLinkCreated(shortLink);
+  //       }
+  //     })
+  //     .catch(({ authenticationErr, createShortLinkErr }) => {
+  //       if (authenticationErr) {
+  //         if (this.props.onAuthenticationFailed) {
+  //           this.props.onAuthenticationFailed();
+  //         }
+  //         return;
+  //       }
+  //       this.props.store.dispatch(
+  //         raiseCreateShortLinkError(createShortLinkErr)
+  //       );
+  //     });
+  // };
 
   handleCreateShortLinkClick = () => {
     const { alias, longLink } = this.state;
@@ -254,8 +254,8 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
         this.setState({
           createdShortLink: shortLink,
           createdLongLink: longLink,
-          qrCodeURL: qrCodeURL,
-          shouldShowUsage: true
+          qrCodeURL: qrCodeURL
+          // shouldShowUsage: true
         });
 
         if (this.props.onShortLinkCreated) {
@@ -263,7 +263,7 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
         }
 
         window.location.assign(
-          `/published/?alias=${alias}&longLink=${longLink}`
+          `/published/?alias=${alias}&longLink=${longLink}&shortLink=${shortLink}&qrCodeURL=${qrCodeURL}`
         );
       })
       .catch(({ authenticationErr, createShortLinkErr }) => {

@@ -1,8 +1,16 @@
 import React, { Component } from 'react';
 import './PublishedPage.scss';
+import { ShortLinkUsage } from './shared/ShortLinkUsage';
 
 export class PublishedPage extends Component {
-  private urlData = new URLSearchParams(window.location.search);
+  private urlData: URLSearchParams = new URLSearchParams(
+    window.location.search
+  );
+  private regex = / /g;
+
+  componentDidMount() {
+    console.log(`${this.urlData.get('qrCodeURL')?.replace(this.regex, '+')}`);
+  }
 
   render = () => {
     return (
@@ -29,6 +37,17 @@ export class PublishedPage extends Component {
         >
           copy
         </button>
+        {this.urlData !== null && (
+          <div className={'short-link-usage-wrapper'}>
+            <ShortLinkUsage
+              shortLink={`${this.urlData.get('shortLink')}`}
+              longLink={`${this.urlData.get('longLink')}`}
+              qrCodeUrl={`${this.urlData
+                .get('qrCodeURL')
+                ?.replace(this.regex, '+')}`}
+            />
+          </div>
+        )}
         <a href="/">or create a new club-link</a>
       </div>
     );
