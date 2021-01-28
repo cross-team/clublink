@@ -53,6 +53,7 @@ interface Props {
   store: Store<IAppState>;
   location: Location;
   history: History;
+  view: string;
 }
 
 interface State {
@@ -62,7 +63,6 @@ interface State {
   autoCompleteSuggestions?: Array<ShortLink>;
   changeLog?: Array<Change>;
   currentPagedShortLinks?: IPagedShortLinks;
-  section?: string;
 }
 
 export class HomePage extends Component<Props, State> {
@@ -93,7 +93,7 @@ export class HomePage extends Component<Props, State> {
           onAdminButtonClick={this.handleAdminButtonClick}
         /> */}
         <div className={'main'}>
-          {this.state.section === 'visit' && (
+          {this.props.view === 'visit' && (
             <VisitLinkSection
               store={this.props.store}
               graphQLService={this.props.graphQLService}
@@ -105,7 +105,7 @@ export class HomePage extends Component<Props, State> {
               onAuthenticationFailed={this.handleOnAuthenticationFailed}
             />
           )}
-          {this.state.section === 'create' && (
+          {this.props.view === 'create' && (
             <CreateShortLinkSection
               store={this.props.store}
               shortLinkService={this.props.shortLinkService}
@@ -118,29 +118,13 @@ export class HomePage extends Component<Props, State> {
           )}
         </div>
         <div className="page-link">
-          {this.state.section === 'visit' && (
-            <a
-              href="#"
-              aria-label="create a new club-link"
-              onClick={() => {
-                this.setState({
-                  section: 'create'
-                });
-              }}
-            >
+          {this.props.view === 'visit' && (
+            <a href="/create" aria-label="create a new club-link">
               or create a new club-link
             </a>
           )}
-          {this.state.section === 'create' && (
-            <a
-              href="#"
-              aria-label="back to home"
-              onClick={() => {
-                this.setState({
-                  section: 'visit'
-                });
-              }}
-            >
+          {this.props.view === 'create' && (
+            <a href="/" aria-label="back to home">
               back
             </a>
           )}
@@ -179,8 +163,7 @@ export class HomePage extends Component<Props, State> {
     this.props.analyticsService.track('homePageLoad');
     this.setPromoDisplayStatus();
     this.setState({
-      isUserSignedIn: false,
-      section: 'visit'
+      isUserSignedIn: false
     });
 
     this.props.authService.cacheAuthToken(this.props.location.search);

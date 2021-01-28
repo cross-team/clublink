@@ -117,14 +117,16 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
           />
         </div> */}
         <div className={'input-error'}>{this.state.inputError}</div>
-        <div className="create-short-link-btn">
-          <Button
-            className={'publish'}
-            onClick={this.handleCreateShortLinkClick}
-          >
-            publish
-          </Button>
-        </div>
+        {!this.state.createdLongLink && (
+          <div className="create-short-link-btn">
+            <Button
+              className={'publish'}
+              onClick={this.handleCreateShortLinkClick}
+            >
+              publish
+            </Button>
+          </div>
+        )}
         {/* {this.props.uiFactory.createPreferenceTogglesSubSection({
           uiFactory: this.props.uiFactory,
           isShortLinkPublic: this.state.isShortLinkPublic,

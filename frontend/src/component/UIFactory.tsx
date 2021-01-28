@@ -114,7 +114,8 @@ export class UIFactory {
 
   public createHomePage(
     location: H.Location<any>,
-    history: H.History<any>
+    history: H.History<any>,
+    view: string
   ): ReactElement {
     return (
       <HomePage
@@ -134,6 +135,7 @@ export class UIFactory {
         store={this.store}
         location={location}
         history={history}
+        view={view}
       />
     );
   }

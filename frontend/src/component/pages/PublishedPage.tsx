@@ -48,7 +48,7 @@ export class PublishedPage extends Component {
             />
           </div>
         )}
-        <a href="/">or create a new club-link</a>
+        <a href="/create">or create a new club-link</a>
       </div>
     );
   };
