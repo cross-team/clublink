@@ -116,14 +116,6 @@ export class HomePage extends Component<Props, State> {
               onAuthenticationFailed={this.handleOnAuthenticationFailed}
             />
           )}
-          {this.state.isUserSignedIn && (
-            <div className={'user-short-links-section'}>
-              {this.props.uiFactory.createUserShortLinksSection({
-                onPageLoad: this.handleOnShortLinkPageLoad,
-                pagedShortLinks: this.state.currentPagedShortLinks
-              })}
-            </div>
-          )}
         </div>
         <div className="page-link">
           {this.state.section === 'visit' && (
@@ -153,6 +145,14 @@ export class HomePage extends Component<Props, State> {
             </a>
           )}
         </div>
+        {this.state.isUserSignedIn && (
+          <div className={'user-short-links-section'}>
+            {this.props.uiFactory.createUserShortLinksSection({
+              onPageLoad: this.handleOnShortLinkPageLoad,
+              pagedShortLinks: this.state.currentPagedShortLinks
+            })}
+          </div>
+        )}
         <Footer
           uiFactory={this.props.uiFactory}
           onShowChangeLogBtnClick={this.handleShowChangeLogBtnClick}

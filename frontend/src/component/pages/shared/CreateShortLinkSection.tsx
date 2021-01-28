@@ -77,8 +77,7 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
               onChange={this.handleAliasChange}
               onFocus={this.handleFocus}
             />
-          </div>
-          {/* {this.state.alias && (
+            {/* {this.state.alias && (
             <span
               role="button"
               className={'rocket-button'}
@@ -87,6 +86,7 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
               🚀
             </span>
           )} */}
+          </div>
         </div>
         <div className={'input-description'}>{this.state.description}</div>
 

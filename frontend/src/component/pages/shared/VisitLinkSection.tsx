@@ -74,25 +74,25 @@ export class VisitLinkSection extends Component<IProps, IState> {
               onBlur={this.handleCustomAliasTextFieldBlur}
               onChange={this.handleAliasChange}
             />
+            {this.state.alias && (
+              <>
+                {this.state.status === '' && (
+                  <button
+                    className={'rocket-button'}
+                    onClick={this.handleCodeValidation}
+                  >
+                    🚀
+                  </button>
+                )}
+                {this.state.status === 'success' && (
+                  <span className="emoji">🙌</span>
+                )}
+                {this.state.status === 'error' && (
+                  <span className="emoji">🙅</span>
+                )}
+              </>
+            )}
           </div>
-          {this.state.alias && (
-            <>
-              {this.state.status === '' && (
-                <button
-                  className={'rocket-button'}
-                  onClick={this.handleCodeValidation}
-                >
-                  🚀
-                </button>
-              )}
-              {this.state.status === 'success' && (
-                <span className="emoji">🙌</span>
-              )}
-              {this.state.status === 'error' && (
-                <span className="emoji">🙅</span>
-              )}
-            </>
-          )}
         </div>
         <div className={'input-error'}>{this.state.inputError}</div>
         <div className={'input-description'}>
