@@ -6,6 +6,7 @@ import { Styling, withCSSModule } from './styling';
 interface Props extends Styling {
   onClick?: () => void;
   className?: string;
+  disabled?: boolean;
 }
 
 export class Button extends Component<Props> {
@@ -26,6 +27,7 @@ export class Button extends Component<Props> {
           styles.button
         } ${this.props.className}`}
         onClick={this.handleClick}
+        disabled={this.props.disabled}
       >
         {this.props.children}
       </button>

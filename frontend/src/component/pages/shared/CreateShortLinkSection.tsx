@@ -12,12 +12,14 @@ import { validateCustomAliasFormat } from '../../../validators/CustomAlias.valid
 import { raiseCreateShortLinkError } from '../../../state/actions';
 import { IAppState } from '../../../state/reducers';
 import { Store } from 'redux';
+import { GraphQLService } from '../../../service/GraphQL.service';
 import { ShortLinkService } from '../../../service/ShortLink.service';
 import { QrCodeService } from '../../../service/QrCode.service';
 
 interface IProps {
   store: Store<IAppState>;
   uiFactory: UIFactory;
+  graphQLService: GraphQLService;
   shortLinkService: ShortLinkService;
   qrCodeService: QrCodeService;
   onShortLinkCreated?: (shortLink: string) => void;
@@ -35,8 +37,11 @@ interface IState {
   createdShortLink: string;
   createdLongLink: string;
   qrCodeURL: string;
-  description: string;
+  description: string | ReactElement;
   valid: null | boolean;
+  club: string;
+  link: string;
+  status: string;
 }
 
 export class CreateShortLinkSection extends Component<IProps, IState> {
@@ -54,7 +59,10 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
       createdLongLink: '',
       qrCodeURL: '',
       description: 'Enter the super-secret code 🤓',
-      valid: false
+      valid: false,
+      club: 'green',
+      link: '',
+      status: ''
     };
   }
 
@@ -63,9 +71,11 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
       <Section title={''}>
         <div className={'control create-short-link'}>
           <h1>
-            <span className={'green'}>club</span>l
-            <span className={'green'}>.</span>ink{' '}
-            <span className={'slash'}>/</span>
+            <span className={this.state.club}>club</span>
+            <span className={this.state.link}>l</span>
+            <span className={this.state.club}>.</span>
+            <span className={this.state.link}>ink </span>
+            <span className={'sand'}>/</span>
           </h1>
           <div className={'text-field-wrapper'}>
             <TextField
@@ -98,6 +108,7 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
             }
             onBlur={this.handleLongLinkTextFieldBlur}
             onChange={this.handleLongLinkChange}
+            disabled={this.state.status === 'error'}
           />
         </div>
         {/* <div className={'text-field-wrapper'}>
@@ -117,7 +128,7 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
           />
         </div> */}
         <div className={'input-error'}>{this.state.inputError}</div>
-        {!this.state.createdLongLink && (
+        {!this.state.createdLongLink && this.state.status !== 'error' && (
           <div className="create-short-link-btn">
             <Button
               className={'publish'}
@@ -166,9 +177,11 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
   }
 
   handleFocus = () => {
-    this.setState({
-      description: 'Keep it simple, it only lasts 24 hours ✌️'
-    });
+    if (this.state.status === '') {
+      this.setState({
+        description: 'Keep it simple, it only lasts 24 hours ✌️'
+      });
+    }
   };
 
   handleLongLinkTextFieldBlur = () => {
@@ -185,19 +198,39 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
     });
   };
 
-  handleAliasChange = (newAlias: string) => {
-    this.setState({
-      alias: newAlias
-    });
+  handleAliasChange = async (newAlias: string) => {
+    if (newAlias === '') {
+      this.setState({
+        description: 'Keep it simple, it only lasts 24 hours ✌️',
+        alias: newAlias,
+        club: 'green',
+        link: '',
+        status: ''
+      });
+    } else {
+      this.setState({
+        alias: newAlias,
+        club: 'sand',
+        link: '',
+        status: ''
+      });
+      await this.isAliasAvailable(newAlias).then(response => {});
+    }
   };
 
   handleCustomAliasTextFieldBlur = () => {
     const { alias } = this.state;
     const err = validateCustomAliasFormat(alias);
-    this.setState({
-      inputError: err || undefined,
-      description: 'Enter the super-secret code 🤓'
-    });
+    if (this.state.status === '') {
+      this.setState({
+        inputError: err || undefined,
+        description: 'Enter the super-secret code 🤓'
+      });
+    } else {
+      this.setState({
+        inputError: err || undefined
+      });
+    }
   };
 
   // handleReserveShortLinkClick = () => {
@@ -269,6 +302,8 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
         );
       })
       .catch(({ authenticationErr, createShortLinkErr }) => {
+        console.log(authenticationErr);
+        console.log(createShortLinkErr);
         if (authenticationErr) {
           if (this.props.onAuthenticationFailed) {
             this.props.onAuthenticationFailed();
@@ -278,6 +313,48 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
         this.props.store.dispatch(
           raiseCreateShortLinkError(createShortLinkErr)
         );
+      });
+  };
+
+  isAliasAvailable = async (alias: string): Promise<boolean> => {
+    return await this.props.graphQLService
+      .query('http://localhost:8080/graphql', {
+        query: `query {
+          authQuery {
+            shortLink(alias: "${alias}") {
+              alias
+              longLink
+              expireAt
+            }
+          }
+        }`,
+        variables: {}
+      })
+      .then(results => {
+        console.log(results);
+        this.setState({
+          description: (
+            <>
+              Oops! <span className="error">{alias}</span> is unavailable
+            </>
+          ),
+          link: 'error',
+          status: 'error'
+        });
+        return false;
+      })
+      .catch(error => {
+        console.log(error);
+        this.setState({
+          description: (
+            <>
+              Hey! <span className="green">{alias} is available!</span>
+            </>
+          ),
+          link: 'green',
+          status: 'success'
+        });
+        return true;
       });
   };
 

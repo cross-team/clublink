@@ -97,7 +97,8 @@ export class VisitLinkSection extends Component<IProps, IState> {
         <div className={'input-error'}>{this.state.inputError}</div>
         <div className={'input-description'}>
           {this.state.status === '' && 'Enter the super-secret code and go 🚀'}
-          {this.state.status === 'error' && "Code doesn't exist"}
+          {this.state.status === 'error' &&
+            "Code doesn't exist, try entering another"}
           {this.state.status === 'success' && (
             <>
               <p>Imagine a link impossible to remember: </p>

@@ -2,6 +2,7 @@ import React, { ChangeEvent, Component, createRef } from 'react';
 import './TextField.scss';
 
 interface IProps {
+  disabled?: boolean;
   className?: string;
   text?: string;
   placeHolder?: string;
@@ -24,6 +25,7 @@ export class TextField extends Component<IProps, any> {
         onBlur={this.handleBlur}
         onFocus={this.handleFocus}
         placeholder={this.props.placeHolder}
+        disabled={this.props.disabled}
       />
     );
   };

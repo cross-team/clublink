@@ -108,6 +108,7 @@ export class HomePage extends Component<Props, State> {
           {this.props.view === 'create' && (
             <CreateShortLinkSection
               store={this.props.store}
+              graphQLService={this.props.graphQLService}
               shortLinkService={this.props.shortLinkService}
               qrCodeService={this.props.qrCodeService}
               uiFactory={this.props.uiFactory}
