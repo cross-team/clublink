@@ -2,6 +2,8 @@ import React, { ChangeEvent, Component, createRef } from 'react';
 import './TextField.scss';
 
 interface IProps {
+  disabled?: boolean;
+  className?: string;
   text?: string;
   placeHolder?: string;
   onChange?: (text: string) => void;
@@ -16,13 +18,14 @@ export class TextField extends Component<IProps, any> {
     return (
       <input
         ref={this.textInput}
-        className={'text-field'}
+        className={`text-field ${this.props.className && this.props.className}`}
         type={'text'}
         value={this.props.text}
         onChange={this.handleChange}
         onBlur={this.handleBlur}
         onFocus={this.handleFocus}
         placeholder={this.props.placeHolder}
+        disabled={this.props.disabled}
       />
     );
   };

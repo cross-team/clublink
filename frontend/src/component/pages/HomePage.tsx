@@ -8,6 +8,7 @@ import { SignInModal } from './shared/sign-in/SignInModal';
 // import { ExtPromo } from './shared/promos/ExtPromo';
 import { Location, History } from 'history';
 import { AuthService } from '../../service/Auth.service';
+import { GraphQLService } from '../../service/GraphQL.service';
 import { IBrowserExtensionService } from '../../service/extensionService/BrowserExtension.service';
 import { VersionService } from '../../service/Version.service';
 import { QrCodeService } from '../../service/QrCode.service';
@@ -39,6 +40,7 @@ interface Props {
   uiFactory: UIFactory;
   featureDecisionService: IFeatureDecisionService;
   authService: AuthService;
+  graphQLService: GraphQLService;
   clipboardService: IClipboardService;
   extensionService: IBrowserExtensionService;
   versionService: VersionService;
@@ -51,6 +53,7 @@ interface Props {
   store: Store<IAppState>;
   location: Location;
   history: History;
+  view: string;
 }
 
 interface State {
@@ -60,7 +63,6 @@ interface State {
   autoCompleteSuggestions?: Array<ShortLink>;
   changeLog?: Array<Change>;
   currentPagedShortLinks?: IPagedShortLinks;
-  section?: string;
 }
 
 export class HomePage extends Component<Props, State> {
@@ -91,9 +93,10 @@ export class HomePage extends Component<Props, State> {
           onAdminButtonClick={this.handleAdminButtonClick}
         /> */}
         <div className={'main'}>
-          {this.state.section === 'visit' && (
+          {this.props.view === 'visit' && (
             <VisitLinkSection
               store={this.props.store}
+              graphQLService={this.props.graphQLService}
               shortLinkService={this.props.shortLinkService}
               qrCodeService={this.props.qrCodeService}
               uiFactory={this.props.uiFactory}
@@ -102,9 +105,10 @@ export class HomePage extends Component<Props, State> {
               onAuthenticationFailed={this.handleOnAuthenticationFailed}
             />
           )}
-          {this.state.section === 'create' && (
+          {this.props.view === 'create' && (
             <CreateShortLinkSection
               store={this.props.store}
+              graphQLService={this.props.graphQLService}
               shortLinkService={this.props.shortLinkService}
               qrCodeService={this.props.qrCodeService}
               uiFactory={this.props.uiFactory}
@@ -113,43 +117,27 @@ export class HomePage extends Component<Props, State> {
               onAuthenticationFailed={this.handleOnAuthenticationFailed}
             />
           )}
-          {this.state.isUserSignedIn && (
-            <div className={'user-short-links-section'}>
-              {this.props.uiFactory.createUserShortLinksSection({
-                onPageLoad: this.handleOnShortLinkPageLoad,
-                pagedShortLinks: this.state.currentPagedShortLinks
-              })}
-            </div>
-          )}
         </div>
         <div className="page-link">
-          {this.state.section === 'visit' && (
-            <a
-              href="#"
-              aria-label="create a new club-link"
-              onClick={() => {
-                this.setState({
-                  section: 'create'
-                });
-              }}
-            >
+          {this.props.view === 'visit' && (
+            <a href="/create" aria-label="create a new club-link">
               or create a new club-link
             </a>
           )}
-          {this.state.section === 'create' && (
-            <a
-              href="#"
-              aria-label="back to home"
-              onClick={() => {
-                this.setState({
-                  section: 'visit'
-                });
-              }}
-            >
+          {this.props.view === 'create' && (
+            <a href="/" aria-label="back to home">
               back
             </a>
           )}
         </div>
+        {this.state.isUserSignedIn && (
+          <div className={'user-short-links-section'}>
+            {this.props.uiFactory.createUserShortLinksSection({
+              onPageLoad: this.handleOnShortLinkPageLoad,
+              pagedShortLinks: this.state.currentPagedShortLinks
+            })}
+          </div>
+        )}
         <Footer
           uiFactory={this.props.uiFactory}
           onShowChangeLogBtnClick={this.handleShowChangeLogBtnClick}
@@ -164,7 +152,7 @@ export class HomePage extends Component<Props, State> {
           defaultVisibleLogs={3}
         />
 
-        {/* <SignInModal ref={this.signInModal} uiFactory={this.props.uiFactory} /> */}
+        <SignInModal ref={this.signInModal} uiFactory={this.props.uiFactory} />
         <ErrorModal store={this.props.store} />
 
         <Toast ref={this.toastRef} />
@@ -176,8 +164,7 @@ export class HomePage extends Component<Props, State> {
     this.props.analyticsService.track('homePageLoad');
     this.setPromoDisplayStatus();
     this.setState({
-      isUserSignedIn: false,
-      section: 'create'
+      isUserSignedIn: false
     });
 
     this.props.authService.cacheAuthToken(this.props.location.search);

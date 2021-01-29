@@ -2,7 +2,7 @@
 @import '../../styles/color';
 
 .short-link-usage-wrapper {
-  margin-top: 40px;
+  margin: 48px;
 }
 
 .input-error {
@@ -11,5 +11,13 @@
   font-weight: $font-weight-semi-bold;
   height: 20px;
   line-height: 20px;
-  margin: 10px;
+  margin-bottom: 32px;
+}
+
+.username {
+  flex-shrink: 2;
+}
+
+.room {
+  flex-shrink: 1;
 }

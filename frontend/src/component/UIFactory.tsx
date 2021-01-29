@@ -2,8 +2,10 @@ import React, { ComponentType, ReactElement } from 'react';
 import { App } from './App';
 import { IFeatureDecisionService } from '../service/feature-decision/FeatureDecision.service';
 import { HomePage } from './pages/HomePage';
+import { PublishedPage } from './pages/PublishedPage';
 import H from 'history';
 import { AuthService } from '../service/Auth.service';
+import { GraphQLService } from '../service/GraphQL.service';
 import { IBrowserExtensionService } from '../service/extensionService/BrowserExtension.service';
 import { QrCodeService } from '../service/QrCode.service';
 import { VersionService } from '../service/Version.service';
@@ -41,6 +43,7 @@ export class UIFactory {
 
   constructor(
     private authService: AuthService,
+    private graphQLService: GraphQLService,
     private clipboardService: IClipboardService,
     private extensionService: IBrowserExtensionService,
     private qrCodeService: QrCodeService,
@@ -111,13 +114,15 @@ export class UIFactory {
 
   public createHomePage(
     location: H.Location<any>,
-    history: H.History<any>
+    history: H.History<any>,
+    view: string
   ): ReactElement {
     return (
       <HomePage
         uiFactory={this}
         featureDecisionService={this.featureDecisionService}
         authService={this.authService}
+        graphQLService={this.graphQLService}
         clipboardService={this.clipboardService}
         extensionService={this.extensionService}
         qrCodeService={this.qrCodeService}
@@ -130,8 +135,13 @@ export class UIFactory {
         store={this.store}
         location={location}
         history={history}
+        view={view}
       />
     );
+  }
+
+  public createPublishedPage(): ReactElement {
+    return <PublishedPage />;
   }
 
   public createAdminPage(): ReactElement {

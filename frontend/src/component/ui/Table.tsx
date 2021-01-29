@@ -24,6 +24,7 @@ export class Table extends Component<IProps> {
           return (
             <th
               key={`cell-${cellIndex}`}
+              className={`cell-${cellIndex}`}
               style={{
                 width: widths?.[cellIndex],
                 textAlign: alignHeaders?.[cellIndex],

@@ -10,12 +10,14 @@ import { UIFactory } from '../../UIFactory';
 import { validateCustomAliasFormat } from '../../../validators/CustomAlias.validator';
 import { IAppState } from '../../../state/reducers';
 import { Store } from 'redux';
+import { GraphQLService } from '../../../service/GraphQL.service';
 import { ShortLinkService } from '../../../service/ShortLink.service';
 import { QrCodeService } from '../../../service/QrCode.service';
 
 interface IProps {
   store: Store<IAppState>;
   uiFactory: UIFactory;
+  graphQLService: GraphQLService;
   shortLinkService: ShortLinkService;
   qrCodeService: QrCodeService;
   onShortLinkCreated?: (shortLink: string) => void;
@@ -24,12 +26,16 @@ interface IProps {
 
 interface IState {
   alias?: string;
+  longLink?: string;
   inputError?: string;
   isShortLinkPublic?: boolean;
   shouldShowUsage: boolean;
   createdShortLink: string;
   createdLongLink: string;
   qrCodeURL: string;
+  club: string;
+  link: string;
+  status: string;
 }
 
 export class VisitLinkSection extends Component<IProps, IState> {
@@ -41,7 +47,10 @@ export class VisitLinkSection extends Component<IProps, IState> {
       shouldShowUsage: false,
       createdShortLink: '',
       createdLongLink: '',
-      qrCodeURL: ''
+      qrCodeURL: '',
+      club: 'green',
+      link: '',
+      status: ''
     };
   }
 
@@ -50,29 +59,64 @@ export class VisitLinkSection extends Component<IProps, IState> {
       <Section title={''}>
         <div className={'control visit-short-link'}>
           <h1>
-            <span className={'green'}>club</span>l
-            <span className={'green'}>.</span>ink{' '}
-            <span className={'slash'}>/</span>
+            <span className={this.state.club}>club</span>
+            <span className={this.state.link}>l</span>
+            <span className={this.state.club}>.</span>
+            <span className={this.state.link}>ink </span>
+            <span className={'sand'}>/</span>
           </h1>
           <div className={'text-field-wrapper'}>
             <TextField
+              className="code"
               ref={this.shortLinkTextField}
               text={this.state.alias}
               placeHolder={'enter code'}
               onBlur={this.handleCustomAliasTextFieldBlur}
               onChange={this.handleAliasChange}
             />
+            {this.state.alias && (
+              <>
+                {this.state.status === 'success' && (
+                  <button
+                    className={'rocket-button'}
+                    onClick={async () => {
+                      let qrCodeURL = await this.props.qrCodeService.newQrCode(
+                        `http://clubl.ink/${this.state.alias}`
+                      );
+                      window.location.assign(
+                        `/published/?alias=${this.state.alias}&longLink=${this.state.longLink}&shortLink=http://clubl.ink/${this.state.alias}&qrCodeURL=${qrCodeURL}`
+                      );
+                    }}
+                  >
+                    🚀
+                  </button>
+                )}
+                {this.state.status === 'error' && (
+                  <span className="emoji">😩</span>
+                )}
+              </>
+            )}
           </div>
         </div>
         <div className={'input-error'}>{this.state.inputError}</div>
         <div className={'input-description'}>
-          Enter the super-secret code and go 🚀
+          {this.state.status === '' && 'Enter the super-secret code and go 🚀'}
+          {this.state.status === 'error' &&
+            "Code doesn't exist, try entering another"}
+          {this.state.status === 'success' && (
+            <>
+              <p>Imagine a link impossible to remember: </p>
+              <a href={this.state.longLink} target="_blank">
+                {this.state.longLink}
+              </a>
+            </>
+          )}
         </div>
-        {this.props.uiFactory.createPreferenceTogglesSubSection({
+        {/* {this.props.uiFactory.createPreferenceTogglesSubSection({
           uiFactory: this.props.uiFactory,
           isShortLinkPublic: this.state.isShortLinkPublic,
           onPublicToggleClick: this.handlePublicToggleClick
-        })}
+        })} */}
         {this.state.shouldShowUsage && (
           <div className={'short-link-usage-wrapper'}>
             <ShortLinkUsage
@@ -86,10 +130,22 @@ export class VisitLinkSection extends Component<IProps, IState> {
     );
   }
 
-  handleAliasChange = (newAlias: string) => {
-    this.setState({
-      alias: newAlias
-    });
+  handleAliasChange = async (newAlias: string) => {
+    if (newAlias === '') {
+      this.setState({
+        alias: newAlias,
+        club: 'green',
+        link: '',
+        status: ''
+      });
+    } else {
+      this.setState({
+        alias: newAlias,
+        club: 'sand',
+        link: ''
+      });
+      await this.handleCodeValidation(newAlias);
+    }
   };
 
   handleCustomAliasTextFieldBlur = () => {
@@ -98,6 +154,38 @@ export class VisitLinkSection extends Component<IProps, IState> {
     this.setState({
       inputError: err || undefined
     });
+  };
+
+  handleCodeValidation = async (alias: string) => {
+    await this.props.graphQLService
+      .query('http://localhost:8080/graphql', {
+        query: `query {
+          authQuery {
+            shortLink(alias: "${alias}") {
+              alias
+              longLink
+              expireAt
+            }
+          }
+        }`,
+        variables: {}
+      })
+      .then(results => {
+        let queryData: any = results;
+        console.log(results);
+        this.setState({
+          link: 'green',
+          status: 'success',
+          longLink: queryData.authQuery.shortLink.longLink
+        });
+      })
+      .catch(error => {
+        console.log(error);
+        this.setState({
+          link: 'error',
+          status: 'error'
+        });
+      });
   };
 
   handleCreateShortLinkClick = () => {

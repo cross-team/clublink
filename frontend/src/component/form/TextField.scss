@@ -4,22 +4,32 @@
 
 .text-field {
   @include default-font();
+  width: 100%;
+  height: 60px;
   box-sizing: border-box;
-  font-size: 32px;
+  font-size: 16px;
   outline: none;
   padding: 8px 20px;
-  height: 80px;
   border-radius: 32px;
   border: 0px;
-  margin: 0 16px;
+  margin: 16px;
+
+  &:focus {
+    box-shadow: 0 0 0 4px #f7f5f0, 0 0 0 8px #5b74a6;
+    color: #5b74a6;
+  }
 
   &::placeholder {
     color: #b7b4a6;
   }
 
-  &:focus {
-    border: 6px solid #f7f5f0;
-    box-shadow: 0 0 0 6px #5b74a6;
-    color: #5b74a6;
+  &.code {
+    height: 80px;
+    font-size: 32px;
+    margin-left: 24px;
+
+    &:focus {
+      box-shadow: 0 0 0 6px #f7f5f0, 0 0 0 12px #5b74a6;
+    }
   }
 }
