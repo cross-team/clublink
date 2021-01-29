@@ -12,7 +12,7 @@ export class ShortLinkUsage extends Component<Props> {
   render() {
     return (
       <div className={'short-link-usage'}>
-        <div>
+        {/* <div>
           You can now paste&nbsp;
           <a target={'_blank'} href={this.props.shortLink}>
             {this.props.shortLink}
@@ -20,7 +20,7 @@ export class ShortLinkUsage extends Component<Props> {
           &nbsp;in your browser to visit
           <br />
           {this.props.longLink}.
-        </div>
+        </div> */}
         <div className={'qr-code'}>
           <img alt={this.props.shortLink} src={this.props.qrCodeUrl} />
         </div>

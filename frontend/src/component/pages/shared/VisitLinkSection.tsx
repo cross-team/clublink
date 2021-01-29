@@ -102,7 +102,9 @@ export class VisitLinkSection extends Component<IProps, IState> {
           {this.state.status === 'success' && (
             <>
               <p>Imagine a link impossible to remember: </p>
-              <a href={this.state.longLink}>{this.state.longLink}</a>
+              <a href={this.state.longLink} target="_blank">
+                {this.state.longLink}
+              </a>
             </>
           )}
         </div>
