@@ -88,7 +88,7 @@ export class VisitLinkSection extends Component<IProps, IState> {
                   <span className="emoji">🙌</span>
                 )}
                 {this.state.status === 'error' && (
-                  <span className="emoji">🙅</span>
+                  <span className="emoji">😩</span>
                 )}
               </>
             )}

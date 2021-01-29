@@ -50,6 +50,7 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
+      inputError: '',
       alias: '',
       longLink: '',
       username: '',
@@ -87,6 +88,11 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
               onChange={this.handleAliasChange}
               onFocus={this.handleFocus}
             />
+            {this.state.status === 'error' && <span className="emoji">😩</span>}
+            {this.state.status === 'success' && (
+              <span className="emoji">😍</span>
+            )}
+            {this.state.status === '' && <span className="emoji">🚀</span>}
             {/* {this.state.alias && (
             <span
               role="button"
@@ -110,6 +116,11 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
             onChange={this.handleLongLinkChange}
             disabled={this.state.status === 'error'}
           />
+          {this.state.inputError === undefined ? (
+            <span className="emoji">😱</span>
+          ) : (
+            <span className="emoji">💩</span>
+          )}
         </div>
         {/* <div className={'text-field-wrapper'}>
           <TextField
@@ -211,8 +222,7 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
       this.setState({
         alias: newAlias,
         club: 'sand',
-        link: '',
-        status: ''
+        link: ''
       });
       await this.isAliasAvailable(newAlias).then(response => {});
     }
@@ -223,12 +233,7 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
     const err = validateCustomAliasFormat(alias);
     if (this.state.status === '') {
       this.setState({
-        inputError: err || undefined,
         description: 'Enter the super-secret code 🤓'
-      });
-    } else {
-      this.setState({
-        inputError: err || undefined
       });
     }
   };

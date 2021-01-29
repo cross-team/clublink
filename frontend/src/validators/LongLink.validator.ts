@@ -3,10 +3,6 @@ import { link } from 'fs';
 export function validateLongLinkFormat(longLink?: string): string | null {
   const LONG_LINK_MAX_LENGTH = 200;
 
-  if (longLink === '#') {
-    return null;
-  }
-
   if (!longLink) {
     return 'Long link can\'t be empty';
   }
