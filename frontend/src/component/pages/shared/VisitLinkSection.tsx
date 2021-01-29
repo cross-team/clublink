@@ -76,16 +76,20 @@ export class VisitLinkSection extends Component<IProps, IState> {
             />
             {this.state.alias && (
               <>
-                {this.state.status === '' && (
+                {this.state.status === 'success' && (
                   <button
                     className={'rocket-button'}
-                    onClick={this.handleCodeValidation}
+                    onClick={async () => {
+                      let qrCodeURL = await this.props.qrCodeService.newQrCode(
+                        `http://clubl.ink/${this.state.alias}`
+                      );
+                      window.location.assign(
+                        `/published/?alias=${this.state.alias}&longLink=${this.state.longLink}&shortLink=http://clubl.ink/${this.state.alias}&qrCodeURL=${qrCodeURL}`
+                      );
+                    }}
                   >
                     🚀
                   </button>
-                )}
-                {this.state.status === 'success' && (
-                  <span className="emoji">🙌</span>
                 )}
                 {this.state.status === 'error' && (
                   <span className="emoji">😩</span>
@@ -126,7 +130,7 @@ export class VisitLinkSection extends Component<IProps, IState> {
     );
   }
 
-  handleAliasChange = (newAlias: string) => {
+  handleAliasChange = async (newAlias: string) => {
     if (newAlias === '') {
       this.setState({
         alias: newAlias,
@@ -138,9 +142,9 @@ export class VisitLinkSection extends Component<IProps, IState> {
       this.setState({
         alias: newAlias,
         club: 'sand',
-        link: '',
-        status: ''
+        link: ''
       });
+      await this.handleCodeValidation(newAlias);
     }
   };
 
@@ -152,12 +156,12 @@ export class VisitLinkSection extends Component<IProps, IState> {
     });
   };
 
-  handleCodeValidation = async () => {
+  handleCodeValidation = async (alias: string) => {
     await this.props.graphQLService
       .query('http://localhost:8080/graphql', {
         query: `query {
           authQuery {
-            shortLink(alias: "${this.state.alias}") {
+            shortLink(alias: "${alias}") {
               alias
               longLink
               expireAt
