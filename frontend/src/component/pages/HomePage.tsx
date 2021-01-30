@@ -24,6 +24,7 @@ import { SearchService } from '../../service/Search.service';
 import { ChangeLogModal } from '../ui/ChangeLogModal';
 import { ChangeLogService } from '../../service/ChangeLog.service';
 import { CreateShortLinkSection } from './shared/CreateShortLinkSection';
+import { FavoritesSection } from './shared/FavoritesSection';
 import { VisitLinkSection } from './shared/VisitLinkSection';
 import { Toast } from '../ui/Toast';
 import { IClipboardService } from '../../service/clipboardService/Clipboard.service';
@@ -117,6 +118,14 @@ export class HomePage extends Component<Props, State> {
               onAuthenticationFailed={this.handleOnAuthenticationFailed}
             />
           )}
+          {this.props.view === 'favorites' && (
+            <FavoritesSection
+              isUserSignedIn={this.state.isUserSignedIn}
+              uiFactory={this.props.uiFactory}
+              handleOnShortLinkPageLoad={this.handleOnShortLinkPageLoad}
+              currentPagedShortLinks={this.state.currentPagedShortLinks}
+            />
+          )}
         </div>
         <div className="page-link">
           {this.props.view === 'visit' && (
@@ -130,14 +139,6 @@ export class HomePage extends Component<Props, State> {
             </a>
           )}
         </div>
-        {this.state.isUserSignedIn && (
-          <div className={'user-short-links-section'}>
-            {this.props.uiFactory.createUserShortLinksSection({
-              onPageLoad: this.handleOnShortLinkPageLoad,
-              pagedShortLinks: this.state.currentPagedShortLinks
-            })}
-          </div>
-        )}
         <Footer
           uiFactory={this.props.uiFactory}
           onShowChangeLogBtnClick={this.handleShowChangeLogBtnClick}
