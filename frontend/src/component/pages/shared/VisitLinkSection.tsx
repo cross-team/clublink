@@ -81,7 +81,7 @@ export class VisitLinkSection extends Component<IProps, IState> {
                     className={'rocket-button'}
                     onClick={async () => {
                       let qrCodeURL = await this.props.qrCodeService.newQrCode(
-                        `http://clubl.ink/${this.state.alias}`
+                        `${this.state.longLink}`
                       );
                       window.location.assign(
                         `/published/?alias=${this.state.alias}&longLink=${this.state.longLink}&shortLink=http://clubl.ink/${this.state.alias}&qrCodeURL=${qrCodeURL}`
