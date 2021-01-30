@@ -74,27 +74,27 @@ export class VisitLinkSection extends Component<IProps, IState> {
               onBlur={this.handleCustomAliasTextFieldBlur}
               onChange={this.handleAliasChange}
             />
-            {this.state.alias && (
-              <>
-                {this.state.status === 'success' && (
-                  <button
-                    className={'rocket-button'}
-                    onClick={async () => {
-                      let qrCodeURL = await this.props.qrCodeService.newQrCode(
-                        `${this.state.longLink}`
-                      );
-                      window.location.assign(
-                        `/published/?alias=${this.state.alias}&longLink=${this.state.longLink}&shortLink=http://clubl.ink/${this.state.alias}&qrCodeURL=${qrCodeURL}`
-                      );
-                    }}
-                  >
-                    🚀
-                  </button>
-                )}
-                {this.state.status === 'error' && (
-                  <span className="emoji">😩</span>
-                )}
-              </>
+            {this.state.status === 'success' ? (
+              <button
+                className={'rocket-button'}
+                onClick={async () => {
+                  let qrCodeURL = await this.props.qrCodeService.newQrCode(
+                    `${this.state.longLink}`
+                  );
+                  window.location.assign(
+                    `/published/?alias=${this.state.alias}&longLink=${this.state.longLink}&shortLink=http://clubl.ink/${this.state.alias}&qrCodeURL=${qrCodeURL}`
+                  );
+                }}
+              >
+                🚀
+              </button>
+            ) : (
+              <span
+                className={`emoji ${!this.state.alias && 'hidden'}`}
+                aria-hidden="true"
+              >
+                😩
+              </span>
             )}
           </div>
         </div>
