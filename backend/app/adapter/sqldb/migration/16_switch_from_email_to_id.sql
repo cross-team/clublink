@@ -12,7 +12,7 @@ ALTER TABLE "user"
 ALTER TABLE "user_url_relation"
     ADD CONSTRAINT "user_url_relation_user_id_fkey" FOREIGN KEY (user_id) REFERENCES "user"(id);
 ALTER TABLE "user_url_relation"
-    ADD CONSTRAINT "pk_user_url_relation" PRIMARY KEY (url_alias, user_id);
+    ADD CONSTRAINT "pk_user_url_relation" PRIMARY KEY (url_id, user_id);
 
 -- +migrate Down
 ALTER TABLE "user_url_relation"
