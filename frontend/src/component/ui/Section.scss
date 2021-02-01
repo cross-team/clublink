@@ -38,6 +38,10 @@
     font-size: 16px;
     font-weight: $font-weight-bold;
     border-radius: 32px;
+
+    &:focus {
+      box-shadow: 0 0 0 4px #f7f5f0, 0 0 0 8px #5b74a6;
+    }
   }
 
   .rocket-button {

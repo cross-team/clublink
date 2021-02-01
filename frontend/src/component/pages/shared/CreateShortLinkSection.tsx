@@ -289,7 +289,7 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
           createdShortLink.alias!
         );
 
-        const qrCodeURL = await this.props.qrCodeService.newQrCode(shortLink);
+        const qrCodeURL = await this.props.qrCodeService.newQrCode(longLink);
 
         this.setState({
           createdShortLink: shortLink,
