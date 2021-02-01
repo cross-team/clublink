@@ -14,18 +14,23 @@
   justify-content: space-between;
   text-align: center;
 
-  .page-link {
-    a {
-      color: #5b74a6;
-      text-decoration: none;
+  a {
+    color: #5b74a6;
+    text-decoration: none;
+    padding: 4px 8px;
+    border-radius: 16px;
 
-      &:hover {
-        text-decoration: underline;
-      }
+    &:hover {
+      text-decoration: underline;
+    }
 
-      &:active {
-        font-weight: bold;
-      }
+    &:active {
+      font-weight: bold;
+    }
+
+    &:focus {
+      border: 2px solid #5b74a6;
+      outline: none;
     }
   }
 
@@ -74,5 +79,9 @@
 
   .main {
     padding: 40px 0;
+  }
+
+  .hidden {
+    visibility: hidden;
   }
 }
