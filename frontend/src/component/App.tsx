@@ -30,6 +30,17 @@ export class App extends Component<IProps> {
             }
           />
           <Route
+            path={'/favorites'}
+            exact
+            render={({ location, history }) =>
+              this.props.uiFactory.createHomePage(
+                location,
+                history,
+                'favorites'
+              )
+            }
+          />
+          <Route
             path={'/published'}
             exact
             render={() => {
