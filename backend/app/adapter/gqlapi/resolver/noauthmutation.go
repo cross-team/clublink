@@ -29,8 +29,6 @@ func (a NoAuthMutation) CreateShortLink(args *NoAuthCreateShortLinkArgs) (*Short
 	shortLink := args.ShortLink.CreateShortLinkInput()
 	isPublic := args.IsPublic
 	user := entity.User{
-		Name: "Dummy User",
-		Email: "alpha@example.com",
 		ID: "dummyID",
 	}
 

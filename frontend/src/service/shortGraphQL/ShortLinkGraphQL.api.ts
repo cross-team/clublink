@@ -111,8 +111,6 @@ export class ShortLinkGraphQLApi {
             resolve(shortLink);
           })
           .catch((err: IGraphQLRequestError) => {
-            console.log('error_1');
-            console.log(err);
             const errCodes = getErrorCodes(err);
             reject(errCodes[0]);
           });

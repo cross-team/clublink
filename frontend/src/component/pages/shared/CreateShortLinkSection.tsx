@@ -122,7 +122,7 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
             <span className="emoji">💩</span>
           )}
         </div>
-        {/* <div className={'text-field-wrapper'}>
+        <div className={'text-field-wrapper'}>
           <TextField
             className="username"
             text={this.state.username}
@@ -137,7 +137,7 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
             onBlur={this.handleLongLinkTextFieldBlur}
             onChange={this.handleLongLinkChange}
           />
-        </div> */}
+        </div>
         <div className={'input-error'}>{this.state.inputError}</div>
         {!this.state.createdLongLink && this.state.status !== 'error' && (
           <div className="create-short-link-btn">
