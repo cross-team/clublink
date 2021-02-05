@@ -336,7 +336,6 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
         variables: {}
       })
       .then(results => {
-        console.log(results);
         this.setState({
           description: (
             <>
@@ -349,7 +348,6 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
         return false;
       })
       .catch(error => {
-        console.log(error);
         this.setState({
           description: (
             <>

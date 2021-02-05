@@ -28,6 +28,11 @@ type Mutation {
         "The page interaction patterns needed to verify the requester is human"
         captchaResponse: String!
     ): AuthMutation
+
+    noAuthMutation(
+        "The page interaction patterns needed to verify the requester is human"
+        captchaResponse: String!
+    ): AuthMutation
 }
 
 """Read APIs protected with authentication"""

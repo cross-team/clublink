@@ -172,7 +172,6 @@ export class VisitLinkSection extends Component<IProps, IState> {
       })
       .then(results => {
         let queryData: any = results;
-        console.log(results);
         this.setState({
           link: 'green',
           status: 'success',
@@ -180,7 +179,6 @@ export class VisitLinkSection extends Component<IProps, IState> {
         });
       })
       .catch(error => {
-        console.log(error);
         this.setState({
           link: 'error',
           status: 'error'

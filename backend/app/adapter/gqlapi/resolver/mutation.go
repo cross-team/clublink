@@ -24,6 +24,29 @@ type AuthMutationArgs struct {
 	CaptchaResponse string
 }
 
+type NoAuthMutationArgs struct {
+	CaptchaResponse string
+}
+
+func (m Mutation) NoAuthMutation(args *NoAuthMutationArgs) (*NoAuthMutation, error) {
+	isHuman, err := m.requesterVerifier.IsHuman(args.CaptchaResponse)
+
+	if err != nil {
+		return nil, ErrUnknown{}
+	}
+
+	if !isHuman {
+		return nil, ErrNotHuman{}
+	}
+
+	noAuthMutation := newNoAuthMutation(
+		m.changeLog,
+		m.shortLinkCreator,
+		m.shortLinkUpdater,
+	)
+	return &noAuthMutation, nil
+}
+
 // AuthMutation extracts user information from authentication token
 func (m Mutation) AuthMutation(args *AuthMutationArgs) (*AuthMutation, error) {
 	isHuman, err := m.requesterVerifier.IsHuman(args.CaptchaResponse)

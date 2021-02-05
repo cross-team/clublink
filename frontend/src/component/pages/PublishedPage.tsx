@@ -8,10 +8,6 @@ export class PublishedPage extends Component {
   );
   private regex = / /g;
 
-  componentDidMount() {
-    console.log(`${this.urlData.get('qrCodeURL')?.replace(this.regex, '+')}`);
-  }
-
   render = () => {
     return (
       <div className="published">

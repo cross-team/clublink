@@ -63,11 +63,10 @@ export class ShortLinkGraphQLApi {
     const gqlCreateShortLink = `
       mutation params(
         $captchaResponse: String!
-        $authToken: String!
         $shortLinkInput: ShortLinkInput!
         $isPublic: Boolean!
       ) {
-        authMutation(authToken: $authToken, captchaResponse: $captchaResponse) {
+        noAuthMutation(captchaResponse: $captchaResponse) {
           createShortLink(shortLink: $shortLinkInput, isPublic: $isPublic) {
             alias
             longLink
@@ -86,7 +85,7 @@ export class ShortLinkGraphQLApi {
 
     const variables = {
       captchaResponse: captchaResponse,
-      authToken: this.authService.getAuthToken(),
+      // authToken: this.authService.getAuthToken(),
       shortLinkInput: {
         longLink: shortLink.longLink,
         customAlias: shortLink.alias
@@ -107,11 +106,13 @@ export class ShortLinkGraphQLApi {
           })
           .then((res: IShortGraphQLMutation) => {
             const shortLink = this.getShortLinkFromCreatedShortLink(
-              res.authMutation.createShortLink
+              res.noAuthMutation.createShortLink
             );
             resolve(shortLink);
           })
           .catch((err: IGraphQLRequestError) => {
+            console.log('error_1');
+            console.log(err);
             const errCodes = getErrorCodes(err);
             reject(errCodes[0]);
           });

@@ -1,5 +1,6 @@
 export interface IShortGraphQLMutation {
   authMutation: IShortGraphQLAuthMutation;
+  noAuthMutation: IShortGraphQLAuthMutation;
 }
 
 export interface IShortGraphQLQuery {
