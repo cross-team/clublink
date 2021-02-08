@@ -10,6 +10,8 @@ import (
 type ShortLinkInput struct {
 	LongLink    *string
 	CustomAlias *string
+	Username    *string
+	Room        *string
 	ExpireAt    *time.Time
 }
 
@@ -18,6 +20,8 @@ func (s ShortLinkInput) CreateShortLinkInput() entity.ShortLinkInput {
 	return entity.ShortLinkInput{
 		LongLink:    s.LongLink,
 		CustomAlias: s.CustomAlias,
+		Username:    s.Username,
+		Room: 			 s.Room,
 		ExpireAt:    s.ExpireAt,
 	}
 }

@@ -131,6 +131,12 @@ input ShortLinkInput {
     """The alias of the short link"""
     customAlias: String
 
+    """The username of the user that created the link"""
+    username: String
+
+    """The title of the room that the link was created for"""
+    room: String
+
     """The time when the short link expires"""
     expireAt: Time
 }

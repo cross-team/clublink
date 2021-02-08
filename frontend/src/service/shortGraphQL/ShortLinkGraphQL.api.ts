@@ -88,7 +88,9 @@ export class ShortLinkGraphQLApi {
       // authToken: this.authService.getAuthToken(),
       shortLinkInput: {
         longLink: shortLink.longLink,
-        customAlias: shortLink.alias
+        customAlias: shortLink.alias,
+        username: shortLink.username,
+        room: shortLink.room
       },
       isPublic
     };
@@ -123,7 +125,9 @@ export class ShortLinkGraphQLApi {
   ): ShortLink {
     return {
       longLink: createdShortLink.longLink,
-      alias: createdShortLink.alias
+      alias: createdShortLink.alias,
+      username: createdShortLink.username,
+      room: createdShortLink.room
     };
   }
 
@@ -182,7 +186,9 @@ export class ShortLinkGraphQLApi {
   private parseShortLink(shortLink: IShortGraphQLShortLink): ShortLink {
     return {
       longLink: shortLink.longLink,
-      alias: shortLink.alias
+      alias: shortLink.alias,
+      username: shortLink.username,
+      room: shortLink.room
     };
   }
 }

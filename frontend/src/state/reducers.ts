@@ -23,7 +23,9 @@ export interface IAppState {
 export const initialAppState = {
   editingUrl: {
     longLink: '',
-    alias: ''
+    alias: '',
+    username: '',
+    room: ''
   }
 };
 

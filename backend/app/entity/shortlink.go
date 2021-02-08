@@ -10,6 +10,7 @@ import (
 type ShortLink struct {
 	Alias         string
 	LongLink      string
+	Room      		string
 	ExpireAt      *time.Time
 	CreatedBy     *User
 	CreatedAt     *time.Time
@@ -22,6 +23,8 @@ type ShortLink struct {
 type ShortLinkInput struct {
 	LongLink    *string
 	CustomAlias *string
+	Username    *string
+	Room 				*string
 	ExpireAt    *time.Time
 	CreatedAt   *time.Time
 	UpdatedAt   *time.Time
