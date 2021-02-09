@@ -9,6 +9,8 @@ import(
 	"github.com/short-d/short/backend/app/adapter/gqlapi/scalar"
 	"github.com/short-d/short/backend/app/usecase/changelog"
 	"github.com/short-d/short/backend/app/usecase/shortlink"
+	"github.com/short-d/short/backend/app/usecase/repository"
+	"github.com/short-d/short/backend/app/usecase/keygen"
 )
 
 // NoAuthMutation represents GraphQL mutation resolver that does not require an authToken
@@ -16,6 +18,8 @@ type NoAuthMutation struct {
 	changeLog        changelog.ChangeLog
 	shortLinkCreator shortlink.Creator
 	shortLinkUpdater shortlink.Updater
+	userRepo 				 repository.User
+	keyGen   				 keygen.KeyGenerator
 }
 
 // CreateShortLinkArgs represents the possible parameters for CreateShortLink endpoint
@@ -28,9 +32,47 @@ type NoAuthCreateShortLinkArgs struct {
 func (a NoAuthMutation) CreateShortLink(args *NoAuthCreateShortLinkArgs) (*ShortLink, error) {
 	shortLink := args.ShortLink.CreateShortLinkInput()
 	isPublic := args.IsPublic
+	username := shortLink.GetUsername("")
 	user := entity.User{
 		ID: "dummyID",
 	}
+
+	exists, err := a.userRepo.IsEmailExist(username)
+	if err != nil {
+		fmt.Println("Error!")
+		fmt.Println(err)
+		return nil, ErrUnknown{}
+	}
+	
+	if exists {
+		user, err = a.userRepo.GetUserByEmail(username)
+		if err != nil {
+			fmt.Println("Error!")
+			fmt.Println(err)
+			return nil, ErrUnknown{}
+		}
+	} else {
+		fmt.Println("Creating user")
+		userID, err := a.createAccount(entity.SSOUser{
+			ID: username,
+			Email: username,
+			Name: username,
+		})
+		if err != nil {
+			fmt.Println("Error!")
+			fmt.Println(err)
+			return nil, ErrUnknown{}
+		}
+		fmt.Println("Getting created user")
+		user, err = a.userRepo.GetUserByID(userID)
+		if err != nil {
+			fmt.Println("Error!")
+			fmt.Println(err)
+			return nil, ErrUnknown{}
+		}
+
+	}
+
 
 	newShortLink, err := a.shortLinkCreator.CreateShortLink(shortLink, user, isPublic)
 	if err == nil {
@@ -203,14 +245,41 @@ func (a NoAuthMutation) ViewChangeLog() (scalar.Time, error) {
 	return scalar.Time{Time: lastViewedAt}, err
 }
 
+func (a NoAuthMutation) createAccount(ssoUser entity.SSOUser) (string, error) {
+	userID, err := a.generateUnassignedUserID()
+	if err != nil {
+		return "", err
+	}
+	err = a.createUser(userID, ssoUser.Name, ssoUser.Email)
+	return userID, err
+}
+
+func (a NoAuthMutation) generateUnassignedUserID() (string, error) {
+	newKey, err := a.keyGen.NewKey()
+	return string(newKey), err
+}
+
+func (a NoAuthMutation) createUser(id string, name string, email string) error {
+	user := entity.User{
+		ID:    id,
+		Name:  name,
+		Email: email,
+	}
+	return a.userRepo.CreateUser(user)
+}
+
 func newNoAuthMutation(
 	changeLog changelog.ChangeLog,
 	shortLinkCreator shortlink.Creator,
 	shortLinkUpdater shortlink.Updater,
+	userRepo repository.User,
+	keyGen keygen.KeyGenerator,
 ) NoAuthMutation {
 	return NoAuthMutation{
 		changeLog:        changeLog,
 		shortLinkCreator: shortLinkCreator,
 		shortLinkUpdater: shortLinkUpdater,
+	  userRepo:         userRepo,
+		keyGen:						keyGen,
 	}
 }

@@ -6,6 +6,8 @@ import (
 	"github.com/short-d/short/backend/app/usecase/changelog"
 	"github.com/short-d/short/backend/app/usecase/requester"
 	"github.com/short-d/short/backend/app/usecase/shortlink"
+	"github.com/short-d/short/backend/app/usecase/repository"
+	"github.com/short-d/short/backend/app/usecase/keygen"
 )
 
 // Mutation represents GraphQL mutation resolver
@@ -16,6 +18,8 @@ type Mutation struct {
 	requesterVerifier requester.Verifier
 	authenticator     authenticator.Authenticator
 	changeLog         changelog.ChangeLog
+	userRepo 				  repository.User
+	keyGen   				  keygen.KeyGenerator
 }
 
 // AuthMutationArgs represents possible parameters for AuthMutation endpoint
@@ -43,6 +47,8 @@ func (m Mutation) NoAuthMutation(args *NoAuthMutationArgs) (*NoAuthMutation, err
 		m.changeLog,
 		m.shortLinkCreator,
 		m.shortLinkUpdater,
+		m.userRepo,
+		m.keyGen,
 	)
 	return &noAuthMutation, nil
 }
@@ -76,6 +82,8 @@ func newMutation(
 	shortLinkUpdater shortlink.Updater,
 	requesterVerifier requester.Verifier,
 	authenticator authenticator.Authenticator,
+	userRepo repository.User,
+	keyGen keygen.KeyGenerator,
 ) Mutation {
 	return Mutation{
 		logger:            logger,
@@ -84,5 +92,7 @@ func newMutation(
 		shortLinkUpdater:  shortLinkUpdater,
 		requesterVerifier: requesterVerifier,
 		authenticator:     authenticator,
+		userRepo:					 userRepo,
+		keyGen:				 		 keyGen,
 	}
 }

@@ -202,6 +202,7 @@ func InjectGraphQLService(
 		wire.Bind(new(repository.ChangeLog), new(sqldb.ChangeLogSQL)),
 		wire.Bind(new(repository.UserChangeLog), new(sqldb.UserChangeLogSQL)),
 		wire.Bind(new(repository.ShortLink), new(sqldb.ShortLinkSQL)),
+		wire.Bind(new(repository.User), new(sqldb.UserSQL)),
 
 		wire.Bind(new(changelog.ChangeLog), new(changelog.Persist)),
 		wire.Bind(new(shortlink.Retriever), new(shortlink.RetrieverPersist)),
@@ -232,6 +233,7 @@ func InjectGraphQLService(
 		sqldb.NewUserChangeLogSQL,
 		sqldb.NewShortLinkSQL,
 		sqldb.NewUserShortLinkSQL,
+		sqldb.NewUserSQL,
 
 		validator.NewLongLink,
 		validator.NewCustomAlias,

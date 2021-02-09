@@ -45,3 +45,11 @@ func (s *ShortLinkInput) GetCustomAlias(defaultVal string) string {
 	}
 	return *s.CustomAlias
 }
+
+// GetUsername fetches Username for ShortLinkInput with default value.
+func (s *ShortLinkInput) GetUsername(defaultVal string) string {
+	if s.Username == nil {
+		return defaultVal
+	}
+	return *s.Username
+}
