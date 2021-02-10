@@ -101,6 +101,9 @@ func (c CreatorPersist) CreateShortLink(shortLinkInput entity.ShortLinkInput, us
 
 	shortLinkInput.ID = &userID
 
+	tomorrow := time.Now().Add(time.Hour * 24)
+	shortLinkInput.ExpireAt = &tomorrow
+
 	return c.createShortLink(shortLinkInput, user)
 }
 
@@ -137,11 +140,11 @@ func (c CreatorPersist) createShortLink(shortLinkInput entity.ShortLinkInput, us
 
 	err = c.userShortLinkRepo.CreateRelation(user, shortLinkInput)
 
-	tomorrow := time.Now().Add(time.Hour * 24)
+	
 	return entity.ShortLink{
 		LongLink:  shortLinkInput.GetLongLink(""),
 		Alias:     shortLinkInput.GetCustomAlias(""),
-		ExpireAt:  &tomorrow,
+		ExpireAt:  shortLinkInput.ExpireAt,
 		CreatedAt: shortLinkInput.CreatedAt,
 		ID: 			 shortLinkInput.GetID(""),
 		Room: 			 shortLinkInput.GetRoom(""),

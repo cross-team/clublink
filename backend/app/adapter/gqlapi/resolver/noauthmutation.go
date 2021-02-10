@@ -33,9 +33,7 @@ func (a NoAuthMutation) CreateShortLink(args *NoAuthCreateShortLinkArgs) (*Short
 	shortLink := args.ShortLink.CreateShortLinkInput()
 	isPublic := args.IsPublic
 	username := shortLink.GetUsername("")
-	user := entity.User{
-		ID: "dummyID",
-	}
+	user := entity.User{}
 
 	exists, err := a.userRepo.IsEmailExist(username)
 	if err != nil {
