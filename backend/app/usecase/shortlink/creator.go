@@ -144,6 +144,7 @@ func (c CreatorPersist) createShortLink(shortLinkInput entity.ShortLinkInput, us
 		ExpireAt:  &tomorrow,
 		CreatedAt: shortLinkInput.CreatedAt,
 		ID: 			 shortLinkInput.GetID(""),
+		Room: 			 shortLinkInput.GetRoom(""),
 	}, err
 }
 

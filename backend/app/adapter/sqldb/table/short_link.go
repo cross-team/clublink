@@ -15,6 +15,7 @@ var ShortLink = struct {
 	ColumnTwitterDescription   string
 	ColumnTwitterImageURL      string
 	ColumnID									 string
+	ColumnRoom									 string
 }{
 	TableName:                  "short_link",
 	ColumnAlias:                "alias",
@@ -29,4 +30,5 @@ var ShortLink = struct {
 	ColumnTwitterDescription:   "twitter_description",
 	ColumnTwitterImageURL:      "twitter_image_url",
 	ColumnID:                   "id",
+	ColumnRoom:                 "room",
 }
