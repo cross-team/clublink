@@ -73,7 +73,6 @@ func (a NoAuthMutation) CreateShortLink(args *NoAuthCreateShortLinkArgs) (*Short
 
 	}
 
-
 	newShortLink, err := a.shortLinkCreator.CreateShortLink(shortLink, user, isPublic)
 	if err == nil {
 		return &ShortLink{shortLink: newShortLink}, nil

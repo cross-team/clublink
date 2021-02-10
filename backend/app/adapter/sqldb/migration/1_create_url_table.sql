@@ -1,7 +1,7 @@
 -- +migrate Up
 CREATE TABLE "Url"
 (
-    "id"          CHARACTER VARYING PRIMARY KEY,
+    "id"          CHARACTER VARYING(10) PRIMARY KEY,
     "alias"       CHARACTER VARYING,
     "originalUrl" TEXT,
     "expireAt"    TIMESTAMP WITH TIME ZONE,

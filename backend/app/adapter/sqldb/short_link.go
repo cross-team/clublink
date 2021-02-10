@@ -96,13 +96,14 @@ WHERE "%s"=$1;`,
 // CreateShortLink inserts a new ShortLink into short_link table.
 func (s ShortLinkSQL) CreateShortLink(shortLinkInput entity.ShortLinkInput) error {
 	statement := fmt.Sprintf(`
-INSERT INTO "%s" ("%s","%s","%s","%s")
-VALUES ($1, $2, $3, $4);`,
+INSERT INTO "%s" ("%s","%s","%s","%s","%s")
+VALUES ($1, $2, $3, $4, $5);`,
 		table.ShortLink.TableName,
 		table.ShortLink.ColumnAlias,
 		table.ShortLink.ColumnLongLink,
 		table.ShortLink.ColumnExpireAt,
 		table.ShortLink.ColumnCreatedAt,
+		table.ShortLink.ColumnID,
 	)
 	_, err := s.db.Exec(
 		statement,
@@ -110,6 +111,7 @@ VALUES ($1, $2, $3, $4);`,
 		shortLinkInput.GetLongLink(""),
 		shortLinkInput.ExpireAt,
 		shortLinkInput.CreatedAt,
+		shortLinkInput.ID,
 	)
 	return err
 }

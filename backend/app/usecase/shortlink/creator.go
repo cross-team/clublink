@@ -94,6 +94,13 @@ func (c CreatorPersist) CreateShortLink(shortLinkInput entity.ShortLinkInput, us
 
 	shortLinkInput.LongLink = &longLink
 
+	userID, err := c.generateUnassignedUserID()
+	if err != nil {
+		return entity.ShortLink{}, err
+	}
+
+	shortLinkInput.ID = &userID
+
 	return c.createShortLink(shortLinkInput, user)
 }
 
@@ -103,6 +110,11 @@ func (c CreatorPersist) generateAlias() (string, error) {
 		return "", err
 	}
 	return string(key), nil
+}
+
+func (c CreatorPersist) generateUnassignedUserID() (string, error) {
+	newKey, err := c.keyGen.NewKey()
+	return string(newKey), err
 }
 
 func (c CreatorPersist) createShortLink(shortLinkInput entity.ShortLinkInput, user entity.User) (entity.ShortLink, error) {
@@ -131,6 +143,7 @@ func (c CreatorPersist) createShortLink(shortLinkInput entity.ShortLinkInput, us
 		Alias:     shortLinkInput.GetCustomAlias(""),
 		ExpireAt:  &tomorrow,
 		CreatedAt: shortLinkInput.CreatedAt,
+		ID: 			 shortLinkInput.GetID(""),
 	}, err
 }
 

@@ -26,10 +26,10 @@ VALUES ($1,$2)
 `,
 		table.UserShortLink.TableName,
 		table.UserShortLink.ColumnUserID,
-		table.UserShortLink.ColumnShortLinkAlias,
+		table.UserShortLink.ColumnShortLinkID,
 	)
 
-	_, err := u.db.Exec(statement, user.ID, shortLinkInput.GetCustomAlias(""))
+	_, err := u.db.Exec(statement, user.ID, shortLinkInput.GetID(""))
 	return err
 }
 
@@ -37,7 +37,7 @@ VALUES ($1,$2)
 // TODO(issue#260): allow API client to filter urls based on visibility.
 func (u UserShortLinkSQL) FindAliasesByUser(user entity.User) ([]string, error) {
 	statement := fmt.Sprintf(`SELECT "%s" FROM "%s" WHERE "%s"=$1;`,
-		table.UserShortLink.ColumnShortLinkAlias,
+		table.UserShortLink.ColumnShortLinkID,
 		table.UserShortLink.TableName,
 		table.UserShortLink.ColumnUserID,
 	)
@@ -69,7 +69,7 @@ func (u UserShortLinkSQL) HasMapping(user entity.User, alias string) (bool, erro
 		table.UserShortLink.ColumnUserID,
 		table.UserShortLink.TableName,
 		table.UserShortLink.ColumnUserID,
-		table.UserShortLink.ColumnShortLinkAlias,
+		table.UserShortLink.ColumnShortLinkID,
 	)
 
 	var id string
