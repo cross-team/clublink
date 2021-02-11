@@ -1,6 +1,8 @@
 package shortlink
 
 import (
+	"time"
+
 	"github.com/short-d/short/backend/app/entity/metatag"
 	"github.com/short-d/short/backend/app/usecase/repository"
 )
@@ -26,7 +28,7 @@ const (
 
 // GetOpenGraphTags retrieves Open Graph tags for a short link from persistent storage given alias.
 func (m MetaTagPersist) GetOpenGraphTags(alias string) (metatag.OpenGraph, error) {
-	shortLink, err := m.shortLinkRepo.GetShortLinkByAlias(alias)
+	shortLink, err := m.shortLinkRepo.GetShortLinkByAlias(alias, time.Now())
 	if err != nil {
 		return metatag.OpenGraph{}, err
 	}
@@ -51,7 +53,7 @@ func (m MetaTagPersist) GetOpenGraphTags(alias string) (metatag.OpenGraph, error
 
 // GetTwitterTags retrieves Twitter tags for a short link from persistent storage given alias.
 func (m MetaTagPersist) GetTwitterTags(alias string) (metatag.Twitter, error) {
-	shortLink, err := m.shortLinkRepo.GetShortLinkByAlias(alias)
+	shortLink, err := m.shortLinkRepo.GetShortLinkByAlias(alias, time.Now())
 	if err != nil {
 		return metatag.Twitter{}, err
 	}

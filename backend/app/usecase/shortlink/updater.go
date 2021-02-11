@@ -1,6 +1,8 @@
 package shortlink
 
 import (
+	"time"
+	
 	"github.com/short-d/app/fw/timer"
 	"github.com/short-d/short/backend/app/entity"
 	"github.com/short-d/short/backend/app/usecase/repository"
@@ -69,7 +71,7 @@ func (u UpdaterPersist) UpdateShortLink(
 		}
 	}
 
-	shortLink, err := u.shortLinkRepo.GetShortLinkByAlias(oldAlias)
+	shortLink, err := u.shortLinkRepo.GetShortLinkByAlias(oldAlias, time.Now())
 	if err != nil {
 		return entity.ShortLink{}, err
 	}

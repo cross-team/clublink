@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/short-d/short/backend/app/adapter/sqldb/table"
 	"github.com/short-d/short/backend/app/entity"
@@ -42,7 +43,7 @@ WHERE "%s"=$4;`,
 		return entity.ShortLink{}, err
 	}
 
-	return s.GetShortLinkByAlias(alias)
+	return s.GetShortLinkByAlias(alias, time.Now())
 }
 
 // UpdateTwitterTags updates Twitter meta tags for a given short link.
@@ -69,7 +70,7 @@ WHERE "%s"=$4;`,
 		return entity.ShortLink{}, err
 	}
 
-	return s.GetShortLinkByAlias(alias)
+	return s.GetShortLinkByAlias(alias, time.Now())
 }
 
 // IsAliasExist checks whether a given alias exist in short_link table.
@@ -153,14 +154,16 @@ WHERE "%s"=$5;`,
 	}, nil
 }
 
-// GetShortLinkByAlias finds an ShortLink in short_link table given alias.
-func (s ShortLinkSQL) GetShortLinkByAlias(alias string) (entity.ShortLink, error) {
+// GetShortLinkByAlias finds the active ShortLink in short_link table with a given alias.
+func (s ShortLinkSQL) GetShortLinkByAlias(alias string, expiringAt time.Time) (entity.ShortLink, error) {
 	statement := fmt.Sprintf(`
-SELECT "%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s"
+SELECT "%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s"
 FROM "%s" 
-WHERE "%s"=$1;`,
+WHERE "%s"=$1 AND "%s">$2;`,
 		table.ShortLink.ColumnAlias,
 		table.ShortLink.ColumnLongLink,
+		table.ShortLink.ColumnRoom,
+		table.ShortLink.ColumnID,
 		table.ShortLink.ColumnExpireAt,
 		table.ShortLink.ColumnCreatedAt,
 		table.ShortLink.ColumnUpdatedAt,
@@ -172,14 +175,19 @@ WHERE "%s"=$1;`,
 		table.ShortLink.ColumnTwitterImageURL,
 		table.ShortLink.TableName,
 		table.ShortLink.ColumnAlias,
+		table.ShortLink.ColumnExpireAt,
 	)
 
-	row := s.db.QueryRow(statement, alias)
+	rows := s.db.QueryRow(statement, alias, expiringAt)
+	fmt.Println(rows)
+
 
 	shortLink := entity.ShortLink{}
-	err := row.Scan(
+	err := rows.Scan(
 		&shortLink.Alias,
 		&shortLink.LongLink,
+		&shortLink.Room,
+		&shortLink.ID,
 		&shortLink.ExpireAt,
 		&shortLink.CreatedAt,
 		&shortLink.UpdatedAt,
