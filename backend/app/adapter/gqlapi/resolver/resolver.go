@@ -6,6 +6,8 @@ import (
 	"github.com/short-d/short/backend/app/usecase/changelog"
 	"github.com/short-d/short/backend/app/usecase/requester"
 	"github.com/short-d/short/backend/app/usecase/shortlink"
+	"github.com/short-d/short/backend/app/usecase/repository"
+	"github.com/short-d/short/backend/app/usecase/keygen"
 )
 
 // Resolver contains GraphQL request handlers.
@@ -23,6 +25,8 @@ func NewResolver(
 	changeLog changelog.ChangeLog,
 	requesterVerifier requester.Verifier,
 	authenticator authenticator.Authenticator,
+	userRepo repository.User,
+	keyGen keygen.KeyGenerator,
 ) Resolver {
 	return Resolver{
 		Query: newQuery(logger, authenticator, changeLog, shortLinkRetriever),
@@ -33,6 +37,8 @@ func NewResolver(
 			shortLinkUpdater,
 			requesterVerifier,
 			authenticator,
+			userRepo,
+			keyGen,
 		),
 	}
 }

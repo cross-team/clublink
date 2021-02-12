@@ -10,6 +10,8 @@ import (
 type ShortLink struct {
 	Alias         string
 	LongLink      string
+	Room      		string
+	ID						string
 	ExpireAt      *time.Time
 	CreatedBy     *User
 	CreatedAt     *time.Time
@@ -22,6 +24,9 @@ type ShortLink struct {
 type ShortLinkInput struct {
 	LongLink    *string
 	CustomAlias *string
+	Username    *string
+	Room 				*string
+	ID					*string
 	ExpireAt    *time.Time
 	CreatedAt   *time.Time
 	UpdatedAt   *time.Time
@@ -41,4 +46,28 @@ func (s *ShortLinkInput) GetCustomAlias(defaultVal string) string {
 		return defaultVal
 	}
 	return *s.CustomAlias
+}
+
+// GetUsername fetches Username for ShortLinkInput with default value.
+func (s *ShortLinkInput) GetUsername(defaultVal string) string {
+	if s.Username == nil {
+		return defaultVal
+	}
+	return *s.Username
+}
+
+// GetUsername fetches ID for ShortLinkInput with default value.
+func (s *ShortLinkInput) GetID(defaultVal string) string {
+	if s.ID == nil {
+		return defaultVal
+	}
+	return *s.ID
+}
+
+// GetUsername fetches ID for ShortLinkInput with default value.
+func (s *ShortLinkInput) GetRoom(defaultVal string) string {
+	if s.Room == nil {
+		return defaultVal
+	}
+	return *s.Room
 }

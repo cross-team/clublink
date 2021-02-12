@@ -1,5 +1,6 @@
 export interface IShortGraphQLMutation {
   authMutation: IShortGraphQLAuthMutation;
+  noAuthMutation: IShortGraphQLAuthMutation;
 }
 
 export interface IShortGraphQLQuery {
@@ -23,11 +24,15 @@ export interface IShortGraphQLAuthMutation {
 export interface IShortGraphQLShortLink {
   alias: string;
   longLink: string;
+  username: string;
+  room: string;
 }
 
 export interface IShortGraphQLShortLinkInput {
   customAlias?: string;
   longLink?: string;
+  username?: string;
+  room?: string;
 }
 
 export interface IShortGraphQLChangeLog {

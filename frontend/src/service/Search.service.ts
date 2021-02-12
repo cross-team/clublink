@@ -19,15 +19,21 @@ export class SearchService {
         resolve([
           {
             longLink: 'https://www.google.com/',
-            alias: 'google'
+            alias: 'google',
+            username: 'short-example',
+            room: ''
           },
           {
             longLink: 'https://github.com/short-d/short/',
-            alias: 'short'
+            alias: 'short',
+            username: 'short-example',
+            room: ''
           },
           {
             longLink: 'https://developer.mozilla.org/en-US/',
-            alias: 'mozilla'
+            alias: 'mozilla',
+            username: 'short-example',
+            room: ''
           }
         ]);
       }

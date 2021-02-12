@@ -122,33 +122,37 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
             <span className="emoji">💩</span>
           )}
         </div>
-        {/* <div className={'text-field-wrapper'}>
+        <div className={'text-field-wrapper'}>
           <TextField
             className="username"
             text={this.state.username}
             placeHolder={'@username'}
-            onBlur={this.handleLongLinkTextFieldBlur}
-            onChange={this.handleLongLinkChange}
+            onChange={this.handleUsernameChange}
           />
           <TextField
             className="room"
             text={this.state.room}
             placeHolder={'your room title'}
-            onBlur={this.handleLongLinkTextFieldBlur}
-            onChange={this.handleLongLinkChange}
+            onChange={this.handleRoomChange}
           />
-        </div> */}
+        </div>
         <div className={'input-error'}>{this.state.inputError}</div>
-        {!this.state.createdLongLink && this.state.status !== 'error' && (
-          <div className="create-short-link-btn">
-            <Button
-              className={'publish'}
-              onClick={this.handleCreateShortLinkClick}
-            >
-              publish
-            </Button>
-          </div>
-        )}
+        <div className="create-short-link-btn">
+          <Button
+            className={'publish'}
+            onClick={this.handleCreateShortLinkClick}
+            disabled={
+              !!this.state.inputError ||
+              this.state.status == 'error' ||
+              !this.state.alias ||
+              !this.state.longLink ||
+              !this.state.username ||
+              !this.state.room
+            }
+          >
+            publish
+          </Button>
+        </div>
         {/* {this.props.uiFactory.createPreferenceTogglesSubSection({
           uiFactory: this.props.uiFactory,
           isShortLinkPublic: this.state.isShortLinkPublic,
@@ -206,6 +210,18 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
   handleLongLinkChange = (newLongLink: string) => {
     this.setState({
       longLink: newLongLink
+    });
+  };
+
+  handleRoomChange = (newRoom: string) => {
+    this.setState({
+      room: newRoom
+    });
+  };
+
+  handleUsernameChange = (newUsername: string) => {
+    this.setState({
+      username: newUsername
     });
   };
 
@@ -277,10 +293,12 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
   // };
 
   handleCreateShortLinkClick = () => {
-    const { alias, longLink } = this.state;
+    const { alias, longLink, username, room } = this.state;
     const shortLink: ShortLink = {
       longLink: longLink,
-      alias: alias || ''
+      alias: alias || '',
+      username: username,
+      room: room
     };
     this.props.shortLinkService
       .createShortLink(shortLink, this.state.isShortLinkPublic)
@@ -336,7 +354,6 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
         variables: {}
       })
       .then(results => {
-        console.log(results);
         this.setState({
           description: (
             <>
@@ -349,7 +366,6 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
         return false;
       })
       .catch(error => {
-        console.log(error);
         this.setState({
           description: (
             <>

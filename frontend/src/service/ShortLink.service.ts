@@ -1,10 +1,12 @@
-import {ShortLink} from '../entity/ShortLink';
-import {Err, ErrorService} from './Error.service';
-import {ShortLinkGraphQLApi} from './shortGraphQL/ShortLinkGraphQL.api';
-import {IErr} from '../entity/Err';
-import {EnvService} from './Env.service';
-import {validateLongLinkFormat} from '../validators/LongLink.validator';
-import {validateCustomAliasFormat} from '../validators/CustomAlias.validator';
+import { ShortLink } from '../entity/ShortLink';
+import { Err, ErrorService } from './Error.service';
+import { ShortLinkGraphQLApi } from './shortGraphQL/ShortLinkGraphQL.api';
+import { IErr } from '../entity/Err';
+import { EnvService } from './Env.service';
+import { validateLongLinkFormat } from '../validators/LongLink.validator';
+import { validateCustomAliasFormat } from '../validators/CustomAlias.validator';
+import { validateUsernameFormat } from '../validators/Username.validator';
+import { validateRoomFormat } from '../validators/Room.validator';
 
 export interface IPagedShortLinks {
   shortLinks: ShortLink[];
@@ -32,8 +34,10 @@ export class ShortLinkService {
     return new Promise(async (resolve, reject) => {
       const longLink = editingShortLink.longLink;
       const customAlias = editingShortLink.alias;
+      const username = editingShortLink.username;
+      const room = editingShortLink.room;
 
-      const err = this.validateInputs(longLink, customAlias);
+      const err = this.validateInputs(longLink, customAlias, username, room);
       if (err) {
         reject(err);
         return;
@@ -72,7 +76,9 @@ export class ShortLinkService {
 
   private validateInputs(
     longLink?: string,
-    customAlias?: string
+    customAlias?: string,
+    username?: string,
+    room?: string
   ): ICreateShortLinkErrs | null {
     let err = validateLongLinkFormat(longLink);
     if (err) {
@@ -93,6 +99,27 @@ export class ShortLinkService {
         }
       };
     }
+
+    err = validateUsernameFormat(username);
+    if (err) {
+      return {
+        createShortLinkErr: {
+          name: 'Invalid Username',
+          description: err
+        }
+      };
+    }
+
+    err = validateRoomFormat(room);
+    if (err) {
+      return {
+        createShortLinkErr: {
+          name: 'Invalid Room Title',
+          description: err
+        }
+      };
+    }
+
     return null;
   }
 

@@ -30,6 +30,9 @@ func (v AuthQuery) ShortLink(args *ShortLinkArgs) (*ShortLink, error) {
 	var expireAt *time.Time
 	if args.ExpireAfter != nil {
 		expireAt = &args.ExpireAfter.Time
+	} else {
+		today := time.Now()
+		expireAt = &today
 	}
 
 	s, err := v.shortLinkRetriever.GetShortLink(args.Alias, expireAt)

@@ -1,7 +1,6 @@
 package shortlink
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/short-d/short/backend/app/entity"
@@ -26,30 +25,13 @@ type RetrieverPersist struct {
 // GetShortLink retrieves ShortLink from persistent storage given alias
 func (r RetrieverPersist) GetShortLink(alias string, expiringAt *time.Time) (entity.ShortLink, error) {
 	if expiringAt == nil {
-		return r.getShortLink(alias)
+		return r.getShortLink(alias, time.Now())
 	}
-	return r.getShortLinkExpireAfter(alias, *expiringAt)
+	return r.getShortLink(alias, *expiringAt)
 }
 
-func (r RetrieverPersist) getShortLinkExpireAfter(alias string, expiringAt time.Time) (entity.ShortLink, error) {
-	shortLink, err := r.getShortLink(alias)
-	if err != nil {
-		return entity.ShortLink{}, err
-	}
-
-	if shortLink.ExpireAt == nil {
-		return shortLink, nil
-	}
-
-	if expiringAt.After(*shortLink.ExpireAt) {
-		return entity.ShortLink{}, fmt.Errorf("shortlink expired (alias=%s,expiringAt=%v)", alias, expiringAt)
-	}
-
-	return shortLink, nil
-}
-
-func (r RetrieverPersist) getShortLink(alias string) (entity.ShortLink, error) {
-	shortLink, err := r.shortLinkRepo.GetShortLinkByAlias(alias)
+func (r RetrieverPersist) getShortLink(alias string, expiringAt time.Time) (entity.ShortLink, error) {
+	shortLink, err := r.shortLinkRepo.GetShortLinkByAlias(alias, expiringAt)
 	if err != nil {
 		return entity.ShortLink{}, err
 	}

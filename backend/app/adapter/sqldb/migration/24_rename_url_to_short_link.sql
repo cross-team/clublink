@@ -7,7 +7,7 @@ ALTER TABLE short_link
     RENAME COLUMN original_url TO long_link;
 
 ALTER TABLE user_short_link
-    RENAME COLUMN url_alias TO short_link_alias;
+    RENAME COLUMN url_id TO short_link_id;
 
 -- +migrate Down
 ALTER TABLE public_short_link RENAME TO public_url;
@@ -18,4 +18,4 @@ ALTER TABLE url
     RENAME COLUMN long_link TO original_url;
 
 ALTER TABLE user_url_relation
-    RENAME COLUMN short_link_alias TO url_alias;
+    RENAME COLUMN short_link_id TO url_id;

@@ -4,9 +4,9 @@ package table
 var UserShortLink = struct {
 	TableName            string
 	ColumnUserID         string
-	ColumnShortLinkAlias string
+	ColumnShortLinkID string
 }{
 	TableName:            "user_short_link",
 	ColumnUserID:         "user_id",
-	ColumnShortLinkAlias: "short_link_alias",
+	ColumnShortLinkID: "short_link_id",
 }

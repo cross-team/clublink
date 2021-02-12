@@ -2,6 +2,7 @@ package repository
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/short-d/short/backend/app/entity"
 )
@@ -21,7 +22,7 @@ func (e ErrAliasNotFound) Error() string {
 // ShortLink accesses shortLinks from storage, such as database.
 type ShortLink interface {
 	IsAliasExist(alias string) (bool, error)
-	GetShortLinkByAlias(alias string) (entity.ShortLink, error)
+	GetShortLinkByAlias(alias string, expiringAt time.Time) (entity.ShortLink, error)
 	CreateShortLink(shortLinkInput entity.ShortLinkInput) error
 	UpdateShortLink(oldAlias string, shortLinkInput entity.ShortLinkInput) (entity.ShortLink, error)
 	DeleteShortLink(alias string) error

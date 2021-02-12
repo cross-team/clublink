@@ -28,6 +28,11 @@ type Mutation {
         "The page interaction patterns needed to verify the requester is human"
         captchaResponse: String!
     ): AuthMutation
+
+    noAuthMutation(
+        "The page interaction patterns needed to verify the requester is human"
+        captchaResponse: String!
+    ): AuthMutation
 }
 
 """Read APIs protected with authentication"""
@@ -126,6 +131,12 @@ input ShortLinkInput {
     """The alias of the short link"""
     customAlias: String
 
+    """The username of the user that created the link"""
+    username: String
+
+    """The title of the room that the link was created for"""
+    room: String
+
     """The time when the short link expires"""
     expireAt: Time
 }
@@ -148,6 +159,9 @@ type ShortLink {
 
     """The time when the short link expires"""
     expireAt: Time
+
+    """The title of the room that the link was created for"""
+    room: String    
 }
 
 """

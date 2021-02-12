@@ -6,6 +6,8 @@ import (
 	"github.com/short-d/short/backend/app/usecase/changelog"
 	"github.com/short-d/short/backend/app/usecase/requester"
 	"github.com/short-d/short/backend/app/usecase/shortlink"
+	"github.com/short-d/short/backend/app/usecase/repository"
+	"github.com/short-d/short/backend/app/usecase/keygen"
 )
 
 // Mutation represents GraphQL mutation resolver
@@ -16,12 +18,39 @@ type Mutation struct {
 	requesterVerifier requester.Verifier
 	authenticator     authenticator.Authenticator
 	changeLog         changelog.ChangeLog
+	userRepo 				  repository.User
+	keyGen   				  keygen.KeyGenerator
 }
 
 // AuthMutationArgs represents possible parameters for AuthMutation endpoint
 type AuthMutationArgs struct {
 	AuthToken       *string
 	CaptchaResponse string
+}
+
+type NoAuthMutationArgs struct {
+	CaptchaResponse string
+}
+
+func (m Mutation) NoAuthMutation(args *NoAuthMutationArgs) (*NoAuthMutation, error) {
+	isHuman, err := m.requesterVerifier.IsHuman(args.CaptchaResponse)
+
+	if err != nil {
+		return nil, ErrUnknown{}
+	}
+
+	if !isHuman {
+		return nil, ErrNotHuman{}
+	}
+
+	noAuthMutation := newNoAuthMutation(
+		m.changeLog,
+		m.shortLinkCreator,
+		m.shortLinkUpdater,
+		m.userRepo,
+		m.keyGen,
+	)
+	return &noAuthMutation, nil
 }
 
 // AuthMutation extracts user information from authentication token
@@ -53,6 +82,8 @@ func newMutation(
 	shortLinkUpdater shortlink.Updater,
 	requesterVerifier requester.Verifier,
 	authenticator authenticator.Authenticator,
+	userRepo repository.User,
+	keyGen keygen.KeyGenerator,
 ) Mutation {
 	return Mutation{
 		logger:            logger,
@@ -61,5 +92,7 @@ func newMutation(
 		shortLinkUpdater:  shortLinkUpdater,
 		requesterVerifier: requesterVerifier,
 		authenticator:     authenticator,
+		userRepo:					 userRepo,
+		keyGen:				 		 keyGen,
 	}
 }
