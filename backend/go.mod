@@ -1,8 +1,9 @@
-module github.com/short-d/short/backend
+module github.com/cross-team/clublink/backend
 
 go 1.13
 
 require (
+	github.com/cross-team/clublink v0.0.0-20210201194420-3fb042d3cfb1 // indirect
 	github.com/golang/protobuf v1.4.2
 	github.com/google/wire v0.4.0
 	github.com/graph-gophers/graphql-go v0.0.0-20200309224638-dae41bde9ef9 // indirect

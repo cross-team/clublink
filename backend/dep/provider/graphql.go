@@ -4,9 +4,9 @@ import (
 	"github.com/short-d/app/fw/graphql"
 	"github.com/short-d/app/fw/logger"
 	"github.com/short-d/app/fw/service"
-	"github.com/short-d/short/backend/app/adapter/gqlapi"
-	"github.com/short-d/short/backend/app/adapter/gqlapi/resolver"
-	"github.com/short-d/short/backend/app/fw/filesystem"
+	"github.com/cross-team/clublink/backend/app/adapter/gqlapi"
+	"github.com/cross-team/clublink/backend/app/adapter/gqlapi/resolver"
+	"github.com/cross-team/clublink/backend/app/fw/filesystem"
 )
 
 // GraphQLSchemaPath represents the local of GraphQL schema.

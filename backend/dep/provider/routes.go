@@ -3,15 +3,15 @@ package provider
 import (
 	"github.com/short-d/app/fw/router"
 	"github.com/short-d/app/fw/timer"
-	"github.com/short-d/short/backend/app/adapter/facebook"
-	"github.com/short-d/short/backend/app/adapter/github"
-	"github.com/short-d/short/backend/app/adapter/google"
-	"github.com/short-d/short/backend/app/adapter/request"
-	"github.com/short-d/short/backend/app/adapter/routing"
-	"github.com/short-d/short/backend/app/usecase/authenticator"
-	"github.com/short-d/short/backend/app/usecase/feature"
-	"github.com/short-d/short/backend/app/usecase/search"
-	"github.com/short-d/short/backend/app/usecase/shortlink"
+	"github.com/cross-team/clublink/backend/app/adapter/facebook"
+	"github.com/cross-team/clublink/backend/app/adapter/github"
+	"github.com/cross-team/clublink/backend/app/adapter/google"
+	"github.com/cross-team/clublink/backend/app/adapter/request"
+	"github.com/cross-team/clublink/backend/app/adapter/routing"
+	"github.com/cross-team/clublink/backend/app/usecase/authenticator"
+	"github.com/cross-team/clublink/backend/app/usecase/feature"
+	"github.com/cross-team/clublink/backend/app/usecase/search"
+	"github.com/cross-team/clublink/backend/app/usecase/shortlink"
 )
 
 // WebFrontendURL represents the URL of the web frontend

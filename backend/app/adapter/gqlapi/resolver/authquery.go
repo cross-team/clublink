@@ -3,11 +3,11 @@ package resolver
 import (
 	"time"
 
-	"github.com/short-d/short/backend/app/adapter/gqlapi/scalar"
-	"github.com/short-d/short/backend/app/entity"
-	"github.com/short-d/short/backend/app/usecase/authenticator"
-	"github.com/short-d/short/backend/app/usecase/changelog"
-	"github.com/short-d/short/backend/app/usecase/shortlink"
+	"github.com/cross-team/clublink/backend/app/adapter/gqlapi/scalar"
+	"github.com/cross-team/clublink/backend/app/entity"
+	"github.com/cross-team/clublink/backend/app/usecase/authenticator"
+	"github.com/cross-team/clublink/backend/app/usecase/changelog"
+	"github.com/cross-team/clublink/backend/app/usecase/shortlink"
 )
 
 // AuthQuery represents GraphQL query resolver that acts differently based

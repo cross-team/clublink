@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/short-d/app/fw/assert"
-	"github.com/short-d/short/backend/app/entity"
+	"github.com/cross-team/clublink/backend/app/entity"
 )
 
 func TestCreatedTime_ArrangeShortLinks(t *testing.T) {

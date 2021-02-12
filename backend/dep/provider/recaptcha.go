@@ -2,8 +2,8 @@ package provider
 
 import (
 	"github.com/short-d/app/fw/webreq"
-	"github.com/short-d/short/backend/app/adapter/recaptcha"
-	"github.com/short-d/short/backend/app/usecase/requester"
+	"github.com/cross-team/clublink/backend/app/adapter/recaptcha"
+	"github.com/cross-team/clublink/backend/app/usecase/requester"
 )
 
 // ReCaptchaSecret represents the secret used to verify reCAPTCHA.

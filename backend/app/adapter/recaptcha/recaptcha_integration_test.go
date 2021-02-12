@@ -12,7 +12,7 @@ import (
 
 	"github.com/short-d/app/fw/assert"
 	"github.com/short-d/app/fw/webreq"
-	"github.com/short-d/short/backend/app/usecase/requester"
+	"github.com/cross-team/clublink/backend/app/usecase/requester"
 )
 
 func TestReCaptcha_Verify(t *testing.T) {

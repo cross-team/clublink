@@ -5,9 +5,9 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/short-d/short/backend/app/adapter/sqldb/table"
-	"github.com/short-d/short/backend/app/entity"
-	"github.com/short-d/short/backend/app/usecase/repository"
+	"github.com/cross-team/clublink/backend/app/adapter/sqldb/table"
+	"github.com/cross-team/clublink/backend/app/entity"
+	"github.com/cross-team/clublink/backend/app/usecase/repository"
 )
 
 var _ repository.App = (*AppSQL)(nil)

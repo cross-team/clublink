@@ -4,10 +4,10 @@ import (
 	"testing"
 
 	"github.com/short-d/app/fw/assert"
-	"github.com/short-d/short/backend/app/entity"
-	"github.com/short-d/short/backend/app/usecase/authorizer/rbac"
-	"github.com/short-d/short/backend/app/usecase/authorizer/rbac/role"
-	"github.com/short-d/short/backend/app/usecase/repository"
+	"github.com/cross-team/clublink/backend/app/entity"
+	"github.com/cross-team/clublink/backend/app/usecase/authorizer/rbac"
+	"github.com/cross-team/clublink/backend/app/usecase/authorizer/rbac/role"
+	"github.com/cross-team/clublink/backend/app/usecase/repository"
 )
 
 func TestAuthorizer_hasPermission(t *testing.T) {

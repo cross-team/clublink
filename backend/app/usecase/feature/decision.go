@@ -1,8 +1,8 @@
 package feature
 
 import (
-	"github.com/short-d/short/backend/app/entity"
-	"github.com/short-d/short/backend/app/usecase/instrumentation"
+	"github.com/cross-team/clublink/backend/app/entity"
+	"github.com/cross-team/clublink/backend/app/usecase/instrumentation"
 )
 
 // DecisionMaker determines whether a feature should be turned on or off under

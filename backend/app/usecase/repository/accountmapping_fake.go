@@ -3,7 +3,7 @@ package repository
 import (
 	"errors"
 
-	"github.com/short-d/short/backend/app/entity"
+	"github.com/cross-team/clublink/backend/app/entity"
 )
 
 var _ AccountMapping = (*AccountMappingFake)(nil)

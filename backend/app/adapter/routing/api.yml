@@ -10,7 +10,7 @@ info:
     url: https://short-d.com/r/slack
   license:
     name: MIT
-    url: https://github.com/short-d/short/blob/master/LICENSE
+    url: https://github.com/cross-team/clublink/blob/master/LICENSE
 servers:
   - url: https://api.short-d.com
   - url: https://api-staging.short-d.com

@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"github.com/short-d/short/backend/app/entity"
+	"github.com/cross-team/clublink/backend/app/entity"
 )
 
 // APIKey accesses API keys for third party apps from persistent storage, such as database.

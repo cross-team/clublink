@@ -1,6 +1,6 @@
 package order
 
-import "github.com/short-d/short/backend/app/entity"
+import "github.com/cross-team/clublink/backend/app/entity"
 
 // By represents the order of resources being sorted in.
 type By uint

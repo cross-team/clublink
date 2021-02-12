@@ -1,6 +1,6 @@
 package role
 
-import "github.com/short-d/short/backend/app/usecase/authorizer/rbac/permission"
+import "github.com/cross-team/clublink/backend/app/usecase/authorizer/rbac/permission"
 
 // Role contains a list of permissions
 type Role string

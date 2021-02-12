@@ -2,12 +2,12 @@ package resolver
 
 import (
 	"github.com/short-d/app/fw/logger"
-	"github.com/short-d/short/backend/app/usecase/authenticator"
-	"github.com/short-d/short/backend/app/usecase/changelog"
-	"github.com/short-d/short/backend/app/usecase/requester"
-	"github.com/short-d/short/backend/app/usecase/shortlink"
-	"github.com/short-d/short/backend/app/usecase/repository"
-	"github.com/short-d/short/backend/app/usecase/keygen"
+	"github.com/cross-team/clublink/backend/app/usecase/authenticator"
+	"github.com/cross-team/clublink/backend/app/usecase/changelog"
+	"github.com/cross-team/clublink/backend/app/usecase/requester"
+	"github.com/cross-team/clublink/backend/app/usecase/shortlink"
+	"github.com/cross-team/clublink/backend/app/usecase/repository"
+	"github.com/cross-team/clublink/backend/app/usecase/keygen"
 )
 
 // Resolver contains GraphQL request handlers.

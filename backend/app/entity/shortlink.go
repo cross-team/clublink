@@ -3,7 +3,7 @@ package entity
 import (
 	"time"
 
-	"github.com/short-d/short/backend/app/entity/metatag"
+	"github.com/cross-team/clublink/backend/app/entity/metatag"
 )
 
 // ShortLink represents a short link.

@@ -8,10 +8,10 @@ import (
 	"time"
 
 	"github.com/short-d/app/fw/assert"
-	"github.com/short-d/short/backend/app/entity"
-	"github.com/short-d/short/backend/app/usecase/authenticator"
-	"github.com/short-d/short/backend/app/usecase/keygen"
-	"github.com/short-d/short/backend/app/usecase/repository"
+	"github.com/cross-team/clublink/backend/app/entity"
+	"github.com/cross-team/clublink/backend/app/usecase/authenticator"
+	"github.com/cross-team/clublink/backend/app/usecase/keygen"
+	"github.com/cross-team/clublink/backend/app/usecase/repository"
 )
 
 func TestSingleSignOn_SignIn(t *testing.T) {

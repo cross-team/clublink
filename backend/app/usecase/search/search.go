@@ -6,10 +6,10 @@ import (
 	"time"
 
 	"github.com/short-d/app/fw/logger"
-	"github.com/short-d/short/backend/app/entity"
-	"github.com/short-d/short/backend/app/usecase/matcher"
-	"github.com/short-d/short/backend/app/usecase/repository"
-	"github.com/short-d/short/backend/app/usecase/search/order"
+	"github.com/cross-team/clublink/backend/app/entity"
+	"github.com/cross-team/clublink/backend/app/usecase/matcher"
+	"github.com/cross-team/clublink/backend/app/usecase/repository"
+	"github.com/cross-team/clublink/backend/app/usecase/search/order"
 )
 
 // Search finds different types of resources matching certain criteria and sort them based on predefined orders.

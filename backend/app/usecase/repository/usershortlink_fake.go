@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/short-d/short/backend/app/entity"
+	"github.com/cross-team/clublink/backend/app/entity"
 )
 
 var _ UserShortLink = (*UserShortLinkFake)(nil)

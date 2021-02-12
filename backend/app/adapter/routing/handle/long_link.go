@@ -6,8 +6,8 @@ import (
 
 	"github.com/short-d/app/fw/router"
 	"github.com/short-d/app/fw/timer"
-	"github.com/short-d/short/backend/app/adapter/request"
-	"github.com/short-d/short/backend/app/usecase/shortlink"
+	"github.com/cross-team/clublink/backend/app/adapter/request"
+	"github.com/cross-team/clublink/backend/app/usecase/shortlink"
 )
 
 // LongLink translates alias to the original long link.

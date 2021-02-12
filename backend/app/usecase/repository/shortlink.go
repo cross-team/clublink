@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/short-d/short/backend/app/entity"
+	"github.com/cross-team/clublink/backend/app/entity"
 )
 
 var _ error = (*ErrAliasNotFound)(nil)

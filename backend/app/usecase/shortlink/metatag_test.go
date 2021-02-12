@@ -6,10 +6,10 @@ import (
 	"testing"
 
 	"github.com/short-d/app/fw/assert"
-	"github.com/short-d/short/backend/app/entity"
-	"github.com/short-d/short/backend/app/entity/metatag"
-	"github.com/short-d/short/backend/app/fw/ptr"
-	"github.com/short-d/short/backend/app/usecase/repository"
+	"github.com/cross-team/clublink/backend/app/entity"
+	"github.com/cross-team/clublink/backend/app/entity/metatag"
+	"github.com/cross-team/clublink/backend/app/fw/ptr"
+	"github.com/cross-team/clublink/backend/app/usecase/repository"
 )
 
 func TestMetaTagPersist_GetOpenGraphTags(t *testing.T) {

@@ -1,6 +1,6 @@
 package repository
 
-import "github.com/short-d/short/backend/app/entity"
+import "github.com/cross-team/clublink/backend/app/entity"
 
 // UserShortLink accesses User-ShortLink relationship from storage, such as database.
 type UserShortLink interface {
