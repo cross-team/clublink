@@ -157,13 +157,11 @@ WHERE "%s"=$5;`,
 // GetShortLinkByAlias finds the active ShortLink in short_link table with a given alias.
 func (s ShortLinkSQL) GetShortLinkByAlias(alias string, expiringAt time.Time) (entity.ShortLink, error) {
 	statement := fmt.Sprintf(`
-SELECT "%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s"
+SELECT "%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s"
 FROM "%s" 
 WHERE "%s"=$1 AND "%s">$2;`,
 		table.ShortLink.ColumnAlias,
 		table.ShortLink.ColumnLongLink,
-		table.ShortLink.ColumnRoom,
-		table.ShortLink.ColumnID,
 		table.ShortLink.ColumnExpireAt,
 		table.ShortLink.ColumnCreatedAt,
 		table.ShortLink.ColumnUpdatedAt,
@@ -186,8 +184,6 @@ WHERE "%s"=$1 AND "%s">$2;`,
 	err := rows.Scan(
 		&shortLink.Alias,
 		&shortLink.LongLink,
-		&shortLink.Room,
-		&shortLink.ID,
 		&shortLink.ExpireAt,
 		&shortLink.CreatedAt,
 		&shortLink.UpdatedAt,

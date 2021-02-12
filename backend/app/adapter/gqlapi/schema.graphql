@@ -158,10 +158,7 @@ type ShortLink {
     longLink: String
 
     """The time when the short link expires"""
-    expireAt: Time
-
-    """The title of the room that the link was created for"""
-    room: String    
+    expireAt: Time 
 }
 
 """
