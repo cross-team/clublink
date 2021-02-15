@@ -1,3 +1,4 @@
+# Backend dockerfile
 FROM golang:1.13.1-alpine AS builder
 
 WORKDIR /short
