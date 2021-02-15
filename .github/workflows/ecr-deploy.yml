@@ -8,39 +8,39 @@ on:
       - deploy
 
 jobs:
-  check-backend:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 2
+  # check-backend:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v2
+  #       with:
+  #         fetch-depth: 2
 
-      - name: check modified files
-        id: check_files
-        run: |
-          echo "=============== list modified files ==============="
-          git diff --name-only HEAD^ HEAD
+  #     - name: check modified files
+  #       id: check_files
+  #       run: |
+  #         echo "=============== list modified files ==============="
+  #         git diff --name-only HEAD^ HEAD
 
-          echo "========== check paths of modified files =========="
-          git diff --name-only HEAD^ HEAD > files.txt
-          while IFS= read -r file
-          do
-            echo $file
-            if [[ $file != $FOLDER/* ]]; then
-              echo "This modified file is not under the '$FOLDER' folder."
-              echo "::set-output name=run_job::false"
-              break
-            else
-              echo "::set-output name=run_job::true"
-            fi
-          done < files.txt
-        env:
-          FOLDER: backend
+  #         echo "========== check paths of modified files =========="
+  #         git diff --name-only HEAD^ HEAD > files.txt
+  #         while IFS= read -r file
+  #         do
+  #           echo $file
+  #           if [[ $file != $FOLDER/* ]]; then
+  #             echo "This modified file is not under the '$FOLDER' folder."
+  #             echo "::set-output name=run_job::false"
+  #             break
+  #           else
+  #             echo "::set-output name=run_job::true"
+  #           fi
+  #         done < files.txt
+  #       env:
+  #         FOLDER: backend
 
   decrypt-build-push-backend:
     runs-on: ubuntu-latest
-    needs: check-backend
+    # needs: check-backend
     if: needs.check.outputs.run_job == 'true'
     steps:
       - uses: kciter/aws-ecr-action@master
@@ -55,39 +55,39 @@ jobs:
           create_repo: true
           path: ./backend
 
-  check-frontend:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 2
+  # check-frontend:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v2
+  #       with:
+  #         fetch-depth: 2
 
-      - name: check modified files
-        id: check_files
-        run: |
-          echo "=============== list modified files ==============="
-          git diff --name-only HEAD^ HEAD
+  #     - name: check modified files
+  #       id: check_files
+  #       run: |
+  #         echo "=============== list modified files ==============="
+  #         git diff --name-only HEAD^ HEAD
 
-          echo "========== check paths of modified files =========="
-          git diff --name-only HEAD^ HEAD > files.txt
-          while IFS= read -r file
-          do
-            echo $file
-            if [[ $file != $FOLDER/* ]]; then
-              echo "This modified file is not under the '$FOLDER' folder."
-              echo "::set-output name=run_job::false"
-              break
-            else
-              echo "::set-output name=run_job::true"
-            fi
-          done < files.txt
-        env:
-          FOLDER: frontend
+  #         echo "========== check paths of modified files =========="
+  #         git diff --name-only HEAD^ HEAD > files.txt
+  #         while IFS= read -r file
+  #         do
+  #           echo $file
+  #           if [[ $file != $FOLDER/* ]]; then
+  #             echo "This modified file is not under the '$FOLDER' folder."
+  #             echo "::set-output name=run_job::false"
+  #             break
+  #           else
+  #             echo "::set-output name=run_job::true"
+  #           fi
+  #         done < files.txt
+  #       env:
+  #         FOLDER: frontend
 
   decrypt-build-push-frontend:
     runs-on: ubuntu-latest
-    needs: check-frontend
+    # needs: check-frontend
     if: needs.check.outputs.run_job == 'true'
     steps:
       - uses: kciter/aws-ecr-action@master
