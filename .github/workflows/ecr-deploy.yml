@@ -43,6 +43,11 @@ jobs:
     # needs: check-backend
     # if: needs.check.outputs.run_job == 'true'
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+      - run: pwd
       - uses: kciter/aws-ecr-action@master
         with:
           access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -89,7 +94,12 @@ jobs:
     runs-on: ubuntu-latest
     # needs: check-frontend
     # if: needs.check.outputs.run_job == 'true'
+
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
       - uses: kciter/aws-ecr-action@master
         with:
           access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
