@@ -1,0 +1,103 @@
+name: Build Image and push to ECR
+
+on:
+  release:
+    types: [created]
+  push:
+    branches:
+      - deploy
+
+jobs:
+  check-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+
+      - name: check modified files
+        id: check_files
+        run: |
+          echo "=============== list modified files ==============="
+          git diff --name-only HEAD^ HEAD
+
+          echo "========== check paths of modified files =========="
+          git diff --name-only HEAD^ HEAD > files.txt
+          while IFS= read -r file
+          do
+            echo $file
+            if [[ $file != $FOLDER/* ]]; then
+              echo "This modified file is not under the '$FOLDER' folder."
+              echo "::set-output name=run_job::false"
+              break
+            else
+              echo "::set-output name=run_job::true"
+            fi
+          done < files.txt
+        env:
+          FOLDER: backend
+
+  decrypt-build-push-backend:
+    runs-on: ubuntu-latest
+    needs: check-backend
+    if: needs.check.outputs.run_job == 'true'
+    steps:
+      - uses: kciter/aws-ecr-action@master
+        with:
+          access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          account_id: ${{ secrets.AWS_ACCOUNT_ID }}
+          repo: clublink-backend
+          region: us-east-2
+          dockerfile: ./backend/Dockerfile
+          tags: latest,${{ github.sha }}
+          create_repo: true
+          path: ./backend
+
+  check-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+
+      - name: check modified files
+        id: check_files
+        run: |
+          echo "=============== list modified files ==============="
+          git diff --name-only HEAD^ HEAD
+
+          echo "========== check paths of modified files =========="
+          git diff --name-only HEAD^ HEAD > files.txt
+          while IFS= read -r file
+          do
+            echo $file
+            if [[ $file != $FOLDER/* ]]; then
+              echo "This modified file is not under the '$FOLDER' folder."
+              echo "::set-output name=run_job::false"
+              break
+            else
+              echo "::set-output name=run_job::true"
+            fi
+          done < files.txt
+        env:
+          FOLDER: frontend
+
+  decrypt-build-push-frontend:
+    runs-on: ubuntu-latest
+    needs: check-frontend
+    if: needs.check.outputs.run_job == 'true'
+    steps:
+      - uses: kciter/aws-ecr-action@master
+        with:
+          access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          account_id: ${{ secrets.AWS_ACCOUNT_ID }}
+          repo: clublink-frontend
+          region: us-east-2
+          dockerfile: ./frontend/Dockerfile
+          tags: latest,${{ github.sha }}
+          create_repo: true
+          path: ./frontend
