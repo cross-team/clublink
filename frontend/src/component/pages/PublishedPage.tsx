@@ -27,8 +27,8 @@ export class PublishedPage extends Component {
           className="heading"
           target="_blank"
         >
-          <h1>
-            🚀
+          <h1 aria-label="clublink/luffy">
+            <span aria-hidden>🚀</span>
             <span className="lightGreen">club</span>l
             <span className="lightGreen">.</span>
             ink/{this.urlData.get('alias')}

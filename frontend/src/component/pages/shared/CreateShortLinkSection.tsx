@@ -59,7 +59,11 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
       createdShortLink: '',
       createdLongLink: '',
       qrCodeURL: '',
-      description: 'Enter the super-secret code 🤓',
+      description: (
+        <>
+          Enter the super-secret code<span aria-hidden> 🤓</span>
+        </>
+      ),
       valid: false,
       club: 'green',
       link: '',
@@ -71,7 +75,7 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
     return (
       <Section title={''}>
         <div className={'control create-short-link'}>
-          <h1>
+          <h1 aria-label="clublink">
             <span className={this.state.club}>club</span>
             <span className={this.state.link}>l</span>
             <span className={this.state.club}>.</span>
@@ -80,6 +84,8 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
           </h1>
           <div className={'text-field-wrapper'}>
             <TextField
+              aria="enter the short code of the link you want to visit"
+              describedBy="code-description"
               className="code"
               ref={this.shortLinkTextField}
               text={this.state.alias}
@@ -88,11 +94,21 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
               onChange={this.handleAliasChange}
               onFocus={this.handleFocus}
             />
-            {this.state.status === 'error' && <span className="emoji">😩</span>}
-            {this.state.status === 'success' && (
-              <span className="emoji">😍</span>
+            {this.state.status === 'error' && (
+              <span className="emoji" aria-hidden>
+                😩
+              </span>
             )}
-            {this.state.status === '' && <span className="emoji">🚀</span>}
+            {this.state.status === 'success' && (
+              <span className="emoji" aria-hidden>
+                😍
+              </span>
+            )}
+            {this.state.status === '' && (
+              <span className="emoji" aria-hidden>
+                🚀
+              </span>
+            )}
             {/* {this.state.alias && (
             <span
               role="button"
@@ -104,10 +120,12 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
           )} */}
           </div>
         </div>
-        <div className={'input-description'}>{this.state.description}</div>
-
+        <div className={'input-description'} id="code-description">
+          {this.state.description}
+        </div>
         <div className={'text-field-wrapper'}>
           <TextField
+            describedBy="longLink-error"
             text={this.state.longLink}
             placeHolder={
               'Now enter your fricking ridiculously long shitty link here...'
@@ -117,13 +135,18 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
             disabled={this.state.status === 'error'}
           />
           {this.state.inputError === undefined ? (
-            <span className="emoji">😱</span>
+            <span className="emoji" aria-hidden>
+              😱
+            </span>
           ) : (
-            <span className="emoji">💩</span>
+            <span className="emoji" aria-hidden>
+              💩
+            </span>
           )}
         </div>
         <div className={'text-field-wrapper'}>
           <TextField
+            aria="clubhouse handle"
             className="username"
             text={this.state.username}
             placeHolder={'@username'}
@@ -136,7 +159,9 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
             onChange={this.handleRoomChange}
           />
         </div>
-        <div className={'input-error'}>{this.state.inputError}</div>
+        <div id="longLink-error" className={'input-error'}>
+          {this.state.inputError}
+        </div>
         <div className="create-short-link-btn">
           <Button
             className={'publish'}
@@ -194,7 +219,11 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
   handleFocus = () => {
     if (this.state.status === '') {
       this.setState({
-        description: 'Keep it simple, it only lasts 24 hours ✌️'
+        description: (
+          <>
+            Keep it simple, it only lasts 24 hours <span aria-hidden> ✌️</span>
+          </>
+        )
       });
     }
   };
@@ -228,7 +257,11 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
   handleAliasChange = async (newAlias: string) => {
     if (newAlias === '') {
       this.setState({
-        description: 'Keep it simple, it only lasts 24 hours ✌️',
+        description: (
+          <>
+            Keep it simple, it only lasts 24 hours <span aria-hidden> ✌️</span>
+          </>
+        ),
         alias: newAlias,
         club: 'green',
         link: '',
@@ -249,7 +282,11 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
     const err = validateCustomAliasFormat(alias);
     if (this.state.status === '') {
       this.setState({
-        description: 'Enter the super-secret code 🤓'
+        description: (
+          <>
+            Enter the super-secret code<span aria-hidden> 🤓</span>
+          </>
+        )
       });
     }
   };

@@ -6,6 +6,8 @@ interface IProps {
   className?: string;
   text?: string;
   placeHolder?: string;
+  aria?: string;
+  describedBy?: string;
   onChange?: (text: string) => void;
   onBlur?: () => void;
   onFocus?: () => void;
@@ -17,6 +19,8 @@ export class TextField extends Component<IProps, any> {
   render = () => {
     return (
       <input
+        aria-label={this.props.aria}
+        aria-describedby={this.props.describedBy}
         ref={this.textInput}
         className={`text-field ${this.props.className && this.props.className}`}
         type={'text'}

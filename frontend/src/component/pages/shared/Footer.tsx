@@ -21,11 +21,11 @@ export class Footer extends Component<Props> {
             <a>@mpaiva</a>, <a>@paiva</a>, <a>@sebastian</a>, <a>@laurabries</a>
             , <a>@jomonti</a>
           </div>
-          <div className={'row'}>
+          {/* <div className={'row'}>
             {this.props.uiFactory.createViewChangeLogButton({
               onClick: this.props.onShowChangeLogBtnClick
             })}
-          </div>
+          </div> */}
         </div>
       </footer>
     );
