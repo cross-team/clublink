@@ -42,6 +42,19 @@ func (v AuthQuery) ShortLink(args *ShortLinkArgs) (*ShortLink, error) {
 	return &ShortLink{shortLink: s}, nil
 }
 
+// ShortLinkArgs represents possible parameters for UserByShortLink endpoint
+type UserByShortLinkArgs struct {
+	ID string
+}
+
+// UserByShortLink retrieves a User
+func (v AuthQuery) UserByShortLink(args *UserByShortLinkArgs) (*entity.User, error) {
+	user := entity.User{
+		Email: "",
+	}
+	return &user, nil
+}
+
 // ChangeLog retrieves full ChangeLog from persistent storage
 func (v AuthQuery) ChangeLog() (ChangeLog, error) {
 	user, err := viewer(v.authToken, v.authenticator)

@@ -17,6 +17,14 @@ type UserShortLinkSQL struct {
 	db *sql.DB
 }
 
+// GetUserByShortLink fetches the user associated with a given ShortLink ID
+func (u UserShortLinkSQL) GetUserByShortLink(shortLinkID string) (entity.User, error) {
+	user := entity.User{
+		Email: "",
+	}
+	return user, nil
+}
+
 // CreateRelation establishes bi-directional relationship between a user and a
 // short link in user_short_link table.
 func (u UserShortLinkSQL) CreateRelation(user entity.User, shortLinkInput entity.ShortLinkInput) error {

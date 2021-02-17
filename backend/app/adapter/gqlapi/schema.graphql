@@ -42,7 +42,7 @@ type AuthQuery {
         "Alias of the short link"
         alias: String!,
 
-        "Time when an existing short link may expire"
+        "Time when an existing short link may expire; defaults to the current time"
         expireAfter: Time
     ): ShortLink
 
@@ -151,6 +151,9 @@ input ChangeInput {
 
 """The short link mapped to a long link"""
 type ShortLink {
+    """The unique ID of the link"""
+    id: String
+    
     """The alias of the short link"""
     alias: String
 

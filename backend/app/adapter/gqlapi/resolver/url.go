@@ -20,6 +20,15 @@ func (s ShortLink) LongLink() *string {
 	return &s.shortLink.LongLink
 }
 
+// LongLink retrieves the long link of ShortLink entity.
+func (s ShortLink) Room() *string {
+	return &s.shortLink.Room
+}
+
+func (s ShortLink) ID() *string {
+	return &s.shortLink.ID
+}
+
 // ExpireAt retrieves the expiration time of ShortLink entity.
 func (s ShortLink) ExpireAt() *scalar.Time {
 	if s.shortLink.ExpireAt == nil {
