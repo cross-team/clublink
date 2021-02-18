@@ -15,12 +15,12 @@
   margin: 16px;
 
   &:focus {
-    box-shadow: 0 0 0 4px #f7f5f0, 0 0 0 8px #5b74a6;
-    color: #5b74a6;
+    box-shadow: 0 0 0 4px $color-ch-bg, 0 0 0 8px $color-focus-day;
+    color: $color-focus-day;
   }
 
   &::placeholder {
-    color: #b7b4a6;
+    color: $color-ch-fg;
   }
 
   &.code {
@@ -29,7 +29,14 @@
     margin-left: 24px;
 
     &:focus {
-      box-shadow: 0 0 0 6px #f7f5f0, 0 0 0 12px #5b74a6;
+      box-shadow: 0 0 0 6px $color-ch-bg, 0 0 0 12px $color-focus-day;
+    }
+  }
+
+  &.code-error {
+    &:focus {
+      box-shadow: 0 0 0 6px $color-ch-bg, 0 0 0 12px $color-error;
+      color: $color-error;
     }
   }
 }

@@ -47,6 +47,11 @@ export class PublishedPage extends Component {
                 .then(
                   function() {
                     /* clipboard successfully set */
+                    let button = document.querySelector('button');
+
+                    if (button) {
+                      button.innerHTML = 'copied';
+                    }
                   },
                   function() {
                     /* clipboard write failed */
