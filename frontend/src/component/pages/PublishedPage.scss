@@ -4,7 +4,7 @@
 .published {
   @include default-font();
 
-  background-color: $color-primary;
+  background-color: darken($color-primary, 3%);
   color: white;
   width: 100%;
   min-height: 100vh;
@@ -15,7 +15,11 @@
   font-size: 1.2rem;
 
   .lightGreen {
-    color: rgba($color: #fff, $alpha: 0.5);
+    color: darken($color-primary, 36%);
+  }
+
+  .darkGreen {
+    color: darken($color-primary, 26%);
   }
 
   a {
@@ -56,14 +60,13 @@
     @include default-font();
     border: none;
     background-color: white;
-    color: $color-primary;
+    color: darken($color-primary, 26%);
     font-size: 1.4rem;
     font-weight: bold;
     text-decoration: none;
     padding: 16px 32px;
     margin: 16px;
     border-radius: 32px;
-    padding: 16px;
 
     &:focus {
       box-shadow: 0 0 0 8px $color-primary, 0 0 0 16px #5b74a6;

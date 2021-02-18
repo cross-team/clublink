@@ -27,11 +27,12 @@ export class PublishedPage extends Component {
           className="heading"
           target="_blank"
         >
-          <h1>
-            🚀
-            <span className="lightGreen">club</span>l
+          <h1 aria-label="clublink/luffy">
+            <span aria-hidden>🚀</span>
+            <span className="lightGreen">club</span>
+            <span className="darkGreen">l</span>
             <span className="lightGreen">.</span>
-            ink/{this.urlData.get('alias')}
+            <span className="darkGreen">ink</span>/{this.urlData.get('alias')}
           </h1>
         </a>
         <p>Imagine a link impossible to remember:</p>

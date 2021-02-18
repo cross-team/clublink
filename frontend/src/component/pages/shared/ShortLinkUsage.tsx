@@ -22,7 +22,7 @@ export class ShortLinkUsage extends Component<Props> {
           {this.props.longLink}.
         </div> */}
         <div className={'qr-code'}>
-          <img alt={this.props.shortLink} src={this.props.qrCodeUrl} />
+          <img alt="Q R code for link" src={this.props.qrCodeUrl} />
         </div>
       </div>
     );

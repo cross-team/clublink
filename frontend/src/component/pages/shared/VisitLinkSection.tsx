@@ -69,6 +69,8 @@ export class VisitLinkSection extends Component<IProps, IState> {
           </h1>
           <div className={'text-field-wrapper'}>
             <TextField
+              aria="enter the short code of the link you want to create"
+              describedBy="code-description"
               className="code"
               ref={this.shortLinkTextField}
               text={this.state.alias}
@@ -100,8 +102,8 @@ export class VisitLinkSection extends Component<IProps, IState> {
             )}
           </div>
         </div>
-        <div className={'input-error'}>{this.state.inputError}</div>
-        <div className={'input-description'}>
+        {/* <div className={'input-error'}>{this.state.inputError}</div> */}
+        <div className={'input-description'} id="code-description">
           {this.state.status === '' && 'Enter the super-secret code and go 🚀'}
           {this.state.status === 'error' &&
             "Code doesn't exist, try entering another"}

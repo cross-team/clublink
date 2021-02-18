@@ -164,7 +164,7 @@ type ShortLink {
     expireAt: Time
 
     """The title of the room that the link was created for"""
-    room: String    
+    room: String 
 }
 
 """
