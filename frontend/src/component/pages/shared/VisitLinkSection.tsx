@@ -100,7 +100,7 @@ export class VisitLinkSection extends Component<IProps, IState> {
             )}
           </div>
         </div>
-        <div className={'input-error'}>{this.state.inputError}</div>
+        {/* <div className={'input-error'}>{this.state.inputError}</div> */}
         <div className={'input-description'} id="code-description">
           {this.state.status === '' && 'Enter the super-secret code and go 🚀'}
           {this.state.status === 'error' &&
