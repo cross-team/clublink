@@ -137,11 +137,11 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
             onChange={this.handleLongLinkChange}
           />
           {this.state.inputError === undefined ? (
-            <span className="emoji" aria-hidden>
+            <span className="emoji hide-small" aria-hidden>
               😱
             </span>
           ) : (
-            <span className="emoji" aria-hidden>
+            <span className="emoji hide-small" aria-hidden>
               💩
             </span>
           )}

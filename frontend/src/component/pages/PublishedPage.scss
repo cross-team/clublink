@@ -13,6 +13,9 @@
   justify-content: flex-start;
   align-items: center;
   font-size: 1.2rem;
+  @media only screen and (max-width: 500px) {
+    font-size: 1rem;
+  }
 
   .lightGreen {
     color: darken($color-primary, 36%);
@@ -20,6 +23,10 @@
 
   .darkGreen {
     color: darken($color-primary, 26%);
+  }
+
+  .imagine {
+    text-align: center;
   }
 
   a {
@@ -49,10 +56,26 @@
   h1 {
     font-size: 4rem;
     margin: 0;
+    white-space: nowrap;
+
+    @media only screen and (max-width: 750px) {
+      font-size: 2.5rem;
+    }
+    @media only screen and (max-width: 500px) {
+      font-size: 2rem;
+    }
+    @media only screen and (max-width: 375px) {
+      font-size: 1.6rem;
+    }
   }
 
   .buttons {
     margin: 16px;
+
+    @media only screen and (max-width: 500px) {
+      display: flex;
+      flex-direction: column;
+    }
   }
 
   button,
@@ -64,19 +87,18 @@
     font-size: 1.4rem;
     font-weight: bold;
     text-decoration: none;
+    text-align: center;
     padding: 16px 32px;
     margin: 16px;
     border-radius: 32px;
 
+    @media only screen and (max-width: 500px) {
+      font-size: 1.2rem;
+    }
+
     &:focus {
       box-shadow: 0 0 0 8px $color-primary, 0 0 0 16px $color-focus-night;
       outline: none;
-    }
-  }
-
-  @media only screen and (max-width: 600px) {
-    h1 {
-      font-size: 3rem;
     }
   }
 }

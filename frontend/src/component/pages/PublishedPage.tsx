@@ -35,7 +35,7 @@ export class PublishedPage extends Component {
             <span className="darkGreen">ink</span>/{this.urlData.get('alias')}
           </h1>
         </a>
-        <p>Imagine a link impossible to remember:</p>
+        <p className="imagine">Imagine a link impossible to remember:</p>
         <a href={`${this.urlData.get('longLink')}`} target="_blank">
           {this.urlData.get('longLink')}
         </a>
