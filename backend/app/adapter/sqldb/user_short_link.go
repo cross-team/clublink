@@ -4,9 +4,9 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/short-d/short/backend/app/adapter/sqldb/table"
-	"github.com/short-d/short/backend/app/entity"
-	"github.com/short-d/short/backend/app/usecase/repository"
+	"github.com/cross-team/clublink/backend/app/adapter/sqldb/table"
+	"github.com/cross-team/clublink/backend/app/entity"
+	"github.com/cross-team/clublink/backend/app/usecase/repository"
 )
 
 var _ repository.UserShortLink = (*UserShortLinkSQL)(nil)
@@ -15,6 +15,35 @@ var _ repository.UserShortLink = (*UserShortLinkSQL)(nil)
 // table.
 type UserShortLinkSQL struct {
 	db *sql.DB
+}
+
+// GetUserByShortLink fetches the user associated with a given ShortLink ID
+func (u UserShortLinkSQL) GetUserByShortLink(shortLinkID string) (entity.User, error) {
+	statement := fmt.Sprintf(`SELECT "%s", "%s", "%s" FROM "%s", "%s" WHERE "%s"=$1 AND "%s"="%s";`,
+		table.User.ColumnID,
+		table.User.ColumnEmail,
+		table.User.ColumnName,
+		table.User.TableName,
+		table.UserShortLink.TableName,
+		table.UserShortLink.ColumnShortLinkID,
+		table.UserShortLink.ColumnUserID,
+		table.User.ColumnID,
+	)
+
+	rows := u.db.QueryRow(statement, shortLinkID)
+
+	user := entity.User{}
+	err := rows.Scan(
+		&user.ID,
+		&user.Email,
+		&user.Name,
+	)
+	if err != nil {
+		return entity.User{}, err
+	}
+
+
+	return user, nil
 }
 
 // CreateRelation establishes bi-directional relationship between a user and a

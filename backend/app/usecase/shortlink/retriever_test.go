@@ -7,8 +7,8 @@ import (
 	"time"
 
 	"github.com/short-d/app/fw/assert"
-	"github.com/short-d/short/backend/app/entity"
-	"github.com/short-d/short/backend/app/usecase/repository"
+	"github.com/cross-team/clublink/backend/app/entity"
+	"github.com/cross-team/clublink/backend/app/usecase/repository"
 )
 
 type shortLinks = map[string]entity.ShortLink
@@ -107,7 +107,7 @@ func TestRetriever_GetShortLink(t *testing.T) {
 			fakeShortLinkRepo := repository.NewShortLinkFake(nil, testCase.shortLinks)
 			fakeUserShortLinkRepo := repository.NewUserShortLinkRepoFake([]entity.User{}, []entity.ShortLink{})
 			retriever := NewRetrieverPersist(&fakeShortLinkRepo, &fakeUserShortLinkRepo)
-			shortLink, err := retriever.GetShortLink(testCase.alias, testCase.expiringAt)
+			shortLink, err := retriever.GetActiveShortLink(testCase.alias, testCase.expiringAt)
 
 			if testCase.hasErr {
 				assert.NotEqual(t, nil, err)
@@ -140,7 +140,7 @@ func TestRetrieverPersist_GetShortLinks(t *testing.T) {
 				},
 				"short": entity.ShortLink{
 					Alias:    "short",
-					LongLink: "https://github.com/short-d/short/",
+					LongLink: "https://github.com/cross-team/clublink/",
 				},
 				"mozilla": entity.ShortLink{
 					Alias:    "mozilla",
@@ -169,7 +169,7 @@ func TestRetrieverPersist_GetShortLinks(t *testing.T) {
 				},
 				{
 					Alias:    "short",
-					LongLink: "https://github.com/short-d/short/",
+					LongLink: "https://github.com/cross-team/clublink/",
 				},
 				{
 					Alias:    "mozilla",
@@ -189,7 +189,7 @@ func TestRetrieverPersist_GetShortLinks(t *testing.T) {
 				},
 				{
 					Alias:    "short",
-					LongLink: "https://github.com/short-d/short/",
+					LongLink: "https://github.com/cross-team/clublink/",
 				},
 			},
 		},
@@ -202,7 +202,7 @@ func TestRetrieverPersist_GetShortLinks(t *testing.T) {
 				},
 				"short": entity.ShortLink{
 					Alias:    "short",
-					LongLink: "https://github.com/short-d/short/",
+					LongLink: "https://github.com/cross-team/clublink/",
 				},
 				"mozilla": entity.ShortLink{
 					Alias:    "mozilla",
@@ -231,7 +231,7 @@ func TestRetrieverPersist_GetShortLinks(t *testing.T) {
 				},
 				{
 					Alias:    "short",
-					LongLink: "https://github.com/short-d/short/",
+					LongLink: "https://github.com/cross-team/clublink/",
 				},
 				{
 					Alias:    "mozilla",

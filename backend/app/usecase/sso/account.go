@@ -1,6 +1,6 @@
 package sso
 
-import "github.com/short-d/short/backend/app/entity"
+import "github.com/cross-team/clublink/backend/app/entity"
 
 // Account accesses account data from the identity provider.
 type Account interface {

@@ -3,7 +3,7 @@ package repository
 import (
 	"time"
 
-	"github.com/short-d/short/backend/app/entity"
+	"github.com/cross-team/clublink/backend/app/entity"
 )
 
 // UserChangeLog accesses user-changelog information from storage, such as database.

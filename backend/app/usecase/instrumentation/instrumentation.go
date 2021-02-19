@@ -9,7 +9,7 @@ import (
 	"github.com/short-d/app/fw/logger"
 	"github.com/short-d/app/fw/metrics"
 	"github.com/short-d/app/fw/timer"
-	"github.com/short-d/short/backend/app/entity"
+	"github.com/cross-team/clublink/backend/app/entity"
 )
 
 // Instrumentation measures the internal operation of the system.

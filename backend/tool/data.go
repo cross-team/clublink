@@ -7,7 +7,7 @@ import (
 	"github.com/short-d/app/fw/logger"
 
 	"github.com/short-d/app/fw/db"
-	"github.com/short-d/short/backend/app/usecase/keygen"
+	"github.com/cross-team/clublink/backend/app/usecase/keygen"
 )
 
 // Data transform existing data to the new format and move them to the correct

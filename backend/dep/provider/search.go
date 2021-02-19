@@ -4,8 +4,8 @@ import (
 	"time"
 
 	"github.com/short-d/app/fw/logger"
-	"github.com/short-d/short/backend/app/usecase/repository"
-	"github.com/short-d/short/backend/app/usecase/search"
+	"github.com/cross-team/clublink/backend/app/usecase/repository"
+	"github.com/cross-team/clublink/backend/app/usecase/search"
 )
 
 // SearchTimeout represents timeout duration of a search request.

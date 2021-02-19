@@ -1,6 +1,6 @@
 package feature
 
-import "github.com/short-d/short/backend/app/entity"
+import "github.com/cross-team/clublink/backend/app/entity"
 
 // PermissionChecker checks whether the user is allowed to access a feature
 type PermissionChecker func(user entity.User) (bool, error)

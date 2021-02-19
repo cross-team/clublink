@@ -52,6 +52,9 @@ github.com/cpuguy83/go-md2man v1.0.10/go.mod h1:SmD6nW6nTyfqj6ABTjUi3V3JVMnlJmwc
 github.com/cpuguy83/go-md2man/v2 v2.0.0-20190314233015-f79a8a8ca69d/go.mod h1:maD7wRr/U5Z6m/iR4s+kqSMx2CaBsrgA7czyZG/E6dU=
 github.com/cpuguy83/go-md2man/v2 v2.0.0/go.mod h1:maD7wRr/U5Z6m/iR4s+kqSMx2CaBsrgA7czyZG/E6dU=
 github.com/creack/pty v1.1.7/go.mod h1:lj5s0c3V2DBrqTV7llrYr5NG6My20zk30Fl46Y7DoTY=
+github.com/cross-team/clublink v0.0.0-20210201194420-3fb042d3cfb1 h1:MNtuz9pImmbsEU/UKRF43fH8th86EvHj1cxSa0eggtE=
+github.com/cross-team/clublink v0.0.0-20210201194420-3fb042d3cfb1/go.mod h1:BKoM8Aw7EPJJylGp1QTOaidqZ89S99MwFWgAm4gbWMc=
+github.com/cross-team/clublink v0.0.0-20210216201948-2f106fc502ed h1:S6SD4UnLQMPCDKTX2zDFYFNNAAAVP/X+cTy/rktsS3A=
 github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
@@ -339,7 +342,9 @@ github.com/short-d/eventbus v0.0.0-20200515152349-a8a7cb883a47 h1:Goj2PHNcRwk2CY
 github.com/short-d/eventbus v0.0.0-20200515152349-a8a7cb883a47/go.mod h1:S3Nww0QNubrzHbWTpfzAg8YQLwXuM9GH2cGshOU6GJQ=
 github.com/short-d/kgs v0.0.0-20200505215800-7d538f015ea1 h1:a75oDPkkATM03ONinwZDshyqA9L5WXFw4PH0+YcWW/w=
 github.com/short-d/kgs v0.0.0-20200505215800-7d538f015ea1/go.mod h1:b0Uw5WfhgcBsheLrDNm8RO0lb4C5UggG+WzBe4rxn7U=
-github.com/short-d/short v0.0.0-20200629153654-b5185841a92e h1:1+/pCctWXsW6f8gtN6aOoaF5gn31gxlvgqGsdneuE+4=
+github.com/short-d/short v0.0.0-20200904031159-394a65fde4ad h1:pKJzn/WFtoDjMyGEVoqkiAHY0Bzo/oWQ7heLEMzI2ms=
+github.com/short-d/short/backend v0.0.0-20200904031159-394a65fde4ad h1:VeX+AseEz3bcf6O3dov4/87aG32QRKSm36onIH+qyjY=
+github.com/short-d/short/backend v0.0.0-20200904031159-394a65fde4ad/go.mod h1:Ak+4THRtmTwp4XJ9GUmAQvigTUIB3/UrRFRWZi70DYc=
 github.com/shurcooL/sanitized_anchor_name v1.0.0/go.mod h1:1NzhyTcUVG4SuEtjjoZeVRXNmyL/1OwPU0+IJeTBvfc=
 github.com/sirupsen/logrus v1.2.0/go.mod h1:LxeOpSwHxABJmUn/MG1IvRgCAasNZTLOkJPxbbu5VWo=
 github.com/sirupsen/logrus v1.4.2 h1:SPIRibHv4MatM3XXNO2BJeFLZwZ2LvZgfQ5+UNI2im4=

@@ -1,8 +1,8 @@
 package resolver
 
 import (
-	"github.com/short-d/short/backend/app/adapter/gqlapi/scalar"
-	"github.com/short-d/short/backend/app/entity"
+	"github.com/cross-team/clublink/backend/app/adapter/gqlapi/scalar"
+	"github.com/cross-team/clublink/backend/app/entity"
 )
 
 // ShortLink retrieves requested fields of ShortLink entity.
@@ -20,11 +20,12 @@ func (s ShortLink) LongLink() *string {
 	return &s.shortLink.LongLink
 }
 
-// LongLink retrieves the long link of ShortLink entity.
+// Room retrieves the room description of ShortLink entity.
 func (s ShortLink) Room() *string {
 	return &s.shortLink.Room
 }
 
+// ID retrieves the ID of ShortLink entity.
 func (s ShortLink) ID() *string {
 	return &s.shortLink.ID
 }

@@ -3,9 +3,9 @@ package sso
 import (
 	"errors"
 
-	"github.com/short-d/short/backend/app/entity"
-	"github.com/short-d/short/backend/app/usecase/keygen"
-	"github.com/short-d/short/backend/app/usecase/repository"
+	"github.com/cross-team/clublink/backend/app/entity"
+	"github.com/cross-team/clublink/backend/app/usecase/keygen"
+	"github.com/cross-team/clublink/backend/app/usecase/repository"
 )
 
 // AccountLinker maps external user accounts to Short user accounts.

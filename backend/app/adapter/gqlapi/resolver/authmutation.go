@@ -4,11 +4,11 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/short-d/short/backend/app/adapter/gqlapi/input"
-	"github.com/short-d/short/backend/app/adapter/gqlapi/scalar"
-	"github.com/short-d/short/backend/app/usecase/authenticator"
-	"github.com/short-d/short/backend/app/usecase/changelog"
-	"github.com/short-d/short/backend/app/usecase/shortlink"
+	"github.com/cross-team/clublink/backend/app/adapter/gqlapi/input"
+	"github.com/cross-team/clublink/backend/app/adapter/gqlapi/scalar"
+	"github.com/cross-team/clublink/backend/app/usecase/authenticator"
+	"github.com/cross-team/clublink/backend/app/usecase/changelog"
+	"github.com/cross-team/clublink/backend/app/usecase/shortlink"
 )
 
 // AuthMutation represents GraphQL mutation resolver that acts differently based

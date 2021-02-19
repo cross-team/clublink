@@ -27,6 +27,8 @@ interface IProps {
 interface IState {
   alias?: string;
   longLink?: string;
+  room?: string;
+  user?: string;
   inputError?: string;
   isShortLinkPublic?: boolean;
   shouldShowUsage: boolean;
@@ -114,10 +116,18 @@ export class VisitLinkSection extends Component<IProps, IState> {
             "Code doesn't exist, try entering another"}
           {this.state.status === 'success' && (
             <>
-              <p>Imagine a link impossible to remember: </p>
-              <a href={this.state.longLink} target="_blank">
-                {this.state.longLink}
-              </a>
+              <div>
+                <p>Imagine a link impossible to remember: </p>
+                <a href={this.state.longLink} target="_blank">
+                  {this.state.longLink}
+                </a>
+              </div>
+              <div>
+                <p>
+                  by: <span className="bold">{this.state.user}</span> for room:{' '}
+                  <span className="bold">{this.state.room}</span>
+                </p>
+              </div>
             </>
           )}
         </div>
@@ -170,9 +180,11 @@ export class VisitLinkSection extends Component<IProps, IState> {
       .query('http://localhost:8080/graphql', {
         query: `query {
           authQuery {
-            shortLink(alias: "${alias}") {
+            activeShortLink(alias: "${alias}") {
+              id
               alias
               longLink
+              room
               expireAt
             }
           }
@@ -184,7 +196,8 @@ export class VisitLinkSection extends Component<IProps, IState> {
         this.setState({
           link: 'green',
           status: 'success',
-          longLink: queryData.authQuery.shortLink.longLink
+          longLink: queryData.authQuery.shortLink.longLink,
+          room: queryData.authQuery.shortLink.room
         });
       })
       .catch(error => {

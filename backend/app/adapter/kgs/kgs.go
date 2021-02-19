@@ -5,7 +5,7 @@ import (
 
 	"github.com/short-d/app/fw/rpc"
 	"github.com/short-d/kgs/app/adapter/rpc/proto"
-	"github.com/short-d/short/backend/app/usecase/keygen"
+	"github.com/cross-team/clublink/backend/app/usecase/keygen"
 )
 
 var _ keygen.KeyFetcher = (*RPC)(nil)

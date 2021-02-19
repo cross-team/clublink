@@ -4,8 +4,8 @@ import (
 	"context"
 
 	"github.com/short-d/app/fw/rpc"
-	"github.com/short-d/short/backend/app/adapter/grpcapi/proto"
-	"github.com/short-d/short/frontend/serve/entity"
+	"github.com/cross-team/clublink/backend/app/adapter/grpcapi/proto"
+	"github.com/cross-team/clublink/frontend/serve/entity"
 )
 
 // GRPC retrieves meta tags for a given short link from GRPC api.

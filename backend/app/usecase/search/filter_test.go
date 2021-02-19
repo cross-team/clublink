@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/short-d/app/fw/assert"
-	"github.com/short-d/short/backend/app/usecase/search/order"
+	"github.com/cross-team/clublink/backend/app/usecase/search/order"
 )
 
 func TestNewFilter(t *testing.T) {

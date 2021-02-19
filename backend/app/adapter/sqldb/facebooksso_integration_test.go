@@ -10,8 +10,8 @@ import (
 	"github.com/short-d/app/fw/assert"
 	"github.com/short-d/app/fw/db/dbtest"
 	"github.com/short-d/app/fw/logger"
-	"github.com/short-d/short/backend/app/adapter/sqldb"
-	"github.com/short-d/short/backend/app/adapter/sqldb/table"
+	"github.com/cross-team/clublink/backend/app/adapter/sqldb"
+	"github.com/cross-team/clublink/backend/app/adapter/sqldb/table"
 )
 
 type FacebookSSOTableRow struct {

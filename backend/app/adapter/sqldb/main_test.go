@@ -7,7 +7,7 @@ import (
 
 	"github.com/short-d/app/fw/db"
 	"github.com/short-d/app/fw/envconfig"
-	"github.com/short-d/short/backend/dep"
+	"github.com/cross-team/clublink/backend/dep"
 )
 
 var dbConnector db.Connector

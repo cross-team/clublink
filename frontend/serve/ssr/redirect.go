@@ -4,7 +4,7 @@ import (
 	"io/ioutil"
 	"path/filepath"
 
-	"github.com/short-d/short/frontend/serve/entity"
+	"github.com/cross-team/clublink/frontend/serve/entity"
 )
 
 // RedirectPage renders redirect page on the server side.

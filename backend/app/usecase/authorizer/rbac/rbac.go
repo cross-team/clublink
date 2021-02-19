@@ -3,9 +3,9 @@ package rbac
 import (
 	"errors"
 
-	"github.com/short-d/short/backend/app/entity"
-	"github.com/short-d/short/backend/app/usecase/authorizer/rbac/permission"
-	"github.com/short-d/short/backend/app/usecase/repository"
+	"github.com/cross-team/clublink/backend/app/entity"
+	"github.com/cross-team/clublink/backend/app/usecase/authorizer/rbac/permission"
+	"github.com/cross-team/clublink/backend/app/usecase/repository"
 )
 
 // RBAC represents Role-based access control authorization policy.

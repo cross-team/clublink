@@ -6,9 +6,9 @@ import (
 
 	"github.com/short-d/app/fw/assert"
 	"github.com/short-d/app/fw/logger"
-	"github.com/short-d/short/backend/app/entity"
-	"github.com/short-d/short/backend/app/usecase/repository"
-	"github.com/short-d/short/backend/app/usecase/search/order"
+	"github.com/cross-team/clublink/backend/app/entity"
+	"github.com/cross-team/clublink/backend/app/usecase/repository"
+	"github.com/cross-team/clublink/backend/app/usecase/search/order"
 )
 
 type shortLinks = map[string]entity.ShortLink

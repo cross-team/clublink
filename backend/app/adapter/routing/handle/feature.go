@@ -5,9 +5,9 @@ import (
 	"net/http"
 
 	"github.com/short-d/app/fw/router"
-	"github.com/short-d/short/backend/app/adapter/request"
-	"github.com/short-d/short/backend/app/usecase/authenticator"
-	"github.com/short-d/short/backend/app/usecase/feature"
+	"github.com/cross-team/clublink/backend/app/adapter/request"
+	"github.com/cross-team/clublink/backend/app/usecase/authenticator"
+	"github.com/cross-team/clublink/backend/app/usecase/feature"
 )
 
 // Feature retrieves the status of feature toggle.

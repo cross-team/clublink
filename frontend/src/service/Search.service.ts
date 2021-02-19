@@ -24,7 +24,7 @@ export class SearchService {
             room: ''
           },
           {
-            longLink: 'https://github.com/short-d/short/',
+            longLink: 'https://github.com/cross-team/clublink/',
             alias: 'short',
             username: 'short-example',
             room: ''

@@ -3,8 +3,8 @@ package resolver
 import (
 	"time"
 
-	"github.com/short-d/short/backend/app/adapter/gqlapi/scalar"
-	"github.com/short-d/short/backend/app/entity"
+	"github.com/cross-team/clublink/backend/app/adapter/gqlapi/scalar"
+	"github.com/cross-team/clublink/backend/app/entity"
 )
 
 // ChangeLog retrieves full change log and the time when the user viewed it.

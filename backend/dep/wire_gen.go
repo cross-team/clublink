@@ -7,6 +7,26 @@ package dep
 
 import (
 	"database/sql"
+	"github.com/cross-team/clublink/backend/app/adapter/facebook"
+	"github.com/cross-team/clublink/backend/app/adapter/github"
+	"github.com/cross-team/clublink/backend/app/adapter/google"
+	"github.com/cross-team/clublink/backend/app/adapter/gqlapi/resolver"
+	"github.com/cross-team/clublink/backend/app/adapter/grpcapi"
+	"github.com/cross-team/clublink/backend/app/adapter/kgs"
+	"github.com/cross-team/clublink/backend/app/adapter/request"
+	"github.com/cross-team/clublink/backend/app/adapter/sqldb"
+	"github.com/cross-team/clublink/backend/app/fw/filesystem"
+	"github.com/cross-team/clublink/backend/app/usecase/authorizer"
+	"github.com/cross-team/clublink/backend/app/usecase/authorizer/rbac"
+	"github.com/cross-team/clublink/backend/app/usecase/changelog"
+	"github.com/cross-team/clublink/backend/app/usecase/keygen"
+	"github.com/cross-team/clublink/backend/app/usecase/repository"
+	"github.com/cross-team/clublink/backend/app/usecase/risk"
+	"github.com/cross-team/clublink/backend/app/usecase/shortlink"
+	"github.com/cross-team/clublink/backend/app/usecase/sso"
+	"github.com/cross-team/clublink/backend/app/usecase/validator"
+	"github.com/cross-team/clublink/backend/dep/provider"
+	"github.com/cross-team/clublink/backend/tool"
 	"github.com/google/wire"
 	"github.com/short-d/app/fw/analytics"
 	"github.com/short-d/app/fw/cli"
@@ -22,26 +42,6 @@ import (
 	"github.com/short-d/app/fw/service"
 	"github.com/short-d/app/fw/timer"
 	"github.com/short-d/app/fw/webreq"
-	"github.com/short-d/short/backend/app/adapter/facebook"
-	"github.com/short-d/short/backend/app/adapter/github"
-	"github.com/short-d/short/backend/app/adapter/google"
-	"github.com/short-d/short/backend/app/adapter/gqlapi/resolver"
-	"github.com/short-d/short/backend/app/adapter/grpcapi"
-	"github.com/short-d/short/backend/app/adapter/kgs"
-	"github.com/short-d/short/backend/app/adapter/request"
-	"github.com/short-d/short/backend/app/adapter/sqldb"
-	"github.com/short-d/short/backend/app/fw/filesystem"
-	"github.com/short-d/short/backend/app/usecase/authorizer"
-	"github.com/short-d/short/backend/app/usecase/authorizer/rbac"
-	"github.com/short-d/short/backend/app/usecase/changelog"
-	"github.com/short-d/short/backend/app/usecase/keygen"
-	"github.com/short-d/short/backend/app/usecase/repository"
-	"github.com/short-d/short/backend/app/usecase/risk"
-	"github.com/short-d/short/backend/app/usecase/shortlink"
-	"github.com/short-d/short/backend/app/usecase/sso"
-	"github.com/short-d/short/backend/app/usecase/validator"
-	"github.com/short-d/short/backend/dep/provider"
-	"github.com/short-d/short/backend/tool"
 )
 
 // Injectors from wire.go:
@@ -124,7 +124,7 @@ func InjectGraphQLService(runtime2 env.Runtime, prefix provider.LogPrefix, logLe
 	tokenizer := provider.NewJwtGo(jwtSecret)
 	authenticator := provider.NewAuthenticator(tokenizer, system, tokenValidDuration)
 	userSQL := sqldb.NewUserSQL(sqlDB)
-	resolverResolver := resolver.NewResolver(loggerLogger, retrieverPersist, creatorPersist, updaterPersist, persist, verifier, authenticator, userSQL, keyGenerator)
+	resolverResolver := resolver.NewResolver(loggerLogger, retrieverPersist, creatorPersist, updaterPersist, persist, verifier, authenticator, userSQL, userShortLinkSQL, keyGenerator)
 	api, err := provider.NewShortGraphQLAPI(graphqlSchemaPath, local, resolverResolver)
 	if err != nil {
 		return service.GraphQL{}, err

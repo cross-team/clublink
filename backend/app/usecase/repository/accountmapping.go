@@ -1,6 +1,6 @@
 package repository
 
-import "github.com/short-d/short/backend/app/entity"
+import "github.com/cross-team/clublink/backend/app/entity"
 
 // AccountMapping accesses account mapping between SSOUser and internal User
 // from storage media, such as database.

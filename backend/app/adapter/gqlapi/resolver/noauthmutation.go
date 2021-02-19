@@ -4,13 +4,13 @@ import(
 	"errors"
 	"fmt"
 
-	"github.com/short-d/short/backend/app/adapter/gqlapi/input"
-	"github.com/short-d/short/backend/app/entity"
-	"github.com/short-d/short/backend/app/adapter/gqlapi/scalar"
-	"github.com/short-d/short/backend/app/usecase/changelog"
-	"github.com/short-d/short/backend/app/usecase/shortlink"
-	"github.com/short-d/short/backend/app/usecase/repository"
-	"github.com/short-d/short/backend/app/usecase/keygen"
+	"github.com/cross-team/clublink/backend/app/adapter/gqlapi/input"
+	"github.com/cross-team/clublink/backend/app/entity"
+	"github.com/cross-team/clublink/backend/app/adapter/gqlapi/scalar"
+	"github.com/cross-team/clublink/backend/app/usecase/changelog"
+	"github.com/cross-team/clublink/backend/app/usecase/shortlink"
+	"github.com/cross-team/clublink/backend/app/usecase/repository"
+	"github.com/cross-team/clublink/backend/app/usecase/keygen"
 )
 
 // NoAuthMutation represents GraphQL mutation resolver that does not require an authToken

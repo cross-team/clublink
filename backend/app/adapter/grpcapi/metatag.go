@@ -3,8 +3,8 @@ package grpcapi
 import (
 	"context"
 
-	"github.com/short-d/short/backend/app/adapter/grpcapi/proto"
-	"github.com/short-d/short/backend/app/usecase/shortlink"
+	"github.com/cross-team/clublink/backend/app/adapter/grpcapi/proto"
+	"github.com/cross-team/clublink/backend/app/usecase/shortlink"
 )
 
 // MetaTagServer allows the client to retrieve the SEO meta tags for a short link.

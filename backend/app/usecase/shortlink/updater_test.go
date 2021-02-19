@@ -8,11 +8,11 @@ import (
 
 	"github.com/short-d/app/fw/assert"
 	"github.com/short-d/app/fw/timer"
-	"github.com/short-d/short/backend/app/entity"
-	"github.com/short-d/short/backend/app/fw/ptr"
-	"github.com/short-d/short/backend/app/usecase/repository"
-	"github.com/short-d/short/backend/app/usecase/risk"
-	"github.com/short-d/short/backend/app/usecase/validator"
+	"github.com/cross-team/clublink/backend/app/entity"
+	"github.com/cross-team/clublink/backend/app/fw/ptr"
+	"github.com/cross-team/clublink/backend/app/usecase/repository"
+	"github.com/cross-team/clublink/backend/app/usecase/risk"
+	"github.com/cross-team/clublink/backend/app/usecase/validator"
 )
 
 func TestShortLinkUpdaterPersist_UpdateShortLink(t *testing.T) {

@@ -1,10 +1,10 @@
-module github.com/short-d/short/frontend/serve
+module github.com/cross-team/clublink/frontend/serve
 
 go 1.14
 
 require (
 	github.com/short-d/app v0.0.0-20200627081605-eabc0539025f
-	github.com/short-d/short/backend v0.0.0-20200719202552-fc38924129cb
+	github.com/cross-team/clublink/backend v0.0.0-20200719202552-fc38924129cb
 )
 
 // Uncomment the following line when testing app framework

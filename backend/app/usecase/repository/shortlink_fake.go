@@ -4,7 +4,7 @@ import (
 	"errors"
 	"time"
 
-	"github.com/short-d/short/backend/app/entity"
+	"github.com/cross-team/clublink/backend/app/entity"
 )
 
 var _ ShortLink = (*ShortLinkFake)(nil)
@@ -14,6 +14,12 @@ type ShortLinkFake struct {
 	shortLinks map[string]entity.ShortLink
 	// TODO(issue#958) use eventbus for propagating short link change to all related repos
 	userShortLinkRepoFake *UserShortLinkFake
+}
+
+// IsAliasExist checks whether a given alias exist in short_link table.
+func (s ShortLinkFake) GetShortLinkByID(ID string) (entity.ShortLink, error) {
+	shortlink := entity.ShortLink{}
+	return shortlink, nil
 }
 
 // IsAliasExist checks whether a given alias exist in short_link table.

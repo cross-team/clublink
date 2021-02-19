@@ -1,6 +1,6 @@
 package order
 
-import "github.com/short-d/short/backend/app/entity"
+import "github.com/cross-team/clublink/backend/app/entity"
 
 var _ Order = (*Unchanged)(nil)
 

@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"github.com/short-d/app/fw/webreq"
-	"github.com/short-d/short/backend/app/usecase/sso"
+	"github.com/cross-team/clublink/backend/app/usecase/sso"
 )
 
 const (

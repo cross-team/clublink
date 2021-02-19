@@ -2,7 +2,7 @@ package grpcapi
 
 import (
 	"github.com/short-d/app/fw/rpc"
-	"github.com/short-d/short/backend/app/adapter/grpcapi/proto"
+	"github.com/cross-team/clublink/backend/app/adapter/grpcapi/proto"
 	"google.golang.org/grpc"
 )
 

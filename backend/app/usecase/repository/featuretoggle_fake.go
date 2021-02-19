@@ -3,7 +3,7 @@ package repository
 import (
 	"fmt"
 
-	"github.com/short-d/short/backend/app/entity"
+	"github.com/cross-team/clublink/backend/app/entity"
 )
 
 var _ FeatureToggle = (*FeatureToggleFake)(nil)

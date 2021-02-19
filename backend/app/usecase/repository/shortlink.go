@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/short-d/short/backend/app/entity"
+	"github.com/cross-team/clublink/backend/app/entity"
 )
 
 var _ error = (*ErrAliasNotFound)(nil)
@@ -22,6 +22,7 @@ func (e ErrAliasNotFound) Error() string {
 // ShortLink accesses shortLinks from storage, such as database.
 type ShortLink interface {
 	IsAliasExist(alias string) (bool, error)
+	GetShortLinkByID(ID string) (entity.ShortLink, error)
 	GetShortLinkByAlias(alias string, expiringAt time.Time) (entity.ShortLink, error)
 	CreateShortLink(shortLinkInput entity.ShortLinkInput) error
 	UpdateShortLink(oldAlias string, shortLinkInput entity.ShortLinkInput) (entity.ShortLink, error)
