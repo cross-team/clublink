@@ -82,11 +82,14 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
             <span className={this.state.link}>ink </span>
             <span className={'sand'}>/</span>
           </h1>
-          <div className={'text-field-wrapper'}>
+          <div className={'code-field-wrapper'}>
             <TextField
               aria="enter the short code of the link you want to visit"
               describedBy="code-description"
-              className="code"
+              id="code-input"
+              className={`code${
+                this.state.status === 'error' ? ' code-error' : ''
+              }`}
               ref={this.shortLinkTextField}
               text={this.state.alias}
               placeHolder={'enter code'}
@@ -123,7 +126,7 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
         <div className={'input-description'} id="code-description">
           {this.state.description}
         </div>
-        <div className={'text-field-wrapper'}>
+        <div className={'emoji-text-field-wrapper'}>
           <TextField
             describedBy="longLink-error"
             text={this.state.longLink}
@@ -132,18 +135,22 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
             }
             onBlur={this.handleLongLinkTextFieldBlur}
             onChange={this.handleLongLinkChange}
-            disabled={this.state.status === 'error'}
           />
           {this.state.inputError === undefined ? (
-            <span className="emoji" aria-hidden>
+            <span className="emoji hide-small" aria-hidden>
               😱
             </span>
           ) : (
-            <span className="emoji" aria-hidden>
+            <span className="emoji hide-small" aria-hidden>
               💩
             </span>
           )}
         </div>
+        {this.state.inputError && (
+          <div id="longLink-error" className={'input-error'}>
+            {this.state.inputError}
+          </div>
+        )}
         <div className={'text-field-wrapper'}>
           <TextField
             aria="clubhouse handle"
@@ -159,16 +166,12 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
             onChange={this.handleRoomChange}
           />
         </div>
-        <div id="longLink-error" className={'input-error'}>
-          {this.state.inputError}
-        </div>
         <div className="create-short-link-btn">
           <Button
             className={'publish'}
             onClick={this.handleCreateShortLinkClick}
             disabled={
               !!this.state.inputError ||
-              this.state.status == 'error' ||
               !this.state.alias ||
               !this.state.longLink ||
               !this.state.username ||
@@ -177,6 +180,9 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
           >
             publish
           </Button>
+          <a href="/" aria-label="back to home">
+            back
+          </a>
         </div>
         {/* {this.props.uiFactory.createPreferenceTogglesSubSection({
           uiFactory: this.props.uiFactory,
@@ -271,9 +277,10 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
       this.setState({
         alias: newAlias,
         club: 'sand',
-        link: ''
+        link: '',
+        status: ''
       });
-      await this.isAliasAvailable(newAlias).then(response => {});
+      // await this.isAliasAvailable(newAlias).then(response => {});
     }
   };
 
@@ -329,7 +336,7 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
   //     });
   // };
 
-  handleCreateShortLinkClick = () => {
+  handleCreateShortLinkClick = async () => {
     const { alias, longLink, username, room } = this.state;
     const shortLink: ShortLink = {
       longLink: longLink,
@@ -337,43 +344,76 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
       username: username,
       room: room
     };
-    this.props.shortLinkService
-      .createShortLink(shortLink, this.state.isShortLinkPublic)
-      .then(async (createdShortLink: ShortLink) => {
-        const shortLink = this.props.shortLinkService.aliasToFrontendLink(
-          createdShortLink.alias!
-        );
-
-        const qrCodeURL = await this.props.qrCodeService.newQrCode(longLink);
-
-        this.setState({
-          createdShortLink: shortLink,
-          createdLongLink: longLink,
-          qrCodeURL: qrCodeURL
-          // shouldShowUsage: true
-        });
-
-        if (this.props.onShortLinkCreated) {
-          this.props.onShortLinkCreated(shortLink);
-        }
-
-        window.location.assign(
-          `/published/?alias=${alias}&longLink=${longLink}&shortLink=${shortLink}&qrCodeURL=${qrCodeURL}`
-        );
-      })
-      .catch(({ authenticationErr, createShortLinkErr }) => {
-        console.log(authenticationErr);
-        console.log(createShortLinkErr);
-        if (authenticationErr) {
-          if (this.props.onAuthenticationFailed) {
-            this.props.onAuthenticationFailed();
-          }
-          return;
-        }
-        this.props.store.dispatch(
-          raiseCreateShortLinkError(createShortLinkErr)
-        );
+    let err = validateCustomAliasFormat(alias);
+    if (err !== null) {
+      let codeInput = document.getElementById('code-input');
+      if (codeInput) {
+        codeInput.focus();
+      }
+      this.setState({
+        description: <>{err}</>,
+        link: 'error',
+        status: 'error'
       });
+      return;
+    }
+    await this.isAliasAvailable(alias).then(response => {
+      if (response) {
+        this.props.shortLinkService
+          .createShortLink(shortLink, this.state.isShortLinkPublic)
+          .then(async (createdShortLink: ShortLink) => {
+            const shortLink = this.props.shortLinkService.aliasToFrontendLink(
+              createdShortLink.alias!
+            );
+
+            const qrCodeURL = await this.props.qrCodeService.newQrCode(
+              longLink
+            );
+
+            this.setState({
+              createdShortLink: shortLink,
+              createdLongLink: longLink,
+              qrCodeURL: qrCodeURL
+              // shouldShowUsage: true
+            });
+
+            if (this.props.onShortLinkCreated) {
+              this.props.onShortLinkCreated(shortLink);
+            }
+
+            window.location.assign(
+              `/published/?alias=${alias}&longLink=${longLink}&shortLink=${shortLink}&qrCodeURL=${qrCodeURL}`
+            );
+          })
+          .catch(({ authenticationErr, createShortLinkErr }) => {
+            console.log(authenticationErr);
+            console.log(createShortLinkErr);
+            if (authenticationErr) {
+              if (this.props.onAuthenticationFailed) {
+                this.props.onAuthenticationFailed();
+              }
+              return;
+            }
+            this.props.store.dispatch(
+              raiseCreateShortLinkError(createShortLinkErr)
+            );
+          });
+      } else {
+        let codeInput = document.getElementById('code-input');
+        if (codeInput) {
+          codeInput.focus();
+        }
+        this.setState({
+          description: (
+            <>
+              Oops! <span className="error">{alias}</span> is invalid
+            </>
+          ),
+          link: 'error',
+          status: 'error'
+        });
+      }
+    });
   };
 
   isAliasAvailable = async (alias: string): Promise<boolean> => {
@@ -403,15 +443,15 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
         return false;
       })
       .catch(error => {
-        this.setState({
-          description: (
-            <>
-              Hey! <span className="green">{alias} is available!</span>
-            </>
-          ),
-          link: 'green',
-          status: 'success'
-        });
+        // this.setState({
+        //   description: (
+        //     <>
+        //       Oops! <span className="error">{alias}</span> is invalid
+        //     </>
+        //   ),
+        //   link: 'error',
+        //   status: 'error'
+        // });
         return true;
       });
   };

@@ -8,14 +8,14 @@
   @include default-font();
 
   min-height: 100vh;
-  background-color: #f7f5f0;
+  background-color: $color-ch-bg;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   text-align: center;
 
   a {
-    color: #5b74a6;
+    color: $color-link;
     text-decoration: none;
     padding: 4px 8px;
     border-radius: 16px;
@@ -29,14 +29,45 @@
     }
 
     &:focus {
-      border: 2px solid #5b74a6;
+      border: 2px solid $color-focus-day;
       outline: none;
     }
   }
 
-  .text-field-wrapper {
+  .code-field-wrapper,
+  .text-field-wrapper,
+  .emoji-text-field-wrapper {
     display: flex;
     align-items: center;
+  }
+
+  .emoji-text-field-wrapper {
+    margin-left: 48px;
+    @media only screen and (max-width: 720px) {
+      margin: auto;
+
+      input {
+        margin: auto;
+        margin-bottom: 16px;
+      }
+    }
+  }
+
+  .text-field-wrapper {
+    margin-right: 48px;
+    margin-left: 48px;
+
+    @media only screen and (max-width: 720px) {
+      margin: auto;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  .hide-small {
+    @media only screen and (max-width: 720px) {
+      display: none !important;
+    }
   }
 
   .control {
@@ -44,11 +75,6 @@
     @media only screen and (max-width: 720px) {
       flex-direction: column;
       align-items: center;
-    }
-
-    .create-short-link-btn {
-      display: flex;
-      justify-content: center;
     }
   }
 

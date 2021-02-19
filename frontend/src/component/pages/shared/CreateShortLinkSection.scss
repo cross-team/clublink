@@ -6,12 +6,8 @@
 }
 
 .input-error {
-  color: #b71c1c;
-  font-size: 12px;
+  color: $color-error;
   font-weight: $font-weight-semi-bold;
-  height: 20px;
-  line-height: 20px;
-  margin-bottom: 32px;
 }
 
 .username {
