@@ -7,6 +7,7 @@ import (
 	"github.com/cross-team/clublink/backend/app/entity"
 	"github.com/cross-team/clublink/backend/app/usecase/authenticator"
 	"github.com/cross-team/clublink/backend/app/usecase/changelog"
+	"github.com/cross-team/clublink/backend/app/usecase/repository"
 	"github.com/cross-team/clublink/backend/app/usecase/shortlink"
 )
 
@@ -17,6 +18,7 @@ type AuthQuery struct {
 	authenticator      authenticator.Authenticator
 	changeLog          changelog.ChangeLog
 	shortLinkRetriever shortlink.Retriever
+	userShortLinkRepo  repository.UserShortLink
 }
 
 // ShortLinkArgs represents possible parameters for ShortLink endpoint
@@ -48,11 +50,9 @@ type UserByShortLinkArgs struct {
 }
 
 // UserByShortLink retrieves a User
-func (v AuthQuery) UserByShortLink(args *UserByShortLinkArgs) (*entity.User, error) {
-	user := entity.User{
-		Email: "",
-	}
-	return &user, nil
+func (v AuthQuery) UserByShortLink(args *UserByShortLinkArgs) (*User, error) {
+	user, err := v.userShortLinkRepo.GetUserByShortLink(args.ID)
+	return &User{user: user}, err
 }
 
 // ChangeLog retrieves full ChangeLog from persistent storage
@@ -116,11 +116,13 @@ func newAuthQuery(
 	authenticator authenticator.Authenticator,
 	changeLog changelog.ChangeLog,
 	shortLinkRetriever shortlink.Retriever,
+	userShortLinkRepo repository.UserShortLink,
 ) AuthQuery {
 	return AuthQuery{
 		authToken:          authToken,
 		authenticator:      authenticator,
 		changeLog:          changeLog,
 		shortLinkRetriever: shortLinkRetriever,
+		userShortLinkRepo:  userShortLinkRepo,
 	}
 }

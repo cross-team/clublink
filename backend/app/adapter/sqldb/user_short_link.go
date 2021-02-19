@@ -19,9 +19,30 @@ type UserShortLinkSQL struct {
 
 // GetUserByShortLink fetches the user associated with a given ShortLink ID
 func (u UserShortLinkSQL) GetUserByShortLink(shortLinkID string) (entity.User, error) {
-	user := entity.User{
-		Email: "",
+	statement := fmt.Sprintf(`SELECT "%s", "%s", "%s" FROM "%s", "%s" WHERE "%s"=$1 AND "%s"="%s";`,
+		table.User.ColumnID,
+		table.User.ColumnEmail,
+		table.User.ColumnName,
+		table.User.TableName,
+		table.UserShortLink.TableName,
+		table.UserShortLink.ColumnShortLinkID,
+		table.UserShortLink.ColumnUserID,
+		table.User.ColumnID,
+	)
+
+	rows := u.db.QueryRow(statement, shortLinkID)
+
+	user := entity.User{}
+	err := rows.Scan(
+		&user.ID,
+		&user.Email,
+		&user.Name,
+	)
+	if err != nil {
+		return entity.User{}, err
 	}
+
+
 	return user, nil
 }
 

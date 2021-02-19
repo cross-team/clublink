@@ -124,7 +124,7 @@ func InjectGraphQLService(runtime2 env.Runtime, prefix provider.LogPrefix, logLe
 	tokenizer := provider.NewJwtGo(jwtSecret)
 	authenticator := provider.NewAuthenticator(tokenizer, system, tokenValidDuration)
 	userSQL := sqldb.NewUserSQL(sqlDB)
-	resolverResolver := resolver.NewResolver(loggerLogger, retrieverPersist, creatorPersist, updaterPersist, persist, verifier, authenticator, userSQL, keyGenerator)
+	resolverResolver := resolver.NewResolver(loggerLogger, retrieverPersist, creatorPersist, updaterPersist, persist, verifier, authenticator, userSQL, userShortLinkSQL, keyGenerator)
 	api, err := provider.NewShortGraphQLAPI(graphqlSchemaPath, local, resolverResolver)
 	if err != nil {
 		return service.GraphQL{}, err

@@ -15,6 +15,14 @@ type UserShortLinkFake struct {
 	shortLinks []entity.ShortLink
 }
 
+func (u *UserShortLinkFake) GetUserByShortLink(shortLinkID string) (entity.User, error) {
+	user := entity.User{
+		Email: "hello",
+	}
+
+	return user, nil
+}
+
 // CreateRelation creates many to many relationship between User and ShortLink.
 func (u *UserShortLinkFake) CreateRelation(user entity.User, shortLinkInput entity.ShortLinkInput) error {
 	if shortLinkInput.CustomAlias == nil {

@@ -26,10 +26,11 @@ func NewResolver(
 	requesterVerifier requester.Verifier,
 	authenticator authenticator.Authenticator,
 	userRepo repository.User,
+	userShortLinkRepo repository.UserShortLink,
 	keyGen keygen.KeyGenerator,
 ) Resolver {
 	return Resolver{
-		Query: newQuery(logger, authenticator, changeLog, shortLinkRetriever),
+		Query: newQuery(logger, authenticator, changeLog, shortLinkRetriever, userShortLinkRepo),
 		Mutation: newMutation(
 			logger,
 			changeLog,

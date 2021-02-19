@@ -46,6 +46,12 @@ type AuthQuery {
         expireAfter: Time
     ): ShortLink
 
+    """Fetch a user based on the ID of a given shortlink"""
+    userByShortLink(
+        "ID of the short link"
+        id: String!,
+    ): User!
+
     """Fetch the all the changes visible to the current user"""
     changeLog: ChangeLog!
 
@@ -165,6 +171,17 @@ type ShortLink {
 
     """The title of the room that the link was created for"""
     room: String 
+}
+
+type User {
+	"""The unique ID of the user"""
+    id: String
+
+    """The username of the user"""
+    name: String
+
+    """The email of the user"""
+    email: String
 }
 
 """
