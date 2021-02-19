@@ -3,6 +3,7 @@ import './TextField.scss';
 
 interface IProps {
   disabled?: boolean;
+  id?: string;
   className?: string;
   text?: string;
   placeHolder?: string;
@@ -22,6 +23,7 @@ export class TextField extends Component<IProps, any> {
         aria-label={this.props.aria}
         aria-describedby={this.props.describedBy}
         ref={this.textInput}
+        id={this.props.id}
         className={`text-field ${this.props.className && this.props.className}`}
         type={'text'}
         value={this.props.text}
