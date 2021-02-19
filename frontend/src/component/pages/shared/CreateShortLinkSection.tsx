@@ -381,7 +381,7 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
       .query('http://localhost:8080/graphql', {
         query: `query {
           authQuery {
-            shortLink(alias: "${alias}") {
+            activeShortLink(alias: "${alias}") {
               alias
               longLink
               expireAt

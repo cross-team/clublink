@@ -173,7 +173,7 @@ export class VisitLinkSection extends Component<IProps, IState> {
       .query('http://localhost:8080/graphql', {
         query: `query {
           authQuery {
-            shortLink(alias: "${alias}") {
+            activeShortLink(alias: "${alias}") {
               id
               alias
               longLink

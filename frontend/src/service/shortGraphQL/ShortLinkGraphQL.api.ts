@@ -68,6 +68,7 @@ export class ShortLinkGraphQLApi {
       ) {
         noAuthMutation(captchaResponse: $captchaResponse) {
           createShortLink(shortLink: $shortLinkInput, isPublic: $isPublic) {
+            id
             alias
             longLink
           }
