@@ -24,7 +24,7 @@ func LongLink(
 		i.RedirectingAliasToLongLink(alias)
 
 		now := timer.Now()
-		s, err := shortLinkRetriever.GetShortLink(alias, &now)
+		s, err := shortLinkRetriever.GetActiveShortLink(alias, &now)
 		if err != nil {
 			i.LongLinkRetrievalFailed(err)
 			serve404(w, r, webFrontendURL)

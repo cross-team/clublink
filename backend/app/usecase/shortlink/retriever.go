@@ -11,7 +11,8 @@ var _ Retriever = (*RetrieverPersist)(nil)
 
 // Retriever represents ShortLink retriever
 type Retriever interface {
-	GetShortLink(alias string, expiringAt *time.Time) (entity.ShortLink, error)
+	GetShortLink(ID string) (entity.ShortLink, error)
+	GetActiveShortLink(alias string, expiringAt *time.Time) (entity.ShortLink, error)
 	GetShortLinksByUser(user entity.User) ([]entity.ShortLink, error)
 }
 
@@ -23,14 +24,24 @@ type RetrieverPersist struct {
 }
 
 // GetShortLink retrieves ShortLink from persistent storage given alias
-func (r RetrieverPersist) GetShortLink(alias string, expiringAt *time.Time) (entity.ShortLink, error) {
-	if expiringAt == nil {
-		return r.getShortLink(alias, time.Now())
+func (r RetrieverPersist) GetShortLink(ID string) (entity.ShortLink, error) {
+	shortLink, err := r.shortLinkRepo.GetShortLinkByID(ID)
+	if err != nil {
+		return entity.ShortLink{}, err
 	}
-	return r.getShortLink(alias, *expiringAt)
+
+	return shortLink, nil
 }
 
-func (r RetrieverPersist) getShortLink(alias string, expiringAt time.Time) (entity.ShortLink, error) {
+// GetShortLink retrieves ShortLink from persistent storage given alias
+func (r RetrieverPersist) GetActiveShortLink(alias string, expiringAt *time.Time) (entity.ShortLink, error) {
+	if expiringAt == nil {
+		return r.getActiveShortLink(alias, time.Now())
+	}
+	return r.getActiveShortLink(alias, *expiringAt)
+}
+
+func (r RetrieverPersist) getActiveShortLink(alias string, expiringAt time.Time) (entity.ShortLink, error) {
 	shortLink, err := r.shortLinkRepo.GetShortLinkByAlias(alias, expiringAt)
 	if err != nil {
 		return entity.ShortLink{}, err

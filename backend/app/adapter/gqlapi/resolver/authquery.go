@@ -23,12 +23,27 @@ type AuthQuery struct {
 
 // ShortLinkArgs represents possible parameters for ShortLink endpoint
 type ShortLinkArgs struct {
+	ID string
+}
+
+// ShortLink retrieves a ShortLink given the ID
+func (v AuthQuery) ShortLink(args *ShortLinkArgs) (*ShortLink, error) {
+	s, err := v.shortLinkRetriever.GetShortLink(args.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	return &ShortLink{shortLink: s}, nil
+}
+
+// ActiveShortLinkArgs represents possible parameters for ActiveShortLink endpoint
+type ActiveShortLinkArgs struct {
 	Alias       string
 	ExpireAfter *scalar.Time
 }
 
-// ShortLink retrieves an ShortLink persistent storage given alias and expiration time.
-func (v AuthQuery) ShortLink(args *ShortLinkArgs) (*ShortLink, error) {
+// ActiveShortLink retrieves an ShortLink persistent storage given alias and expiration time.
+func (v AuthQuery) ActiveShortLink(args *ActiveShortLinkArgs) (*ShortLink, error) {
 	var expireAt *time.Time
 	if args.ExpireAfter != nil {
 		expireAt = &args.ExpireAfter.Time
@@ -37,7 +52,7 @@ func (v AuthQuery) ShortLink(args *ShortLinkArgs) (*ShortLink, error) {
 		expireAt = &today
 	}
 
-	s, err := v.shortLinkRetriever.GetShortLink(args.Alias, expireAt)
+	s, err := v.shortLinkRetriever.GetActiveShortLink(args.Alias, expireAt)
 	if err != nil {
 		return nil, err
 	}

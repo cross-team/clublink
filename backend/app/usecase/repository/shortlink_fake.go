@@ -17,6 +17,12 @@ type ShortLinkFake struct {
 }
 
 // IsAliasExist checks whether a given alias exist in short_link table.
+func (s ShortLinkFake) GetShortLinkByID(ID string) (entity.ShortLink, error) {
+	shortlink := entity.ShortLink{}
+	return shortlink, nil
+}
+
+// IsAliasExist checks whether a given alias exist in short_link table.
 func (s ShortLinkFake) IsAliasExist(alias string) (bool, error) {
 	_, ok := s.shortLinks[alias]
 	return ok, nil

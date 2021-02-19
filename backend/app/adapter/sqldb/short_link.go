@@ -155,6 +155,58 @@ WHERE "%s"=$5;`,
 }
 
 // GetShortLinkByAlias finds the active ShortLink in short_link table with a given alias.
+func (s ShortLinkSQL) GetShortLinkByID(ID string) (entity.ShortLink, error) {
+	statement := fmt.Sprintf(`
+SELECT "%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s"
+FROM "%s" 
+WHERE "%s"=$1;`,
+		table.ShortLink.ColumnAlias,
+		table.ShortLink.ColumnLongLink,
+		table.ShortLink.ColumnRoom,
+		table.ShortLink.ColumnID,
+		table.ShortLink.ColumnExpireAt,
+		table.ShortLink.ColumnCreatedAt,
+		table.ShortLink.ColumnUpdatedAt,
+		table.ShortLink.ColumnOpenGraphTitle,
+		table.ShortLink.ColumnOpenGraphDescription,
+		table.ShortLink.ColumnOpenGraphImageURL,
+		table.ShortLink.ColumnTwitterTitle,
+		table.ShortLink.ColumnTwitterDescription,
+		table.ShortLink.ColumnTwitterImageURL,
+		table.ShortLink.TableName,
+		table.ShortLink.ColumnID,
+	)
+
+	rows := s.db.QueryRow(statement, ID)
+
+	shortLink := entity.ShortLink{}
+	err := rows.Scan(
+		&shortLink.Alias,
+		&shortLink.LongLink,
+		&shortLink.Room,
+		&shortLink.ID,
+		&shortLink.ExpireAt,
+		&shortLink.CreatedAt,
+		&shortLink.UpdatedAt,
+		&shortLink.OpenGraphTags.Title,
+		&shortLink.OpenGraphTags.Description,
+		&shortLink.OpenGraphTags.ImageURL,
+		&shortLink.TwitterTags.Title,
+		&shortLink.TwitterTags.Description,
+		&shortLink.TwitterTags.ImageURL,
+	)
+	if err != nil {
+		return entity.ShortLink{}, err
+	}
+
+	shortLink.CreatedAt = utc(shortLink.CreatedAt)
+	shortLink.UpdatedAt = utc(shortLink.UpdatedAt)
+	shortLink.ExpireAt = utc(shortLink.ExpireAt)
+
+	return shortLink, nil
+}
+
+// GetShortLinkByAlias finds the active ShortLink in short_link table with a given alias.
 func (s ShortLinkSQL) GetShortLinkByAlias(alias string, expiringAt time.Time) (entity.ShortLink, error) {
 	statement := fmt.Sprintf(`
 SELECT "%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s"
@@ -179,8 +231,6 @@ WHERE "%s"=$1 AND "%s">$2;`,
 	)
 
 	rows := s.db.QueryRow(statement, alias, expiringAt)
-	fmt.Println(rows)
-
 
 	shortLink := entity.ShortLink{}
 	err := rows.Scan(

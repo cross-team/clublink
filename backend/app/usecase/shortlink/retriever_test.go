@@ -107,7 +107,7 @@ func TestRetriever_GetShortLink(t *testing.T) {
 			fakeShortLinkRepo := repository.NewShortLinkFake(nil, testCase.shortLinks)
 			fakeUserShortLinkRepo := repository.NewUserShortLinkRepoFake([]entity.User{}, []entity.ShortLink{})
 			retriever := NewRetrieverPersist(&fakeShortLinkRepo, &fakeUserShortLinkRepo)
-			shortLink, err := retriever.GetShortLink(testCase.alias, testCase.expiringAt)
+			shortLink, err := retriever.GetActiveShortLink(testCase.alias, testCase.expiringAt)
 
 			if testCase.hasErr {
 				assert.NotEqual(t, nil, err)

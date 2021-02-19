@@ -37,8 +37,14 @@ type Mutation {
 
 """Read APIs protected with authentication"""
 type AuthQuery {
-    """Fetch a short link that is still valid at the given expiration time"""
+    """Fetch a short link with the given ID"""
     shortLink(
+        "ID of the short link"
+        id: String!
+    ): ShortLink
+
+    """Fetch a short link that is still valid at the given expiration time"""
+    activeShortLink(
         "Alias of the short link"
         alias: String!,
 
