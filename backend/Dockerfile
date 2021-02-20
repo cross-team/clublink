@@ -16,7 +16,7 @@ COPY . .
 
 RUN go build -o build/app main.go
 
-RUN go run main.go start
+# RUN go run main.go start
 
 # FROM alpine:3.10 as production
 
