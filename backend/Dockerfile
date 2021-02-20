@@ -18,17 +18,17 @@ RUN go build -o build/app main.go
 
 # RUN go run main.go start
 
-# FROM alpine:3.10 as production
+FROM alpine:3.10 as production
 
-# WORKDIR /short
+WORKDIR /short
 
-# RUN apk add --no-cache bash
+RUN apk add --no-cache bash
 
-# COPY --from=builder /short/build/app /build/app
-# COPY --from=builder /short/scripts/wait-for-it ./scripts/wait-for-it
-# COPY --from=builder /short/app/adapter/sqldb/migration ./app/adapter/sqldb/migration
-# COPY --from=builder /short/app/adapter/routing/public ./app/adapter/routing/public
-# COPY --from=builder /short/app/adapter/routing/api.yml ./app/adapter/routing/api.yml
-# COPY --from=builder /short/app/adapter/gqlapi/schema.graphql ./app/adapter/gqlapi/schema.graphql
+COPY --from=builder /short/build/app /build/app
+COPY --from=builder /short/scripts/wait-for-it ./scripts/wait-for-it
+COPY --from=builder /short/app/adapter/sqldb/migration ./app/adapter/sqldb/migration
+COPY --from=builder /short/app/adapter/routing/public ./app/adapter/routing/public
+COPY --from=builder /short/app/adapter/routing/api.yml ./app/adapter/routing/api.yml
+COPY --from=builder /short/app/adapter/gqlapi/schema.graphql ./app/adapter/gqlapi/schema.graphql
 
-ENTRYPOINT ["go", "run", "main.go", "start"]
+ENTRYPOINT ["build/app"]
