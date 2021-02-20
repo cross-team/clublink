@@ -31,4 +31,4 @@ RUN go run main.go start
 # COPY --from=builder /short/app/adapter/routing/api.yml ./app/adapter/routing/api.yml
 # COPY --from=builder /short/app/adapter/gqlapi/schema.graphql ./app/adapter/gqlapi/schema.graphql
 
-CMD ["go", "run", "main.go", "start"]
+ENTRYPOINT ["go", "run", "main.go", "start"]
