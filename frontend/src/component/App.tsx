@@ -24,7 +24,7 @@ export class App extends Component<IProps> {
       <Router>
         <Switch>
           <Route
-            path={'/'}
+            path={'/a/enter-code'}
             exact
             render={({ location, history }) =>
               this.props.uiFactory.createHomePage(location, history, 'visit')
@@ -70,6 +70,18 @@ export class App extends Component<IProps> {
                 alias
               );
               return <div />;
+            }}
+          />
+          <Route
+            path={'/'}
+            exact
+            render={({ location, history }) => {
+              window.location.assign('/a/enter-code');
+              return this.props.uiFactory.createHomePage(
+                location,
+                history,
+                'visit'
+              );
             }}
           />
           <Route component={NotFoundPage} />
