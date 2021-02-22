@@ -362,6 +362,8 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
               createdShortLink.alias!
             );
 
+            console.log(createdShortLink);
+
             const qrCodeURL = await this.props.qrCodeService.newQrCode(
               longLink
             );
@@ -377,9 +379,7 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
               this.props.onShortLinkCreated(shortLink);
             }
 
-            window.location.assign(
-              `/published/?alias=${alias}&longLink=${longLink}&shortLink=${shortLink}&qrCodeURL=${qrCodeURL}`
-            );
+            window.location.assign(`/published/?link=${createdShortLink.id}`);
           })
           .catch(({ authenticationErr, createShortLinkErr }) => {
             console.log(authenticationErr);

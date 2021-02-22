@@ -71,6 +71,7 @@ export class ShortLinkGraphQLApi {
             id
             alias
             longLink
+            room
           }
         }
       }
@@ -128,7 +129,8 @@ export class ShortLinkGraphQLApi {
       longLink: createdShortLink.longLink,
       alias: createdShortLink.alias,
       username: createdShortLink.username,
-      room: createdShortLink.room
+      room: createdShortLink.room,
+      id: createdShortLink.id
     };
   }
 
