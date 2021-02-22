@@ -37,7 +37,7 @@ func main() {
 	routes := []router.Route{
 		{
 			Method: http.MethodGet,
-			Path:   "/r/:alias",
+			Path:   "/:alias",
 			Handle: handle.Redirect(redirectPage, gRPC, rootDir),
 		},
 		{
