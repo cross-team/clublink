@@ -128,7 +128,7 @@ export class HomePage extends Component<Props, State> {
           )}
           <div className="page-link">
             {this.props.view === 'visit' && (
-              <a href="/create" aria-label="create a new club-link">
+              <a href="/a/create" aria-label="create a new club-link">
                 or create a new club-link
               </a>
             )}

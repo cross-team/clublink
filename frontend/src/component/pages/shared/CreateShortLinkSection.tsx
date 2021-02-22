@@ -378,7 +378,7 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
             }
 
             window.location.assign(
-              `/published/?alias=${alias}&longLink=${longLink}&shortLink=${shortLink}&qrCodeURL=${qrCodeURL}`
+              `/a/published/?alias=${alias}&longLink=${longLink}&shortLink=${shortLink}&qrCodeURL=${qrCodeURL}`
             );
           })
           .catch(({ authenticationErr, createShortLinkErr }) => {

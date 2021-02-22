@@ -31,14 +31,14 @@ export class App extends Component<IProps> {
             }
           />
           <Route
-            path={'/create'}
+            path={'/a/create'}
             exact
             render={({ location, history }) =>
               this.props.uiFactory.createHomePage(location, history, 'create')
             }
           />
           <Route
-            path={'/favorites'}
+            path={'/a/favorites'}
             exact
             render={({ location, history }) =>
               this.props.uiFactory.createHomePage(
@@ -49,21 +49,21 @@ export class App extends Component<IProps> {
             }
           />
           <Route
-            path={'/published'}
+            path={'/a/published'}
             exact
             render={() => {
               return this.props.uiFactory.createPublishedPage();
             }}
           />
           <Route
-            path={'/admin'}
+            path={'/a/admin'}
             exact
             render={() => {
               return this.props.uiFactory.createAdminPage();
             }}
           />
           <Route
-            path={'/r/:alias'}
+            path={'/:alias'}
             render={({ match }) => {
               let alias = match.params['alias'];
               window.location.href = this.props.shortLinkService.aliasToBackendLink(
