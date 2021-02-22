@@ -379,7 +379,7 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
               this.props.onShortLinkCreated(shortLink);
             }
 
-            window.location.assign(`/published/?link=${createdShortLink.id}`);
+            window.location.assign(`/a/published/?link=${createdShortLink.id}`);
           })
           .catch(({ authenticationErr, createShortLinkErr }) => {
             console.log(authenticationErr);

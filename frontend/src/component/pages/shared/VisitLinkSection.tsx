@@ -163,7 +163,7 @@ export class VisitLinkSection extends Component<IProps, IState> {
       .then(results => {
         let data: any = results;
         window.location.assign(
-          `/published/?link=${data.authQuery.activeShortLink.id}`
+          `/a/published/?link=${data.authQuery.activeShortLink.id}`
         );
       })
       .catch(error => {

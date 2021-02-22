@@ -112,7 +112,7 @@ export class PublishedPage extends Component<Props, State> {
           >
             copy club-link
           </button>
-          <a className="button" href="/create">
+          <a className="button" href="/a/create">
             create new
           </a>
         </div>
