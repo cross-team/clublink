@@ -377,7 +377,7 @@ func TestShortLinkUpdaterPersist_UpdateShortLink(t *testing.T) {
 			if testCase.expectedHasErr {
 				assert.NotEqual(t, nil, err)
 
-				_, err = shortLinkRepo.GetShortLinkByAlias(testCase.expectedShortLink.Alias)
+				_, err = shortLinkRepo.GetShortLinkByAlias(testCase.expectedShortLink.Alias, time.Now())
 				assert.NotEqual(t, nil, err)
 
 				isExist, err := userShortLinkRepo.HasMapping(testCase.user, testCase.expectedShortLink.Alias)

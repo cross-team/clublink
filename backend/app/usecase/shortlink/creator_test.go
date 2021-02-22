@@ -220,7 +220,7 @@ func TestShortLinkCreatorPersist_CreateShortLink(t *testing.T) {
 			)
 
 			if !testCase.shouldAliasExist {
-				_, err = shortLinkRepo.GetShortLinkByAlias(testCase.shortLinkArgs.GetCustomAlias(""))
+				_, err = shortLinkRepo.GetShortLinkByAlias(testCase.shortLinkArgs.GetCustomAlias(""), time.Now())
 				assert.NotEqual(t, nil, err)
 			}
 
@@ -234,7 +234,7 @@ func TestShortLinkCreatorPersist_CreateShortLink(t *testing.T) {
 			if testCase.expHasErr {
 				assert.NotEqual(t, nil, err)
 
-				_, err = shortLinkRepo.GetShortLinkByAlias(testCase.expectedShortLink.Alias)
+				_, err = shortLinkRepo.GetShortLinkByAlias(testCase.expectedShortLink.Alias, time.Now())
 				assert.NotEqual(t, nil, err)
 
 				isExist, err := userShortLinkRepo.HasMapping(testCase.user, testCase.expectedShortLink.Alias)
@@ -245,7 +245,7 @@ func TestShortLinkCreatorPersist_CreateShortLink(t *testing.T) {
 			assert.Equal(t, nil, err)
 			assert.Equal(t, testCase.expectedShortLink, shortLink)
 
-			savedShortLink, err := shortLinkRepo.GetShortLinkByAlias(testCase.expectedShortLink.Alias)
+			savedShortLink, err := shortLinkRepo.GetShortLinkByAlias(testCase.expectedShortLink.Alias, time.Now())
 			assert.Equal(t, nil, err)
 			assert.Equal(t, testCase.expectedShortLink, savedShortLink)
 
