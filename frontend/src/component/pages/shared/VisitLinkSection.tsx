@@ -1,6 +1,6 @@
 import React, { Component, ReactElement } from 'react';
 
-import './CreateShortLinkSection.scss';
+import './VisitShortLinkSection.scss';
 import { TextField } from '../../form/TextField';
 import { Button } from '../../ui/Button';
 import { ShortLinkUsage } from './ShortLinkUsage';
@@ -80,27 +80,21 @@ export class VisitLinkSection extends Component<IProps, IState> {
               onBlur={this.handleCustomAliasTextFieldBlur}
               onChange={this.handleAliasChange}
             />
-            {this.state.status === 'success' ? (
+            {this.state.alias && (
               <button
-                className={'rocket-button'}
-                onClick={async () => {
-                  let qrCodeURL = await this.props.qrCodeService.newQrCode(
-                    `${this.state.longLink}`
-                  );
-                  window.location.assign(
-                    `/published/?alias=${this.state.alias}&longLink=${this.state.longLink}&shortLink=http://clubl.ink/${this.state.alias}&qrCodeURL=${qrCodeURL}`
-                  );
-                }}
+                className={'emoji rocket-button'}
+                onClick={this.handleSubmit}
+                // onClick={async () => {
+                //   let qrCodeURL = await this.props.qrCodeService.newQrCode(
+                //     `${this.state.longLink}`
+                //   );
+                //   window.location.assign(
+                //     `/published/?alias=${this.state.alias}&longLink=${this.state.longLink}&shortLink=http://clubl.ink/${this.state.alias}&qrCodeURL=${qrCodeURL}`
+                //   );
+                // }}
               >
                 🚀
               </button>
-            ) : (
-              <span
-                className={`emoji ${!this.state.alias && 'hidden'}`}
-                aria-hidden="true"
-              >
-                😩
-              </span>
             )}
           </div>
         </div>
@@ -111,7 +105,12 @@ export class VisitLinkSection extends Component<IProps, IState> {
           }`}
           id="code-description"
         >
-          {this.state.status === '' && 'Enter the super-secret code and go 🚀'}
+          {this.state.status === '' && (
+            <>
+              Enter the super-secret code and go{' '}
+              <span aria-hidden="true">🚀</span>
+            </>
+          )}
           {this.state.status === 'error' &&
             "Code doesn't exist, try entering another"}
           {this.state.status === 'success' && (
@@ -149,6 +148,32 @@ export class VisitLinkSection extends Component<IProps, IState> {
     );
   }
 
+  handleSubmit = async () => {
+    await this.props.graphQLService
+      .query('http://localhost:8080/graphql', {
+        query: `query {
+          authQuery {
+            activeShortLink(alias: "${this.state.alias}") {
+              id
+            }
+          }
+        }`,
+        variables: {}
+      })
+      .then(results => {
+        let data: any = results;
+        window.location.assign(
+          `/published/?link=${data.authQuery.activeShortLink.id}`
+        );
+      })
+      .catch(error => {
+        this.setState({
+          link: 'error',
+          status: 'error'
+        });
+      });
+  };
+
   handleAliasChange = async (newAlias: string) => {
     if (newAlias === '') {
       this.setState({
@@ -161,9 +186,10 @@ export class VisitLinkSection extends Component<IProps, IState> {
       this.setState({
         alias: newAlias,
         club: 'sand',
-        link: ''
+        link: '',
+        status: ''
       });
-      await this.handleCodeValidation(newAlias);
+      // await this.(newAlias);
     }
   };
 

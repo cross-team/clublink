@@ -18,8 +18,8 @@ export class Footer extends Component<Props> {
         <div className={'center'}>
           <div className={'row'}>Loving clubl.ink? ❤️ Love us back!</div>
           <div className={'row app-version'}>
-            <a>@mpaiva</a>, <a>@paiva</a>, <a>@sebastian</a>, <a>@laurabries</a>
-            , <a>@jomonti</a>
+            <a>@mpaiva</a> <a>@paiva</a> <a>@sebastian</a> <a>@laurabries</a>
+            <a>@jomonti</a>
           </div>
           {/* <div className={'row'}>
             {this.props.uiFactory.createViewChangeLogButton({

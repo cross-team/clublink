@@ -43,13 +43,11 @@
 
   .emoji-text-field-wrapper {
     margin-left: 48px;
-    margin-bottom: 8px;
     @media only screen and (max-width: 720px) {
       margin: auto;
 
       input {
         margin: auto;
-        margin-bottom: 16px;
       }
     }
   }
@@ -57,12 +55,17 @@
   .text-field-wrapper {
     // margin-right: 48px;
     // margin-left: 48px;
+    margin-top: 16px;
 
     @media only screen and (max-width: 720px) {
       // margin: auto;
       // flex-direction: column;
       // align-items: center;
     }
+  }
+
+  .bold {
+    font-weight: $font-weight-bold;
   }
 
   .hide-small {

@@ -57,7 +57,7 @@
 
     &:focus,
     &:hover {
-      font-size: 3rem;
+      // font-size: 3rem;
     }
 
     &:focus {
@@ -91,22 +91,24 @@
   .control {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-end;
+
+    @media only screen and (max-width: 720px) {
+      justify-content: flex-end;
+      align-items: center;
+    }
   }
 
   .input-description {
     text-align: center;
     line-height: auto;
-    margin: 16px 0;
+    margin-top: 8px;
+    margin-bottom: 16px;
 
-    @media only screen and (max-width: 720px) {
-      margin-top: 8px;
-      margin-bottom: 24px;
-    }
-  }
-
-  .bold {
-    font-weight: $font-weight-bold;
+    // @media only screen and (max-width: 720px) {
+    //   margin-top: 8px;
+    //   margin-bottom: 24px;
+    // }
   }
 
   .header {
