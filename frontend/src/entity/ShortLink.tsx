@@ -4,4 +4,5 @@ export interface ShortLink {
   alias: string;
   username: string;
   room: string;
+  expireAt?: Date;
 }

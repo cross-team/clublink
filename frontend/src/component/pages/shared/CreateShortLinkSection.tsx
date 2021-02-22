@@ -107,11 +107,6 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
                 😍
               </span>
             )}
-            {this.state.status === '' && (
-              <span className="emoji" aria-hidden>
-                🚀
-              </span>
-            )}
             {/* {this.state.alias && (
             <span
               role="button"
@@ -128,6 +123,7 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
         </div>
         <div className={'emoji-text-field-wrapper'}>
           <TextField
+            className={`${this.state.inputError ? 'error' : ''}`}
             describedBy="longLink-error"
             text={this.state.longLink}
             placeHolder={
@@ -137,11 +133,11 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
             onChange={this.handleLongLinkChange}
           />
           {this.state.inputError === undefined ? (
-            <span className="emoji hide-small" aria-hidden>
+            <span className="emoji input-emoji hide-small" aria-hidden>
               😱
             </span>
           ) : (
-            <span className="emoji hide-small" aria-hidden>
+            <span className="emoji input-emoji hide-small" aria-hidden>
               💩
             </span>
           )}
@@ -167,6 +163,9 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
           />
         </div>
         <div className="create-short-link-btn">
+          <a className="back" href="/" aria-label="back to home">
+            back
+          </a>
           <Button
             className={'publish'}
             onClick={this.handleCreateShortLinkClick}
@@ -180,9 +179,6 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
           >
             publish
           </Button>
-          <a href="/" aria-label="back to home">
-            back
-          </a>
         </div>
         {/* {this.props.uiFactory.createPreferenceTogglesSubSection({
           uiFactory: this.props.uiFactory,
@@ -227,7 +223,7 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
       this.setState({
         description: (
           <>
-            Keep it simple, it only lasts 24 hours <span aria-hidden> ✌️</span>
+            This link only lasts 24 hours<span aria-hidden> 💣</span>
           </>
         )
       });
@@ -265,7 +261,7 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
       this.setState({
         description: (
           <>
-            Keep it simple, it only lasts 24 hours <span aria-hidden> ✌️</span>
+            This link only lasts 24hrs<span aria-hidden> ✌️</span>
           </>
         ),
         alias: newAlias,

@@ -11,9 +11,34 @@
 }
 
 .username {
-  flex-shrink: 2;
+  // flex-shrink: 1;
+  margin-right: 8px;
+  margin-left: 48px;
 }
 
 .room {
-  flex-shrink: 1;
+  // flex-shrink: 1;
+  margin-left: 8px;
+  margin-right: 48px;
+}
+
+@media only screen and (max-width: 720px) {
+  .username {
+    margin-left: 0;
+  }
+
+  .room {
+    margin-right: 0;
+  }
+}
+
+a.back {
+  font-size: 24px;
+  margin-right: 16px;
+}
+
+.input-emoji {
+  position: relative;
+  left: -64px;
+  top: 8px;
 }

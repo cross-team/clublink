@@ -192,15 +192,35 @@ export class VisitLinkSection extends Component<IProps, IState> {
         variables: {}
       })
       .then(results => {
+        console.log(alias, results);
         let queryData: any = results;
+        this.props.graphQLService
+          .query('http://localhost:8080/graphql', {
+            query: `query {
+            authQuery {
+              userByShortLink(id: "${queryData.authQuery.activeShortLink.id}") {
+                name
+              }
+            }
+          }`,
+            variables: {}
+          })
+          .then(userResults => {
+            let userData: any = userResults;
+            this.setState({
+              user: userData.authQuery.userByShortLink.name
+            });
+          });
+
         this.setState({
           link: 'green',
           status: 'success',
-          longLink: queryData.authQuery.shortLink.longLink,
-          room: queryData.authQuery.shortLink.room
+          longLink: queryData.authQuery.activeShortLink.longLink,
+          room: queryData.authQuery.activeShortLink.room
         });
       })
       .catch(error => {
+        console.log(alias, error);
         this.setState({
           link: 'error',
           status: 'error'
