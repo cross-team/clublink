@@ -8,8 +8,11 @@
 .input-error {
   color: $color-error;
   font-weight: $font-weight-semi-bold;
-  margin-top: 8px;
-  margin-bottom: 16px;
+}
+
+.emoji {
+  position: relative;
+  left: 16px;
 }
 
 .username {
