@@ -96,6 +96,7 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
               onBlur={this.handleCustomAliasTextFieldBlur}
               onChange={this.handleAliasChange}
               onFocus={this.handleFocus}
+              onKeyPress={this.handleKeyPress}
             />
             {this.state.status === 'error' && (
               <span className="emoji" aria-hidden>
@@ -123,6 +124,7 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
         </div>
         <div className={'emoji-text-field-wrapper'}>
           <TextField
+            id="longLink-input"
             className={`${this.state.inputError ? 'error' : ''}`}
             describedBy="longLink-error"
             text={this.state.longLink}
@@ -131,6 +133,7 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
             }
             onBlur={this.handleLongLinkTextFieldBlur}
             onChange={this.handleLongLinkChange}
+            onKeyPress={this.handleKeyPress}
           />
           {this.state.inputError === undefined ? (
             <span className="emoji input-emoji hide-small" aria-hidden>
@@ -151,15 +154,19 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
           <TextField
             aria="clubhouse handle"
             className="username"
+            id="username-input"
             text={this.state.username}
             placeHolder={'@username'}
             onChange={this.handleUsernameChange}
+            onKeyPress={this.handleKeyPress}
           />
           <TextField
             className="room"
+            id="room-input"
             text={this.state.room}
             placeHolder={'your room title'}
             onChange={this.handleRoomChange}
+            onKeyPress={this.handleKeyPress}
           />
         </div>
         <div className="create-short-link-btn">
@@ -197,6 +204,29 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
       </Section>
     );
   }
+
+  handleKeyPress = (e: any) => {
+    if (e.key === 'Enter') {
+      if (this.state.inputError) {
+        let longLink = document.getElementById('longLink-input');
+        longLink?.focus();
+      } else if (!this.state.alias) {
+        let alias = document.getElementById('code-input');
+        alias?.focus();
+      } else if (!this.state.longLink) {
+        let longLink = document.getElementById('longLink-input');
+        longLink?.focus();
+      } else if (!this.state.username) {
+        let username = document.getElementById('username-input');
+        username?.focus();
+      } else if (!this.state.room) {
+        let room = document.getElementById('room-input');
+        room?.focus();
+      } else {
+        this.handleCreateShortLinkClick();
+      }
+    }
+  };
 
   autoFillInLongLink(longLink: string) {
     if (!longLink) {

@@ -12,6 +12,7 @@ interface IProps {
   onChange?: (text: string) => void;
   onBlur?: () => void;
   onFocus?: () => void;
+  onKeyPress?: (e: any) => void;
 }
 
 export class TextField extends Component<IProps, any> {
@@ -30,6 +31,7 @@ export class TextField extends Component<IProps, any> {
         onChange={this.handleChange}
         onBlur={this.handleBlur}
         onFocus={this.handleFocus}
+        onKeyPress={this.handleKeyPress}
         placeholder={this.props.placeHolder}
         disabled={this.props.disabled}
       />
@@ -56,6 +58,13 @@ export class TextField extends Component<IProps, any> {
       return;
     }
     this.props.onFocus();
+  };
+
+  handleKeyPress = (e: any) => {
+    if (!this.props.onKeyPress) {
+      return;
+    }
+    this.props.onKeyPress(e);
   };
 
   focus = () => {

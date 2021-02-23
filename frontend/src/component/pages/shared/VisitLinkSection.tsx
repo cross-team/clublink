@@ -79,6 +79,7 @@ export class VisitLinkSection extends Component<IProps, IState> {
               placeHolder={'enter code'}
               onBlur={this.handleCustomAliasTextFieldBlur}
               onChange={this.handleAliasChange}
+              onKeyPress={this.handleKeyPress}
             />
             {this.state.alias && (
               <button
@@ -147,6 +148,14 @@ export class VisitLinkSection extends Component<IProps, IState> {
       </Section>
     );
   }
+
+  handleKeyPress = (e: any) => {
+    if (e.key === 'Enter') {
+      if (this.state.alias) {
+        this.handleSubmit();
+      }
+    }
+  };
 
   handleSubmit = async () => {
     await this.props.graphQLService
