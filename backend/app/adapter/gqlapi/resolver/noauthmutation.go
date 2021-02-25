@@ -1,16 +1,16 @@
 package resolver
 
-import(
+import (
 	"errors"
 	"fmt"
 
 	"github.com/cross-team/clublink/backend/app/adapter/gqlapi/input"
-	"github.com/cross-team/clublink/backend/app/entity"
 	"github.com/cross-team/clublink/backend/app/adapter/gqlapi/scalar"
+	"github.com/cross-team/clublink/backend/app/entity"
 	"github.com/cross-team/clublink/backend/app/usecase/changelog"
-	"github.com/cross-team/clublink/backend/app/usecase/shortlink"
-	"github.com/cross-team/clublink/backend/app/usecase/repository"
 	"github.com/cross-team/clublink/backend/app/usecase/keygen"
+	"github.com/cross-team/clublink/backend/app/usecase/repository"
+	"github.com/cross-team/clublink/backend/app/usecase/shortlink"
 )
 
 // NoAuthMutation represents GraphQL mutation resolver that does not require an authToken
@@ -18,8 +18,8 @@ type NoAuthMutation struct {
 	changeLog        changelog.ChangeLog
 	shortLinkCreator shortlink.Creator
 	shortLinkUpdater shortlink.Updater
-	userRepo 				 repository.User
-	keyGen   				 keygen.KeyGenerator
+	userRepo         repository.User
+	keyGen           keygen.KeyGenerator
 }
 
 // CreateShortLinkArgs represents the possible parameters for CreateShortLink endpoint
@@ -41,7 +41,7 @@ func (a NoAuthMutation) CreateShortLink(args *NoAuthCreateShortLinkArgs) (*Short
 		fmt.Println(err)
 		return nil, ErrUnknown{}
 	}
-	
+
 	if exists {
 		user, err = a.userRepo.GetUserByEmail(username)
 		if err != nil {
@@ -52,9 +52,9 @@ func (a NoAuthMutation) CreateShortLink(args *NoAuthCreateShortLinkArgs) (*Short
 	} else {
 		fmt.Println("Creating user")
 		userID, err := a.createAccount(entity.SSOUser{
-			ID: username,
+			ID:    username,
 			Email: username,
-			Name: username,
+			Name:  username,
 		})
 		if err != nil {
 			fmt.Println("Error!")
@@ -160,7 +160,7 @@ func (a NoAuthMutation) CreateChange(args *NoAuthCreateChangeArgs) (*Change, err
 	user := entity.User{
 		Email: "alpha@example.com",
 	}
-	
+
 	change, err := a.changeLog.CreateChange(args.Change.Title, args.Change.SummaryMarkdown, user)
 	if err == nil {
 		change := newChange(change)
@@ -276,7 +276,7 @@ func newNoAuthMutation(
 		changeLog:        changeLog,
 		shortLinkCreator: shortLinkCreator,
 		shortLinkUpdater: shortLinkUpdater,
-	  userRepo:         userRepo,
-		keyGen:						keyGen,
+		userRepo:         userRepo,
+		keyGen:           keyGen,
 	}
 }
