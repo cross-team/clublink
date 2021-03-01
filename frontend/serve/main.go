@@ -7,9 +7,9 @@ import (
 	"github.com/short-d/app/fw/envconfig"
 	"github.com/short-d/app/fw/router"
 	"github.com/short-d/app/fw/service"
-	"github.com/short-d/short/frontend/serve/handle"
-	"github.com/short-d/short/frontend/serve/shortapi"
-	"github.com/short-d/short/frontend/serve/ssr"
+	"github.com/cross-team/clublink/frontend/serve/handle"
+	"github.com/cross-team/clublink/frontend/serve/shortapi"
+	"github.com/cross-team/clublink/frontend/serve/ssr"
 )
 
 func main() {
@@ -37,7 +37,7 @@ func main() {
 	routes := []router.Route{
 		{
 			Method: http.MethodGet,
-			Path:   "/r/:alias",
+			Path:   "/:alias",
 			Handle: handle.Redirect(redirectPage, gRPC, rootDir),
 		},
 		{

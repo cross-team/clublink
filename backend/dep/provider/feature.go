@@ -2,9 +2,9 @@ package provider
 
 import (
 	"github.com/short-d/app/fw/env"
-	"github.com/short-d/short/backend/app/usecase/authorizer"
-	"github.com/short-d/short/backend/app/usecase/feature"
-	"github.com/short-d/short/backend/app/usecase/repository"
+	"github.com/cross-team/clublink/backend/app/usecase/authorizer"
+	"github.com/cross-team/clublink/backend/app/usecase/feature"
+	"github.com/cross-team/clublink/backend/app/usecase/repository"
 )
 
 // NewFeatureDecisionMakerFactorySwitch creates FeatureDecisionFactory based on

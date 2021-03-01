@@ -141,7 +141,12 @@ export class UIFactory {
   }
 
   public createPublishedPage(): ReactElement {
-    return <PublishedPage />;
+    return (
+      <PublishedPage
+        graphQLService={this.graphQLService}
+        qrCodeService={this.qrCodeService}
+      />
+    );
   }
 
   public createAdminPage(): ReactElement {

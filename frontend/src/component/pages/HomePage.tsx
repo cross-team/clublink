@@ -126,18 +126,13 @@ export class HomePage extends Component<Props, State> {
               currentPagedShortLinks={this.state.currentPagedShortLinks}
             />
           )}
-        </div>
-        <div className="page-link">
-          {this.props.view === 'visit' && (
-            <a href="/create" aria-label="create a new club-link">
-              or create a new club-link
-            </a>
-          )}
-          {this.props.view === 'create' && (
-            <a href="/" aria-label="back to home">
-              back
-            </a>
-          )}
+          <div className="page-link">
+            {this.props.view === 'visit' && (
+              <a href="/a/create" aria-label="create a new club-link">
+                or create a new club-link
+              </a>
+            )}
+          </div>
         </div>
         <Footer
           uiFactory={this.props.uiFactory}

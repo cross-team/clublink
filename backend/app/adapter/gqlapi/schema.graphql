@@ -37,14 +37,26 @@ type Mutation {
 
 """Read APIs protected with authentication"""
 type AuthQuery {
-    """Fetch a short link that is still valid at the given expiration time"""
+    """Fetch a short link with the given ID"""
     shortLink(
+        "ID of the short link"
+        id: String!
+    ): ShortLink
+
+    """Fetch a short link that is still valid at the given expiration time"""
+    activeShortLink(
         "Alias of the short link"
         alias: String!,
 
-        "Time when an existing short link may expire"
+        "Time when an existing short link may expire; defaults to the current time"
         expireAfter: Time
     ): ShortLink
+
+    """Fetch a user based on the ID of a given shortlink"""
+    userByShortLink(
+        "ID of the short link"
+        id: String!,
+    ): User!
 
     """Fetch the all the changes visible to the current user"""
     changeLog: ChangeLog!
@@ -151,6 +163,9 @@ input ChangeInput {
 
 """The short link mapped to a long link"""
 type ShortLink {
+    """The unique ID of the link"""
+    id: String
+    
     """The alias of the short link"""
     alias: String
 
@@ -158,7 +173,21 @@ type ShortLink {
     longLink: String
 
     """The time when the short link expires"""
-    expireAt: Time 
+    expireAt: Time
+
+    """The title of the room that the link was created for"""
+    room: String 
+}
+
+type User {
+	"""The unique ID of the user"""
+    id: String
+
+    """The username of the user"""
+    name: String
+
+    """The email of the user"""
+    email: String
 }
 
 """

@@ -26,6 +26,7 @@ export interface IShortGraphQLShortLink {
   longLink: string;
   username: string;
   room: string;
+  id: string;
 }
 
 export interface IShortGraphQLShortLinkInput {

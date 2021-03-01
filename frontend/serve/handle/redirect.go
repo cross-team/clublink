@@ -6,8 +6,8 @@ import (
 	"path/filepath"
 
 	"github.com/short-d/app/fw/router"
-	"github.com/short-d/short/frontend/serve/shortapi"
-	"github.com/short-d/short/frontend/serve/ssr"
+	"github.com/cross-team/clublink/frontend/serve/shortapi"
+	"github.com/cross-team/clublink/frontend/serve/ssr"
 )
 
 // Redirect redirects user to the corresponding long link with the given alias.

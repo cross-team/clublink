@@ -34,13 +34,15 @@
   }
 
   .publish {
-    height: 40px;
-    font-size: 16px;
+    height: 64px;
+    font-size: 24px;
     font-weight: $font-weight-bold;
     border-radius: 32px;
+    padding: 0 32px;
+    margin-left: 16px;
 
     &:focus {
-      box-shadow: 0 0 0 4px #f7f5f0, 0 0 0 8px #5b74a6;
+      box-shadow: 0 0 0 4px $color-ch-bg, 0 0 0 8px $color-primary;
     }
   }
 
@@ -55,7 +57,7 @@
 
     &:focus,
     &:hover {
-      font-size: 3rem;
+      // font-size: 3rem;
     }
 
     &:focus {
@@ -73,8 +75,10 @@
   }
 
   .create-short-link-btn {
+    margin-top: 16px;
     display: flex;
     justify-content: center;
+    align-items: center;
   }
 
   .center {
@@ -87,12 +91,24 @@
   .control {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-end;
+
+    @media only screen and (max-width: 720px) {
+      justify-content: flex-end;
+      align-items: center;
+    }
   }
 
   .input-description {
     text-align: center;
-    margin: 16px;
+    line-height: auto;
+    margin-top: 8px;
+    margin-bottom: 16px;
+
+    // @media only screen and (max-width: 720px) {
+    //   margin-top: 8px;
+    //   margin-bottom: 24px;
+    // }
   }
 
   .header {

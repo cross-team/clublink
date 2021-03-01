@@ -1,6 +1,6 @@
 package github
 
-import "github.com/short-d/short/backend/app/usecase/sso"
+import "github.com/cross-team/clublink/backend/app/usecase/sso"
 
 // AccountLinker links user's Github account with Short account.
 type AccountLinker sso.AccountLinker

@@ -3,7 +3,7 @@ package entity
 import (
 	"time"
 
-	"github.com/short-d/short/backend/app/entity/metatag"
+	"github.com/cross-team/clublink/backend/app/entity/metatag"
 )
 
 // ShortLink represents a short link.
@@ -56,7 +56,7 @@ func (s *ShortLinkInput) GetUsername(defaultVal string) string {
 	return *s.Username
 }
 
-// GetUsername fetches ID for ShortLinkInput with default value.
+// GetID fetches ID for ShortLinkInput with default value.
 func (s *ShortLinkInput) GetID(defaultVal string) string {
 	if s.ID == nil {
 		return defaultVal
@@ -64,7 +64,7 @@ func (s *ShortLinkInput) GetID(defaultVal string) string {
 	return *s.ID
 }
 
-// GetUsername fetches ID for ShortLinkInput with default value.
+// GetRoom fetches room description for ShortLinkInput with default value.
 func (s *ShortLinkInput) GetRoom(defaultVal string) string {
 	if s.Room == nil {
 		return defaultVal

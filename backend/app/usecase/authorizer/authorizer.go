@@ -1,9 +1,9 @@
 package authorizer
 
 import (
-	"github.com/short-d/short/backend/app/entity"
-	"github.com/short-d/short/backend/app/usecase/authorizer/rbac"
-	"github.com/short-d/short/backend/app/usecase/authorizer/rbac/permission"
+	"github.com/cross-team/clublink/backend/app/entity"
+	"github.com/cross-team/clublink/backend/app/usecase/authorizer/rbac"
+	"github.com/cross-team/clublink/backend/app/usecase/authorizer/rbac/permission"
 )
 
 // Authorizer checks whether an user is granted required permissions in order

@@ -3,11 +3,12 @@ package resolver
 import (
 	"time"
 
-	"github.com/short-d/short/backend/app/adapter/gqlapi/scalar"
-	"github.com/short-d/short/backend/app/entity"
-	"github.com/short-d/short/backend/app/usecase/authenticator"
-	"github.com/short-d/short/backend/app/usecase/changelog"
-	"github.com/short-d/short/backend/app/usecase/shortlink"
+	"github.com/cross-team/clublink/backend/app/adapter/gqlapi/scalar"
+	"github.com/cross-team/clublink/backend/app/entity"
+	"github.com/cross-team/clublink/backend/app/usecase/authenticator"
+	"github.com/cross-team/clublink/backend/app/usecase/changelog"
+	"github.com/cross-team/clublink/backend/app/usecase/repository"
+	"github.com/cross-team/clublink/backend/app/usecase/shortlink"
 )
 
 // AuthQuery represents GraphQL query resolver that acts differently based
@@ -17,16 +18,32 @@ type AuthQuery struct {
 	authenticator      authenticator.Authenticator
 	changeLog          changelog.ChangeLog
 	shortLinkRetriever shortlink.Retriever
+	userShortLinkRepo  repository.UserShortLink
 }
 
 // ShortLinkArgs represents possible parameters for ShortLink endpoint
 type ShortLinkArgs struct {
+	ID string
+}
+
+// ShortLink retrieves a ShortLink given the ID
+func (v AuthQuery) ShortLink(args *ShortLinkArgs) (*ShortLink, error) {
+	s, err := v.shortLinkRetriever.GetShortLink(args.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	return &ShortLink{shortLink: s}, nil
+}
+
+// ActiveShortLinkArgs represents possible parameters for ActiveShortLink endpoint
+type ActiveShortLinkArgs struct {
 	Alias       string
 	ExpireAfter *scalar.Time
 }
 
-// ShortLink retrieves an ShortLink persistent storage given alias and expiration time.
-func (v AuthQuery) ShortLink(args *ShortLinkArgs) (*ShortLink, error) {
+// ActiveShortLink retrieves an ShortLink persistent storage given alias and expiration time.
+func (v AuthQuery) ActiveShortLink(args *ActiveShortLinkArgs) (*ShortLink, error) {
 	var expireAt *time.Time
 	if args.ExpireAfter != nil {
 		expireAt = &args.ExpireAfter.Time
@@ -35,11 +52,22 @@ func (v AuthQuery) ShortLink(args *ShortLinkArgs) (*ShortLink, error) {
 		expireAt = &today
 	}
 
-	s, err := v.shortLinkRetriever.GetShortLink(args.Alias, expireAt)
+	s, err := v.shortLinkRetriever.GetActiveShortLink(args.Alias, expireAt)
 	if err != nil {
 		return nil, err
 	}
 	return &ShortLink{shortLink: s}, nil
+}
+
+// ShortLinkArgs represents possible parameters for UserByShortLink endpoint
+type UserByShortLinkArgs struct {
+	ID string
+}
+
+// UserByShortLink retrieves a User
+func (v AuthQuery) UserByShortLink(args *UserByShortLinkArgs) (*User, error) {
+	user, err := v.userShortLinkRepo.GetUserByShortLink(args.ID)
+	return &User{user: user}, err
 }
 
 // ChangeLog retrieves full ChangeLog from persistent storage
@@ -103,11 +131,13 @@ func newAuthQuery(
 	authenticator authenticator.Authenticator,
 	changeLog changelog.ChangeLog,
 	shortLinkRetriever shortlink.Retriever,
+	userShortLinkRepo repository.UserShortLink,
 ) AuthQuery {
 	return AuthQuery{
 		authToken:          authToken,
 		authenticator:      authenticator,
 		changeLog:          changeLog,
 		shortLinkRetriever: shortLinkRetriever,
+		userShortLinkRepo:  userShortLinkRepo,
 	}
 }

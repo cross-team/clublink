@@ -7,13 +7,13 @@ import (
 	"github.com/short-d/app/fw/assert"
 	"github.com/short-d/app/fw/crypto"
 	"github.com/short-d/app/fw/timer"
-	"github.com/short-d/short/backend/app/entity"
-	"github.com/short-d/short/backend/app/fw/must"
-	"github.com/short-d/short/backend/app/usecase/authorizer"
-	"github.com/short-d/short/backend/app/usecase/authorizer/rbac"
-	"github.com/short-d/short/backend/app/usecase/authorizer/rbac/role"
-	"github.com/short-d/short/backend/app/usecase/keygen"
-	"github.com/short-d/short/backend/app/usecase/repository"
+	"github.com/cross-team/clublink/backend/app/entity"
+	"github.com/cross-team/clublink/backend/app/fw/must"
+	"github.com/cross-team/clublink/backend/app/usecase/authorizer"
+	"github.com/cross-team/clublink/backend/app/usecase/authorizer/rbac"
+	"github.com/cross-team/clublink/backend/app/usecase/authorizer/rbac/role"
+	"github.com/cross-team/clublink/backend/app/usecase/keygen"
+	"github.com/cross-team/clublink/backend/app/usecase/repository"
 )
 
 func TestThirdPartyApp_GetApp(t *testing.T) {

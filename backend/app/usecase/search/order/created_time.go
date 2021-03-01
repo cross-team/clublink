@@ -4,7 +4,7 @@ import (
 	"sort"
 	"time"
 
-	"github.com/short-d/short/backend/app/entity"
+	"github.com/cross-team/clublink/backend/app/entity"
 )
 
 var _ Order = (*CreatedTime)(nil)

@@ -1,9 +1,9 @@
 package feature
 
 import (
-	"github.com/short-d/short/backend/app/entity"
-	"github.com/short-d/short/backend/app/usecase/authorizer"
-	"github.com/short-d/short/backend/app/usecase/instrumentation"
+	"github.com/cross-team/clublink/backend/app/entity"
+	"github.com/cross-team/clublink/backend/app/usecase/authorizer"
+	"github.com/cross-team/clublink/backend/app/usecase/instrumentation"
 )
 
 var _ DecisionMaker = (*StaticDecisionMaker)(nil)

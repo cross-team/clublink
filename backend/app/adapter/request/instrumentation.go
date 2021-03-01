@@ -8,8 +8,8 @@ import (
 	"github.com/short-d/app/fw/logger"
 	"github.com/short-d/app/fw/metrics"
 	"github.com/short-d/app/fw/timer"
-	"github.com/short-d/short/backend/app/usecase/instrumentation"
-	"github.com/short-d/short/backend/app/usecase/keygen"
+	"github.com/cross-team/clublink/backend/app/usecase/instrumentation"
+	"github.com/cross-team/clublink/backend/app/usecase/keygen"
 )
 
 // InstrumentationFactory initializes instrumentation code.

@@ -7,9 +7,9 @@ import (
 	"github.com/short-d/app/fw/db"
 	"github.com/short-d/app/fw/envconfig"
 	"github.com/short-d/app/fw/logger"
-	"github.com/short-d/short/backend/app"
-	"github.com/short-d/short/backend/cmd"
-	"github.com/short-d/short/backend/dep"
+	"github.com/cross-team/clublink/backend/app"
+	"github.com/cross-team/clublink/backend/cmd"
+	"github.com/cross-team/clublink/backend/dep"
 )
 
 func main() {

@@ -2,8 +2,8 @@ package gqlapi
 
 import (
 	"github.com/short-d/app/fw/graphql"
-	"github.com/short-d/short/backend/app/adapter/gqlapi/resolver"
-	"github.com/short-d/short/backend/app/fw/filesystem"
+	"github.com/cross-team/clublink/backend/app/adapter/gqlapi/resolver"
+	"github.com/cross-team/clublink/backend/app/fw/filesystem"
 )
 
 // NewShort creates GraphQL API config

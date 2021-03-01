@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/short-d/short/backend/app/entity"
+	"github.com/cross-team/clublink/backend/app/entity"
 )
 
 var _ UserShortLink = (*UserShortLinkFake)(nil)
@@ -13,6 +13,14 @@ var _ UserShortLink = (*UserShortLinkFake)(nil)
 type UserShortLinkFake struct {
 	users      []entity.User
 	shortLinks []entity.ShortLink
+}
+
+func (u *UserShortLinkFake) GetUserByShortLink(shortLinkID string) (entity.User, error) {
+	user := entity.User{
+		Email: "hello",
+	}
+
+	return user, nil
 }
 
 // CreateRelation creates many to many relationship between User and ShortLink.

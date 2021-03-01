@@ -24,21 +24,21 @@ export class App extends Component<IProps> {
       <Router>
         <Switch>
           <Route
-            path={'/'}
+            path={'/a/enter-code'}
             exact
             render={({ location, history }) =>
               this.props.uiFactory.createHomePage(location, history, 'visit')
             }
           />
           <Route
-            path={'/create'}
+            path={'/a/create'}
             exact
             render={({ location, history }) =>
               this.props.uiFactory.createHomePage(location, history, 'create')
             }
           />
           <Route
-            path={'/favorites'}
+            path={'/a/favorites'}
             exact
             render={({ location, history }) =>
               this.props.uiFactory.createHomePage(
@@ -49,27 +49,39 @@ export class App extends Component<IProps> {
             }
           />
           <Route
-            path={'/published'}
+            path={'/a/published'}
             exact
             render={() => {
               return this.props.uiFactory.createPublishedPage();
             }}
           />
           <Route
-            path={'/admin'}
+            path={'/a/admin'}
             exact
             render={() => {
               return this.props.uiFactory.createAdminPage();
             }}
           />
           <Route
-            path={'/r/:alias'}
+            path={'/:alias'}
             render={({ match }) => {
               let alias = match.params['alias'];
               window.location.href = this.props.shortLinkService.aliasToBackendLink(
                 alias
               );
               return <div />;
+            }}
+          />
+          <Route
+            path={'/'}
+            exact
+            render={({ location, history }) => {
+              window.location.assign('/a/enter-code');
+              return this.props.uiFactory.createHomePage(
+                location,
+                history,
+                'visit'
+              );
             }}
           />
           <Route component={NotFoundPage} />

@@ -3,8 +3,8 @@ package shortlink
 import (
 	"time"
 
-	"github.com/short-d/short/backend/app/entity/metatag"
-	"github.com/short-d/short/backend/app/usecase/repository"
+	"github.com/cross-team/clublink/backend/app/entity/metatag"
+	"github.com/cross-team/clublink/backend/app/usecase/repository"
 )
 
 var _ MetaTag = (*MetaTagPersist)(nil)

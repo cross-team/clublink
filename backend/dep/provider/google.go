@@ -2,9 +2,9 @@ package provider
 
 import (
 	"github.com/short-d/app/fw/webreq"
-	"github.com/short-d/short/backend/app/adapter/google"
-	"github.com/short-d/short/backend/app/adapter/sqldb"
-	"github.com/short-d/short/backend/app/usecase/sso"
+	"github.com/cross-team/clublink/backend/app/adapter/google"
+	"github.com/cross-team/clublink/backend/app/adapter/sqldb"
+	"github.com/cross-team/clublink/backend/app/usecase/sso"
 )
 
 // GoogleClientID represents client ID used for Google OAuth.

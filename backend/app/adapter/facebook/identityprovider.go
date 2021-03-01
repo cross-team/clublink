@@ -5,7 +5,7 @@ import (
 	"net/url"
 
 	"github.com/short-d/app/fw/webreq"
-	"github.com/short-d/short/backend/app/usecase/sso"
+	"github.com/cross-team/clublink/backend/app/usecase/sso"
 )
 
 // More info here: https://developers.facebook.com/docs/facebook-login/manually-build-a-login-flow

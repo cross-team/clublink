@@ -1,6 +1,6 @@
 import React, { Component, ReactElement } from 'react';
 
-import './CreateShortLinkSection.scss';
+import './VisitShortLinkSection.scss';
 import { TextField } from '../../form/TextField';
 import { Button } from '../../ui/Button';
 import { ShortLinkUsage } from './ShortLinkUsage';
@@ -27,6 +27,8 @@ interface IProps {
 interface IState {
   alias?: string;
   longLink?: string;
+  room?: string;
+  user?: string;
   inputError?: string;
   isShortLinkPublic?: boolean;
   shouldShowUsage: boolean;
@@ -65,52 +67,67 @@ export class VisitLinkSection extends Component<IProps, IState> {
             <span className={this.state.link}>ink </span>
             <span className={'sand'}>/</span>
           </h1>
-          <div className={'text-field-wrapper'}>
+          <div className={'code-field-wrapper'}>
             <TextField
               aria="enter the short code of the link you want to create"
               describedBy="code-description"
-              className="code"
+              className={`code${
+                this.state.status === 'error' ? ' code-error' : ''
+              }`}
               ref={this.shortLinkTextField}
               text={this.state.alias}
               placeHolder={'enter code'}
               onBlur={this.handleCustomAliasTextFieldBlur}
               onChange={this.handleAliasChange}
+              onKeyPress={this.handleKeyPress}
             />
-            {this.state.status === 'success' ? (
+            {this.state.alias && (
               <button
-                className={'rocket-button'}
-                onClick={async () => {
-                  let qrCodeURL = await this.props.qrCodeService.newQrCode(
-                    `${this.state.longLink}`
-                  );
-                  window.location.assign(
-                    `/published/?alias=${this.state.alias}&longLink=${this.state.longLink}&shortLink=http://clubl.ink/${this.state.alias}&qrCodeURL=${qrCodeURL}`
-                  );
-                }}
+                className={'emoji rocket-button'}
+                onClick={this.handleSubmit}
+                // onClick={async () => {
+                //   let qrCodeURL = await this.props.qrCodeService.newQrCode(
+                //     `${this.state.longLink}`
+                //   );
+                //   window.location.assign(
+                //     `/published/?alias=${this.state.alias}&longLink=${this.state.longLink}&shortLink=http://clubl.ink/${this.state.alias}&qrCodeURL=${qrCodeURL}`
+                //   );
+                // }}
               >
                 🚀
               </button>
-            ) : (
-              <span
-                className={`emoji ${!this.state.alias && 'hidden'}`}
-                aria-hidden="true"
-              >
-                😩
-              </span>
             )}
           </div>
         </div>
-        <div className={'input-error'}>{this.state.inputError}</div>
-        <div className={'input-description'} id="code-description">
-          {this.state.status === '' && 'Enter the super-secret code and go 🚀'}
+        {/* <div className={'input-error'}>{this.state.inputError}</div> */}
+        <div
+          className={`input-description${
+            this.state.status === 'error' ? ' input-error' : ''
+          }`}
+          id="code-description"
+        >
+          {this.state.status === '' && (
+            <>
+              Enter the super-secret code and go{' '}
+              <span aria-hidden="true">🚀</span>
+            </>
+          )}
           {this.state.status === 'error' &&
             "Code doesn't exist, try entering another"}
           {this.state.status === 'success' && (
             <>
-              <p>Imagine a link impossible to remember: </p>
-              <a href={this.state.longLink} target="_blank">
-                {this.state.longLink}
-              </a>
+              <div>
+                <p>Imagine a link impossible to remember: </p>
+                <a href={this.state.longLink} target="_blank">
+                  {this.state.longLink}
+                </a>
+              </div>
+              <div>
+                <p>
+                  by: <span className="bold">{this.state.user}</span> for room:{' '}
+                  <span className="bold">{this.state.room}</span>
+                </p>
+              </div>
             </>
           )}
         </div>
@@ -132,6 +149,40 @@ export class VisitLinkSection extends Component<IProps, IState> {
     );
   }
 
+  handleKeyPress = (e: any) => {
+    if (e.key === 'Enter') {
+      if (this.state.alias) {
+        this.handleSubmit();
+      }
+    }
+  };
+
+  handleSubmit = async () => {
+    await this.props.graphQLService
+      .query('http://localhost:8080/graphql', {
+        query: `query {
+          authQuery {
+            activeShortLink(alias: "${this.state.alias}") {
+              id
+            }
+          }
+        }`,
+        variables: {}
+      })
+      .then(results => {
+        let data: any = results;
+        window.location.assign(
+          `/a/published/?link=${data.authQuery.activeShortLink.id}`
+        );
+      })
+      .catch(error => {
+        this.setState({
+          link: 'error',
+          status: 'error'
+        });
+      });
+  };
+
   handleAliasChange = async (newAlias: string) => {
     if (newAlias === '') {
       this.setState({
@@ -144,9 +195,10 @@ export class VisitLinkSection extends Component<IProps, IState> {
       this.setState({
         alias: newAlias,
         club: 'sand',
-        link: ''
+        link: '',
+        status: ''
       });
-      await this.handleCodeValidation(newAlias);
+      // await this.(newAlias);
     }
   };
 
@@ -163,9 +215,11 @@ export class VisitLinkSection extends Component<IProps, IState> {
       .query('http://localhost:8080/graphql', {
         query: `query {
           authQuery {
-            shortLink(alias: "${alias}") {
+            activeShortLink(alias: "${alias}") {
+              id
               alias
               longLink
+              room
               expireAt
             }
           }
@@ -173,14 +227,35 @@ export class VisitLinkSection extends Component<IProps, IState> {
         variables: {}
       })
       .then(results => {
+        console.log(alias, results);
         let queryData: any = results;
+        this.props.graphQLService
+          .query('http://localhost:8080/graphql', {
+            query: `query {
+            authQuery {
+              userByShortLink(id: "${queryData.authQuery.activeShortLink.id}") {
+                name
+              }
+            }
+          }`,
+            variables: {}
+          })
+          .then(userResults => {
+            let userData: any = userResults;
+            this.setState({
+              user: userData.authQuery.userByShortLink.name
+            });
+          });
+
         this.setState({
           link: 'green',
           status: 'success',
-          longLink: queryData.authQuery.shortLink.longLink
+          longLink: queryData.authQuery.activeShortLink.longLink,
+          room: queryData.authQuery.activeShortLink.room
         });
       })
       .catch(error => {
+        console.log(alias, error);
         this.setState({
           link: 'error',
           status: 'error'

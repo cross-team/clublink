@@ -82,17 +82,21 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
             <span className={this.state.link}>ink </span>
             <span className={'sand'}>/</span>
           </h1>
-          <div className={'text-field-wrapper'}>
+          <div className={'code-field-wrapper'}>
             <TextField
               aria="enter the short code of the link you want to visit"
               describedBy="code-description"
-              className="code"
+              id="code-input"
+              className={`code${
+                this.state.status === 'error' ? ' code-error' : ''
+              }`}
               ref={this.shortLinkTextField}
               text={this.state.alias}
               placeHolder={'enter code'}
               onBlur={this.handleCustomAliasTextFieldBlur}
               onChange={this.handleAliasChange}
               onFocus={this.handleFocus}
+              onKeyPress={this.handleKeyPress}
             />
             {this.state.status === 'error' && (
               <span className="emoji" aria-hidden>
@@ -102,11 +106,6 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
             {this.state.status === 'success' && (
               <span className="emoji" aria-hidden>
                 😍
-              </span>
-            )}
-            {this.state.status === '' && (
-              <span className="emoji" aria-hidden>
-                🚀
               </span>
             )}
             {/* {this.state.alias && (
@@ -123,8 +122,10 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
         <div className={'input-description'} id="code-description">
           {this.state.description}
         </div>
-        <div className={'text-field-wrapper'}>
+        <div className={'emoji-text-field-wrapper'}>
           <TextField
+            id="longLink-input"
+            className={`${this.state.inputError ? 'error' : ''}`}
             describedBy="longLink-error"
             text={this.state.longLink}
             placeHolder={
@@ -132,43 +133,51 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
             }
             onBlur={this.handleLongLinkTextFieldBlur}
             onChange={this.handleLongLinkChange}
-            disabled={this.state.status === 'error'}
+            onKeyPress={this.handleKeyPress}
           />
           {this.state.inputError === undefined ? (
-            <span className="emoji" aria-hidden>
+            <span className="emoji input-emoji hide-small" aria-hidden>
               😱
             </span>
           ) : (
-            <span className="emoji" aria-hidden>
+            <span className="emoji input-emoji hide-small" aria-hidden>
               💩
             </span>
           )}
         </div>
+        {this.state.inputError && (
+          <div id="longLink-error" className={'input-error'}>
+            {this.state.inputError}
+          </div>
+        )}
         <div className={'text-field-wrapper'}>
           <TextField
             aria="clubhouse handle"
             className="username"
+            id="username-input"
             text={this.state.username}
             placeHolder={'@username'}
             onChange={this.handleUsernameChange}
+            onKeyPress={this.handleKeyPress}
           />
           <TextField
             className="room"
+            id="room-input"
             text={this.state.room}
             placeHolder={'your room title'}
             onChange={this.handleRoomChange}
+            onKeyPress={this.handleKeyPress}
           />
         </div>
-        <div id="longLink-error" className={'input-error'}>
-          {this.state.inputError}
-        </div>
         <div className="create-short-link-btn">
+          <a className="back" href="/" aria-label="back to home">
+            back
+          </a>
           <Button
             className={'publish'}
             onClick={this.handleCreateShortLinkClick}
             disabled={
               !!this.state.inputError ||
-              this.state.status == 'error' ||
               !this.state.alias ||
               !this.state.longLink ||
               !this.state.username ||
@@ -196,6 +205,29 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
     );
   }
 
+  handleKeyPress = (e: any) => {
+    if (e.key === 'Enter') {
+      if (this.state.inputError) {
+        let longLink = document.getElementById('longLink-input');
+        longLink?.focus();
+      } else if (!this.state.alias) {
+        let alias = document.getElementById('code-input');
+        alias?.focus();
+      } else if (!this.state.longLink) {
+        let longLink = document.getElementById('longLink-input');
+        longLink?.focus();
+      } else if (!this.state.username) {
+        let username = document.getElementById('username-input');
+        username?.focus();
+      } else if (!this.state.room) {
+        let room = document.getElementById('room-input');
+        room?.focus();
+      } else {
+        this.handleCreateShortLinkClick();
+      }
+    }
+  };
+
   autoFillInLongLink(longLink: string) {
     if (!longLink) {
       return;
@@ -221,7 +253,7 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
       this.setState({
         description: (
           <>
-            Keep it simple, it only lasts 24 hours <span aria-hidden> ✌️</span>
+            This link only lasts 24 hours<span aria-hidden> 💣</span>
           </>
         )
       });
@@ -259,7 +291,7 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
       this.setState({
         description: (
           <>
-            Keep it simple, it only lasts 24 hours <span aria-hidden> ✌️</span>
+            This link only lasts 24hrs<span aria-hidden> ✌️</span>
           </>
         ),
         alias: newAlias,
@@ -271,9 +303,10 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
       this.setState({
         alias: newAlias,
         club: 'sand',
-        link: ''
+        link: '',
+        status: ''
       });
-      await this.isAliasAvailable(newAlias).then(response => {});
+      // await this.isAliasAvailable(newAlias).then(response => {});
     }
   };
 
@@ -329,7 +362,7 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
   //     });
   // };
 
-  handleCreateShortLinkClick = () => {
+  handleCreateShortLinkClick = async () => {
     const { alias, longLink, username, room } = this.state;
     const shortLink: ShortLink = {
       longLink: longLink,
@@ -337,43 +370,76 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
       username: username,
       room: room
     };
-    this.props.shortLinkService
-      .createShortLink(shortLink, this.state.isShortLinkPublic)
-      .then(async (createdShortLink: ShortLink) => {
-        const shortLink = this.props.shortLinkService.aliasToFrontendLink(
-          createdShortLink.alias!
-        );
-
-        const qrCodeURL = await this.props.qrCodeService.newQrCode(longLink);
-
-        this.setState({
-          createdShortLink: shortLink,
-          createdLongLink: longLink,
-          qrCodeURL: qrCodeURL
-          // shouldShowUsage: true
-        });
-
-        if (this.props.onShortLinkCreated) {
-          this.props.onShortLinkCreated(shortLink);
-        }
-
-        window.location.assign(
-          `/published/?alias=${alias}&longLink=${longLink}&shortLink=${shortLink}&qrCodeURL=${qrCodeURL}`
-        );
-      })
-      .catch(({ authenticationErr, createShortLinkErr }) => {
-        console.log(authenticationErr);
-        console.log(createShortLinkErr);
-        if (authenticationErr) {
-          if (this.props.onAuthenticationFailed) {
-            this.props.onAuthenticationFailed();
-          }
-          return;
-        }
-        this.props.store.dispatch(
-          raiseCreateShortLinkError(createShortLinkErr)
-        );
+    let err = validateCustomAliasFormat(alias);
+    if (err !== null) {
+      let codeInput = document.getElementById('code-input');
+      if (codeInput) {
+        codeInput.focus();
+      }
+      this.setState({
+        description: <>{err}</>,
+        link: 'error',
+        status: 'error'
       });
+      return;
+    }
+    await this.isAliasAvailable(alias).then(response => {
+      if (response) {
+        this.props.shortLinkService
+          .createShortLink(shortLink, this.state.isShortLinkPublic)
+          .then(async (createdShortLink: ShortLink) => {
+            const shortLink = this.props.shortLinkService.aliasToFrontendLink(
+              createdShortLink.alias!
+            );
+
+            console.log(createdShortLink);
+
+            const qrCodeURL = await this.props.qrCodeService.newQrCode(
+              longLink
+            );
+
+            this.setState({
+              createdShortLink: shortLink,
+              createdLongLink: longLink,
+              qrCodeURL: qrCodeURL
+              // shouldShowUsage: true
+            });
+
+            if (this.props.onShortLinkCreated) {
+              this.props.onShortLinkCreated(shortLink);
+            }
+
+            window.location.assign(`/a/published/?link=${createdShortLink.id}`);
+          })
+          .catch(({ authenticationErr, createShortLinkErr }) => {
+            console.log(authenticationErr);
+            console.log(createShortLinkErr);
+            if (authenticationErr) {
+              if (this.props.onAuthenticationFailed) {
+                this.props.onAuthenticationFailed();
+              }
+              return;
+            }
+            this.props.store.dispatch(
+              raiseCreateShortLinkError(createShortLinkErr)
+            );
+          });
+      } else {
+        let codeInput = document.getElementById('code-input');
+        if (codeInput) {
+          codeInput.focus();
+        }
+        this.setState({
+          description: (
+            <>
+              Oops! <span className="error">{alias}</span> is invalid
+            </>
+          ),
+          link: 'error',
+          status: 'error'
+        });
+      }
+    });
   };
 
   isAliasAvailable = async (alias: string): Promise<boolean> => {
@@ -381,7 +447,7 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
       .query('http://localhost:8080/graphql', {
         query: `query {
           authQuery {
-            shortLink(alias: "${alias}") {
+            activeShortLink(alias: "${alias}") {
               alias
               longLink
               expireAt
@@ -403,15 +469,15 @@ export class CreateShortLinkSection extends Component<IProps, IState> {
         return false;
       })
       .catch(error => {
-        this.setState({
-          description: (
-            <>
-              Hey! <span className="green">{alias} is available!</span>
-            </>
-          ),
-          link: 'green',
-          status: 'success'
-        });
+        // this.setState({
+        //   description: (
+        //     <>
+        //       Oops! <span className="error">{alias}</span> is invalid
+        //     </>
+        //   ),
+        //   link: 'error',
+        //   status: 'error'
+        // });
         return true;
       });
   };

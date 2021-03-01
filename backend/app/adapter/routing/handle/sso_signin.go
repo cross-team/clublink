@@ -5,7 +5,7 @@ import (
 	"net/url"
 
 	"github.com/short-d/app/fw/router"
-	"github.com/short-d/short/backend/app/usecase/sso"
+	"github.com/cross-team/clublink/backend/app/usecase/sso"
 )
 
 // SSOSignIn redirects user to the sign in page.

@@ -11,7 +11,7 @@ import (
 
 	"github.com/short-d/app/fw/assert"
 	"github.com/short-d/app/fw/webreq"
-	"github.com/short-d/short/backend/app/entity"
+	"github.com/cross-team/clublink/backend/app/entity"
 )
 
 func TestAccount_GetSingleSignOnUser(t *testing.T) {

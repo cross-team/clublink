@@ -3,7 +3,7 @@ package search
 import (
 	"errors"
 
-	"github.com/short-d/short/backend/app/usecase/search/order"
+	"github.com/cross-team/clublink/backend/app/usecase/search/order"
 )
 
 // Resource represents a type of searchable objects.
