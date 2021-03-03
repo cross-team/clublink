@@ -1,12 +1,7 @@
 version: "3"
 services:
-  backend:
-    build: backend
-    ports:
-      - 4000:80
-    env_file: backend/.env.dist
-
   # postgres:
+  #   restart: always
   #   image: postgres:9.6-alpine
   #   ports:
   #     - 5432:5432
@@ -14,3 +9,19 @@ services:
   #     POSTGRES_USER: postgres
   #     POSTGRES_PASSWORD: rootpass
   #     POSTGRES_DB: short
+  #     DB_HOST: localhost
+  backend:
+    build: backend
+    ports:
+      - 8080:8080
+      - 80:80
+      - 8081:8081
+    command: [
+      # "./scripts/wait-for-it", "-s", "-t", "0", "127.0.0.1:5432",
+      #  "--",
+      # "sh", "-c", "./build/app start"
+    ]
+  frontend:
+    build: frontend
+    ports:
+      - 3000:80

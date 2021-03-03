@@ -4,7 +4,7 @@ go 1.14
 
 require (
 	github.com/short-d/app v0.0.0-20200627081605-eabc0539025f
-	github.com/cross-team/clublink/backend v0.0.0-20200719202552-fc38924129cb
+	github.com/cross-team/clublink/backend v0.0.0-20210223160707-8b885255b7aa
 )
 
 // Uncomment the following line when testing app framework

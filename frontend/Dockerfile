@@ -1,29 +1,53 @@
-# Frontend Dockerfile
-FROM golang:1.13.1-alpine AS builder
+# FROM golang:1.13.1-alpine AS builder
 
-WORKDIR /short
+# WORKDIR /clublink
 
-RUN apk add --no-cache git bash
+# RUN apk add --no-cache git bash
 
-# Install dependencies
-COPY serve/go.mod serve/go.sum ./
-RUN go mod download
+# RUN git config \
+#   --global \
+#   url."https://MarcelloPaiva:dc87ee1de6a370db146cb294518b2f1e772052f4@github.com/".insteadOf \
+#   "https://github.com/"
 
-# Verify dependencies
-RUN go mod verify
+# # Install dependencies
+# COPY serve/go.mod serve/go.sum ./
+# RUN go mod download
 
-COPY serve .
+# # Verify dependencies
+# RUN go mod verify
 
-RUN go build -o app main.go
+# COPY serve .
 
-FROM alpine:3.10 as production
+# RUN go build -o app main.go
 
-WORKDIR /short
+FROM node:14.16.0-alpine3.10 AS npmBuilder
 
-RUN apk add --no-cache bash
+WORKDIR /clublink
 
-COPY ./build ./public
+COPY . .
 
-COPY --from=builder /short/app ./app
+RUN yarn
 
-ENTRYPOINT ./app
+RUN yarn build:production
+
+# FROM alpine:3.10 as production
+
+# WORKDIR /clublink
+
+# RUN apk add --no-cache bash
+
+# COPY --from=npmBuilder /clublink/build ./public
+
+# COPY --from=builder /clublink/app ./app
+
+# ENTRYPOINT ./app
+
+FROM nginx:1.17.5-alpine
+
+WORKDIR /usr/share/nginx/html
+
+COPY --from=npmBuilder /clublink/build .
+
+RUN rm -rf /etc/nginx/conf.d/default.conf
+
+COPY default.conf /etc/nginx/conf.d/
