@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"time"
 
 	"github.com/short-d/app/fw/db"
@@ -12,9 +13,11 @@ import (
 )
 
 func main() {
+	log.Println("starting")
 	env := dep.InjectEnv()
+	log.Println("auto load env")
 	env.AutoLoadDotEnvFile()
-
+	log.Println("env config")
 	envConfig := envconfig.NewEnvConfig(env)
 
 	config := struct {
@@ -56,13 +59,19 @@ func main() {
 		GoogleAPIKey         string        `env:"GOOGLE_API_KEY" default:""`
 	}{}
 
+	log.Println(config)
 	err := envConfig.ParseConfigFromEnv(&config)
+	log.Println("error: ")
+	log.Println(err)
 	if err != nil {
+		log.Println(err)
 		panic(err)
 	}
 
 	cmdFactory := dep.InjectCommandFactory()
+	log.Println("connecting db")
 	dbConnector := dep.InjectDBConnector()
+	log.Println("migrating")
 	dbMigrationTool := dep.InjectDBMigrationTool()
 
 	dbConfig := db.Config{
@@ -72,6 +81,9 @@ func main() {
 		Password: config.DBPassword,
 		DbName:   config.DBName,
 	}
+
+	log.Println("dbConfig")
+	log.Println(dbConfig)
 
 	serviceConfig := app.ServiceConfig{
 		Runtime:              config.Runtime,

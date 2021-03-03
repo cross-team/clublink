@@ -1,3 +1,4 @@
+# Backend dockerfile
 FROM golang:1.13.1-alpine AS builder
 
 WORKDIR /clublink
@@ -14,6 +15,8 @@ RUN go mod verify
 COPY . .
 
 RUN go build -o build/app main.go
+
+# RUN go run main.go start
 
 FROM alpine:3.10 as production
 
