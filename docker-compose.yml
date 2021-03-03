@@ -1,15 +1,15 @@
 version: "3"
 services:
-  postgres:
-    restart: always
-    image: postgres:9.6-alpine
-    ports:
-      - 5432:5432
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: rootpass
-      POSTGRES_DB: short
-      DB_HOST: localhost
+  # postgres:
+  #   restart: always
+  #   image: postgres:9.6-alpine
+  #   ports:
+  #     - 5432:5432
+  #   environment:
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_PASSWORD: rootpass
+  #     POSTGRES_DB: short
+  #     DB_HOST: localhost
   backend:
     build: backend
     ports:
@@ -17,6 +17,11 @@ services:
       - 80:80
       - 8081:8081
     command: [
-      "./scripts/wait-for-it", "-s", "-t", "0", "localhost:5432", "--",
-      "sh", "-c", "./build/app start"
+      # "./scripts/wait-for-it", "-s", "-t", "0", "127.0.0.1:5432",
+      #  "--",
+      # "sh", "-c", "./build/app start"
     ]
+  frontend:
+    build: frontend
+    ports:
+      - 3000:80

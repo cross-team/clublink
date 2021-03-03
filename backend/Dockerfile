@@ -27,3 +27,5 @@ COPY --from=builder /clublink/app/adapter/sqldb/migration ./app/adapter/sqldb/mi
 COPY --from=builder /clublink/app/adapter/routing/public ./app/adapter/routing/public
 COPY --from=builder /clublink/app/adapter/routing/api.yml ./app/adapter/routing/api.yml
 COPY --from=builder /clublink/app/adapter/gqlapi/schema.graphql ./app/adapter/gqlapi/schema.graphql
+
+CMD ["./build/app", "start"]
